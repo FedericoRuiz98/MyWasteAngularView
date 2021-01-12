@@ -1,0 +1,46 @@
+<div class="sidebar-sticky">
+    <ul class="nav flex-column ml-2">
+
+        <p><i class="text-primary fas fa-home"></i> Home</p>
+        <li routerLinkActive="active" *ngFor="let r of RoutesHome" class="nav-item">
+            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
+                <p class="font-weight-light">{{r.title}}</p>
+            </a>
+        </li>
+
+        <p class="mt-2"><i class="text-danger fas fa-chevron-circle-down"></i> Egresos</p>
+        <li routerLinkActive="active" *ngFor="let r of RoutesEgreosos" class="nav-item">
+            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
+                <p class="font-weight-light">{{r.title}}</p>
+            </a>
+        </li>
+
+        <p class="mt-2"><i class="text-success fas fa-chevron-circle-up"></i> Ingresos</p>
+        <li routerLinkActive="active" *ngFor="let r of RoutesIngresos" class="nav-item">
+            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
+                <p class="font-weight-light">{{r.title}}</p>
+            </a>
+        </li>
+
+        <p class="mt-2"><i class="text-info fas fa-tags"></i> Etiquetas</p>
+        <li routerLinkActive="active" *ngFor="let r of RoutesEtiquetas" class="nav-item">
+            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
+                <p class="font-weight-light">{{r.title}}</p>
+            </a>
+        </li>
+
+        <p class="mt-2"><i class="text-warning far fa-chart-bar"></i> Estadisticas</p>
+        <li routerLinkActive="active" *ngFor="let r of RoutesEstadisticas" class="nav-item">
+            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
+                <p class="font-weight-light">{{r.title}}</p>
+            </a>
+        </li>
+
+        <p class="mt-2"><i class="text-secondary fas fa-cog"></i> Configuraciones</p>
+        <li routerLinkActive="active" *ngFor="let r of RoutesConfiguraciones" class="nav-item">
+            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
+                <p class="font-weight-light">{{r.title}}</p>
+            </a>
+        </li>
+    </ul>
+</div>

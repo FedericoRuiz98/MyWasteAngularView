@@ -1,0 +1,10 @@
+{
+    "host" : "https://localhost:",
+    "port" : "44327",
+    "api" : "/api/v1/",
+    "Categoria" : "Categoria",
+    "Persona" : "Persona",
+    "SubCategoria" : "SubCategoria",
+    "FormaDePago" : "FormaDePago",
+    "CategoriaSubCategoria" : "CategoriaSubCategoria"
+}

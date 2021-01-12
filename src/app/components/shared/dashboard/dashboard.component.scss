@@ -1,0 +1,43 @@
+.sidebar {
+  margin-left: -300px;
+  margin-top: 49px;
+  left: 70px;
+  width: 200px;
+  position: fixed;
+  height: 100%;
+  z-index: 100;
+  transition: all 0.4s ease 0s;
+  background-color: whitesmoke;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.main {
+  transition: all 0.4s ease 0s;
+  background-color: #eee;
+  width: 100%;
+  padding: 0px 10px;
+  margin-left: 0;
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+#wrapper {
+  overflow-x: hidden;
+}
+
+#wrapper.toggled {
+  padding-left: -300px;
+}
+
+#wrapper.toggled .sidebar {
+  left: 300px;
+}
+
+#wrapper.toggled .main {
+  margin-left: 200px;
+}
+
+
+
+
+
