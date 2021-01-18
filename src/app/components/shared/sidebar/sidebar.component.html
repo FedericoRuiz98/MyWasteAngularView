@@ -1,46 +1,71 @@
-<div class="sidebar-sticky">
+<div class="sidebar-sticky bg-dark text-white">    
+    <div class="text-center">
+        <a class="navbar-brand text-white" href="#">
+            <img src="/assets/svg/MyWasteAppLogo.svg" width="30" height="30" class="mb-1">
+            <span class="ml-1">WasMo</span>          
+        </a>
+    </div>    
+
     <ul class="nav flex-column ml-2">
 
-        <p><i class="text-primary fas fa-home"></i> Home</p>
-        <li routerLinkActive="active" *ngFor="let r of RoutesHome" class="nav-item">
-            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
-                <p class="font-weight-light">{{r.title}}</p>
+        <p class="text-white">Egresos</p>
+        <li routerLinkActive="active" class="nav-item" >
+            <a  class="nav-drop" data-target="#cargar" data-toggle="collapse" role="button" aria-expanded="true">
+                <p><i class="fas fa-file-upload"></i> Cargar <i class="fas fa-angle-down mr-4 mt-1" style="float: right;"></i></p>
+            </a>
+
+            <ul class="nav ml-2 collapse" id="cargar">
+                <li routerLinkActive="active">
+                    <a class="nav-custom" role="button">                                
+                        <p class="font-weight-light">Gastos Fijos</p>
+                    </a>
+                </li>  
+
+                <li routerLinkActive="active">
+                    <a class="nav-custom" role="button">                                
+                        <p class="font-weight-light">Gastos Variables</p>
+                    </a>
+                </li>
+            </ul>       
+            
+            <a class="nav-custom" role="button">                                
+                <p class="font-weight-light"><i class="fas fa-list"></i> Listas</p>
+            </a>
+        </li> 
+
+
+        <p class="text-white mt-2">Ingresos</p>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-custom" role="button">                                
+                <p class="font-weight-light"><i class="fas fa-file-upload"></i> Cargar</p>
+            </a>
+
+            <a class="nav-custom" role="button">                                
+                <p class="font-weight-light"><i class="fas fa-list"></i> Listas</p>
             </a>
         </li>
 
-        <p class="mt-2"><i class="text-danger fas fa-chevron-circle-down"></i> Egresos</p>
-        <li routerLinkActive="active" *ngFor="let r of RoutesEgreosos" class="nav-item">
-            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
-                <p class="font-weight-light">{{r.title}}</p>
+        <p class="text-white mt-2">Etiquetas</p>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-custom" role="button">                                
+                <p class="font-weight-light"><i class="fas fa-tag"></i> Categorias</p>
+            </a>
+
+            <a class="nav-custom" role="button">                                
+                <p class="font-weight-light"><i class="fas fa-tags"></i> Sub Categorias</p>
             </a>
         </li>
 
-        <p class="mt-2"><i class="text-success fas fa-chevron-circle-up"></i> Ingresos</p>
-        <li routerLinkActive="active" *ngFor="let r of RoutesIngresos" class="nav-item">
-            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
-                <p class="font-weight-light">{{r.title}}</p>
+        <p class="text-white mt-2">Estadisticas</p>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-custom" role="button">                                
+                <p class="font-weight-light"><i class="fas fa-chart-line"></i> Balance</p>
+            </a>
+
+            <a class="nav-custom" role="button">                                
+                <p class="font-weight-light"><i class="fas fa-chart-pie"></i> Consumo</p>
             </a>
         </li>
 
-        <p class="mt-2"><i class="text-info fas fa-tags"></i> Etiquetas</p>
-        <li routerLinkActive="active" *ngFor="let r of RoutesEtiquetas" class="nav-item">
-            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
-                <p class="font-weight-light">{{r.title}}</p>
-            </a>
-        </li>
-
-        <p class="mt-2"><i class="text-warning far fa-chart-bar"></i> Estadisticas</p>
-        <li routerLinkActive="active" *ngFor="let r of RoutesEstadisticas" class="nav-item">
-            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
-                <p class="font-weight-light">{{r.title}}</p>
-            </a>
-        </li>
-
-        <p class="mt-2"><i class="text-secondary fas fa-cog"></i> Configuraciones</p>
-        <li routerLinkActive="active" *ngFor="let r of RoutesConfiguraciones" class="nav-item">
-            <a class="nav-link pr-1" [routerLink]="[r.path]">                                
-                <p class="font-weight-light">{{r.title}}</p>
-            </a>
-        </li>
     </ul>
 </div>

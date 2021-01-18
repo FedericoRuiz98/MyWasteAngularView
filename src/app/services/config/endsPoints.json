@@ -6,5 +6,8 @@
     "Persona" : "Persona",
     "SubCategoria" : "SubCategoria",
     "FormaDePago" : "FormaDePago",
-    "CategoriaSubCategoria" : "CategoriaSubCategoria"
+    "CategoriaSubCategoria" : "CategoriaSubCategoria",
+    "Egreso" : "Egreso",
+    "Usuario" : "Usuario",
+    "Pasivo" : "Pasivo"
 }

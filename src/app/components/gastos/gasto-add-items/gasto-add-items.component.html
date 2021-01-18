@@ -1,0 +1,59 @@
+<div class="card text-left shadow mt-2" *ngIf="chargeItems">
+    <div class="card-body">
+      <h4>Carga de Items <span *ngIf="categoria">-  <i class="{{categoriaIcons[+categoriaIndex-1]}}"></i> {{categoria}}</span></h4>
+      
+      <div class="row mb-1">        
+        <div class="col-sm-5">
+          <div class="form-group">
+            <label for="sel1">Sub Categoria</label>
+            <select class="custom-select" #subCategoia>
+              <option hidden disabled selected value>-</option>
+              <option *ngFor="let sc of subCategorias" value="{{sc.idSubCategoria}}">{{sc.nombre}}</option>
+            </select>
+          </div> 
+        </div>
+        <div class="col-sm-3">
+          <label for="Monto" class="form-label">Monto</label>
+          <input type="number" class="form-control" id="Monto" placeholder="monto" step="any" min="1"  #monto>
+        </div>   
+        <div class="col-sm-3">
+          <label for="Concepto" class="form-label">Concepto (opcional)</label>
+          <input type="text" class="form-control" id="Concepto" placeholder="concepto" #concepto>
+        </div>  
+  
+        <div class="col-sm-1 text-center">
+          <button type="button" class="btn btn-waste btnAdd" (click)="addGasto(+monto.value,concepto.value,+subCategoia.value)"><i class="fas fa-plus-circle"></i></button>
+        </div>
+      </div>    
+  
+      <p *ngIf="gastosFormsFeedback" class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{gastosFormsFeedback}}</p>
+  
+      <div *ngIf="gastos.length >0">
+        <h2 class="mb-3" style="float: left;"><span class="badge badge-waste">Total: {{total | currency}}</span></h2>
+  
+        <table class="table table-hover table-sm" >
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Categoria</th>
+              <th>Concepto</th>
+              <th>Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let g of gastos; let i = index"> 
+              <td scope="row">{{i+1}}</td>
+              <td>{{g.subCategoria}}</td>
+              <td>{{g.concepto}}</td>
+              <td>{{g.monto | currency}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>    
+  
+      <div class="text-center">
+        <button type="button" class=" btn btn-waste" style="width: 30%;"><i class="fas fa-save"></i> Registrar Gasto</button> 
+      </div>    
+      
+    </div>
+  </div>

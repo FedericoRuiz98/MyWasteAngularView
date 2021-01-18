@@ -1,0 +1,24 @@
+.navbar {
+  position: relative;
+}
+
+.avatar {
+  margin-top: -15px;
+  margin-bottom: -15px;
+  width: 30px;
+  height: 30px;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.nav-custom:hover {
+  text-decoration: none;
+  color:darkorchid;
+}
+
+.nav-custom {
+  color: darkslategray;
+  text-decoration: none;
+}

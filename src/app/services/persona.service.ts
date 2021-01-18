@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Persona } from '../models/Persona';
+import { shareReplay } from 'rxjs/operators';
+import { Persona } from '../models/auth/Persona';
 import { HttpConsoleResponse } from '../util/httpConsoleResponse';
 import endsPoints from './config/endsPoints.json'
 
@@ -21,22 +22,22 @@ export class PersonaService {
       "apellido": persona.apellido
     };
 
-    const httpResp = this.http.post<Persona>(this.url,body);
-    HttpConsoleResponse.printResponse(httpResp);
+    const httpResp = this.http.post<Persona>(this.url,body).pipe(shareReplay());
+    HttpConsoleResponse.printResponse(httpResp,"Personas");
 
     return httpResp;
   }
 
   public getAllPeronas() : Observable<Persona[]> {
-    const httpResp = this.http.get<Persona[]>(this.url);
-    HttpConsoleResponse.printResponse(httpResp);
+    const httpResp = this.http.get<Persona[]>(this.url).pipe(shareReplay());
+    HttpConsoleResponse.printResponse(httpResp,"Personas");
 
     return httpResp;
   }
 
   public getPersona(id : number) : Observable<Persona> {
-    const httpResp = this.http.get<Persona>(this.url+"/"+id);
-    HttpConsoleResponse.printResponse(httpResp);
+    const httpResp = this.http.get<Persona>(this.url+"/"+id).pipe(shareReplay());
+    HttpConsoleResponse.printResponse(httpResp,"Personas");
 
     return httpResp;
   }

@@ -8,21 +8,22 @@ import { RouteInfo } from 'src/app/models/Routes/RouteInfo';
 })
 export class SidebarComponent implements OnInit {
 
-  RoutesHome : RouteInfo[] = [new RouteInfo("/home","Home","fas fa-donate")];
   RoutesEgreosos : RouteInfo[] = [
-    new RouteInfo("/gastos","Costos Variables","fas fa-donate"),
-    new RouteInfo("/gastos","Costos Fijos","fas fa-donate")
+    new RouteInfo("/","Cargar","",true),
+    new RouteInfo("/","Listas","")
   ];
-  RoutesIngresos : RouteInfo[] = [new RouteInfo("/egresos","Ingresos","fas fa-donate")];
+  RoutesIngresos : RouteInfo[] = [
+    new RouteInfo("/","Cargar",""),
+    new RouteInfo("/","Listas","")
+  ];
   RoutesEtiquetas : RouteInfo[] = [
-    new RouteInfo("/egresos","Categorias","fas fa-donate"),
-    new RouteInfo("/egresos","Sub Categorias","fas fa-donate")
+    new RouteInfo("/","Categorias",""),
+    new RouteInfo("/","Sub Categorias","")
   ];
   RoutesEstadisticas : RouteInfo[] = [
-    new RouteInfo("/egresos","Consumo","fas fa-chart-line"),
-    new RouteInfo("/egresos","Balance","fas fa-chart-pie")
+    new RouteInfo("/","Consumo",""),
+    new RouteInfo("/","Balance","")
   ];
-  RoutesConfiguraciones : RouteInfo[] = [new RouteInfo("/egresos","Cuenta","fas fa-user")];
 
   constructor() { }
 

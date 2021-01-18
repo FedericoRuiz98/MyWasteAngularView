@@ -1,0 +1,47 @@
+<div class="container text-center">
+    <div class="card login-card">
+        <div class="card-body">
+            <div class="brand-wrapper">
+                <h4 class="pl-2">My Waste App</h4>
+            </div>
+            <p class="font-italic">Sign into your account</p>
+            <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" class="text-left">
+                <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="Email"
+                    required/>
+                </div>
+
+                <div class="form-group mt-1">
+                <label for="password"><i class="fas fa-key"></i> Contraseña</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+                    formControlName="password"
+                    placeholder="Contraseña"
+                    required/>
+                </div>
+
+                <button [disabled]="!LoginForm.valid" class="btn btn-dark btn-lg btn-block mt-4">
+                Login <i class="fas fa-sign-in-alt"></i>
+                </button>
+            </form>
+
+            <div class="mt-3">
+                <a href="#!" class="forgot-password-link">Forgot your password?</a>
+                <p class="login-card-footer-text">
+                Don't have an account?
+                <a href="#!" routerLink="/register">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>

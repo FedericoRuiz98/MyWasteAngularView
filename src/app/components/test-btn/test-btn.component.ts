@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Persona } from 'src/app/models/Persona';
+import { Egreso } from 'src/app/models/Egreso';
+import { Persona } from 'src/app/models/auth/Persona';
 import { CategoriaService } from 'src/app/services/categoria.service';
+import { EgresoService } from 'src/app/services/egreso.service';
 import { PersonaService } from 'src/app/services/persona.service';
 
 @Component({
@@ -10,16 +12,13 @@ import { PersonaService } from 'src/app/services/persona.service';
 })
 export class TestBtnComponent implements OnInit {
 
-  constructor(private service : PersonaService) { }
+  constructor(private service : EgresoService) { }
 
   ngOnInit(): void {
   }
 
   public async onClick() {
     //var per = new Persona("Nicolas","Ruiz");
-    let httpResp = await this.service.getPersona(1).subscribe(resp => {
-      
-    });
   }
 
 }

@@ -1,7 +1,7 @@
 .sidebar-sticky {
   position: sticky;
   top: 0;
-  height: calc(100vh - 48px);
+  height: 100%; //calc(100vh - 48px);
   padding-top: 0.5rem;
   overflow-x: hidden;
   overflow-y: auto;
@@ -9,26 +9,33 @@
 
 li {
   margin: 0px;
+  margin-top: 4px;
+  margin-left: 4px;
 }
 
 p {
   margin-bottom: 0;
 }
 
-a {
-  color: black;
-}
-
 .sidebar-sticky .nav-link {
   font-weight: 500;
-  color: #333;
+  color: rgba(233, 236, 239, 0.5);
 }
 
-a {
-  transition: font-size 0.2s;
+.sidebar-sticky .nav-link:hover {
+  color: whitesmoke;
 }
 
-a:hover {
-  font-size: larger;
-  transition: font-size 0.2s;
+.nav-drop:hover, .nav-custom:hover {
+  text-decoration: none;
+  color: whitesmoke;
 }
+
+.nav-drop, .nav-custom {
+  color: rgba(233, 236, 239, 0.5);
+  text-decoration: none;
+}
+
+
+
+

@@ -1,25 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Categoria } from '../models/Categoria';
+import { shareReplay } from 'rxjs/operators';
 import { FormaDePago } from '../models/FormaDePago';
-import { HttpConsoleResponse } from '../util/httpConsoleResponse';
 import endsPoints from './config/endsPoints.json'
+import { GlobalServiceService } from './global-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FormaDePagoService {
+export class FormaDePagoService extends GlobalServiceService {
 
-  private readonly baseurl = endsPoints.api;
-
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient) {
+    super();
+  }
 
   public getAllFormasDePago() : Observable<FormaDePago[]> {
-    let url = this.baseurl+endsPoints.FormaDePago;
-    const httpResp = this.http.get<FormaDePago[]>(url);
-    HttpConsoleResponse.printResponse(httpResp);
-
+    this.url = this.baseurl+endsPoints.FormaDePago;
+    const httpResp = this.http.get<FormaDePago[]>(this.url).pipe(shareReplay());
+    this.debugResponse(httpResp,"Forma de Pago");
     return httpResp;
   }
 }

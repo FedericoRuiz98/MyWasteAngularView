@@ -1,15 +1,16 @@
-<app-header (sidebarShow)="onSidebar($event)"></app-header>
 <div id="wrapper" class="d-flex {{toggled}}">
   <div id="sidebar-wrapper" class="bg-ligth sidebar">
     <app-sidebar></app-sidebar>
   </div>
+  
 
-  <div id="page-content-wrapper" class="main">
+  <div id="page-content-wrapper" class="main pb-4">
+    <app-header class="header" (sidebarShow)="onSidebar($event)"></app-header>
     <main class="col">
         <div class="mt-3">
-            <router-outlet></router-outlet>
-        </div>        
-        <app-footer></app-footer>
+            <app-gastos></app-gastos>
+        </div>                
     </main>
   </div>
 </div>
+<app-footer></app-footer>
