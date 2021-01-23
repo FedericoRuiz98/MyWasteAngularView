@@ -4,6 +4,7 @@ import { Persona } from 'src/app/models/auth/Persona';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { EgresoService } from 'src/app/services/egreso.service';
 import { PersonaService } from 'src/app/services/persona.service';
+import { GastoService } from 'src/app/services/gasto.service';
 
 @Component({
   selector: 'app-test-btn',
@@ -12,13 +13,15 @@ import { PersonaService } from 'src/app/services/persona.service';
 })
 export class TestBtnComponent implements OnInit {
 
-  constructor(private service : EgresoService) { }
+  constructor(private service : GastoService) { }
 
   ngOnInit(): void {
   }
 
   public async onClick() {
     //var per = new Persona("Nicolas","Ruiz");
+
+    this.service.getAllGasto();
   }
 
 }

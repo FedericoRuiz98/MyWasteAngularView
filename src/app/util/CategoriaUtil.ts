@@ -1,12 +1,35 @@
 export class CategoriaUtil {
     private static categoriaIcons : string[] = [
         "fas fa-shopping-basket",
-        "fas fa-parachute-box",
+        "fas fa-shipping-fast",
         "fas fa-glass-martini-alt",
         "fas fa-money-check",    
         "fas fa-car",
         ""
       ];
+
+      private static subCategoriaNombres : string[] = [
+        "Bebida",
+        "Alimento",
+        "Higiene",
+        "Limpieza",
+        "Mascotas",
+        "Hogar",
+        "Boludeces",
+        "Otros",
+        "Comida",
+        "Postre",
+        "Entretenimiento",
+        "Farmacia",
+        "Tecnologia",
+        "Regalo",
+        "Ferreteria",
+        "Vestimenta",
+        "Combustible",
+        "Mantenimiento",
+        "Mecanico"
+      ];
+
 
     public static getCategoriaString(index : string) : string {
         switch (index) {
@@ -46,5 +69,9 @@ export class CategoriaUtil {
 
     public static getAllCategoriaIcon() : string[] {
         return this.categoriaIcons;
+    }
+
+    public static getSubCategoriaString(index : number) : string {
+        return this.subCategoriaNombres[index];
     }
 }

@@ -23,6 +23,7 @@ export class GastoFormComponent implements OnInit {
   idFormaDePago : string = "";
   idEgreso : string = "";
   idPasivo : string = "";
+  currentDateString : string = (new Date()).toISOString().substring(0,10);
 
   //flags
   isLoaded : boolean = false;
@@ -174,6 +175,7 @@ export class GastoFormComponent implements OnInit {
   private generatePasivo(idEgreso : number) : void {
     let todayDate = new Date();
     let pasivo = new Pasivo(+this.idFormaDePago,+this.idCategoria,idEgreso,todayDate);
+    
     this.pasivoService.createPasivo(pasivo).subscribe(resp => {
       this.idEgreso = resp.idEgreso.toString();
       this.idPasivo = resp.idPasivo.toString();

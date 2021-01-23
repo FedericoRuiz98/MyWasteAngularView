@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { SubCategoria } from '../models/SubCategoria';
-import { HttpConsoleResponse } from '../util/httpConsoleResponse';
 import endsPoints from './config/endsPoints.json'
 import { GlobalServiceService } from './global-service.service';
 

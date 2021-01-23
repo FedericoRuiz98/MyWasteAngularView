@@ -10,4 +10,13 @@ export class Egreso {
         this.year = year;
         this.mes = mes;
     }
+    
+}
+
+export interface IEgreso {
+    idEgreso : number;
+    year : string;
+    mes : string;
+    total : number;
+    email : string;
 }

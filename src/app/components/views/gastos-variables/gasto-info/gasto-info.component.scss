@@ -1,0 +1,9 @@
+.toggle {
+  display: inline-table;
+  transition: display 0s, opacity 0.5s linear;
+}
+
+.not-toggle {
+  display: none;
+  transition: display 0s, opacity 0.5s linear;
+}

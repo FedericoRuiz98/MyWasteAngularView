@@ -8,16 +8,21 @@ import { CookieService } from 'ngx-cookie-service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TestBtnComponent } from './components/test-btn/test-btn.component';
-import { DashboardComponent } from './components/shared/dashboard/dashboard.component';
-import { HeaderComponent } from './components/shared/header/header.component';
-import { FooterComponent } from './components/shared/footer/footer.component';
-import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
-import { GastosComponent } from './components/gastos/gastos.component';
+import { DashboardComponent } from './components/layout/dashboard/dashboard.component';
+import { HeaderComponent } from './components/layout/header/header.component';
+import { FooterComponent } from './components/layout/footer/footer.component';
+import { SidebarComponent } from './components/layout/sidebar/sidebar.component';
+import { GastosComponent } from './components/views/gastos-charge/gastos.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { GastoFormComponent } from './components/gastos/gasto-form/gasto-form.component';
-import { GastoAddItemsComponent } from './components/gastos/gasto-add-items/gasto-add-items.component';
+import { GastoFormComponent } from './components/views/gastos-charge/gasto-form/gasto-form.component';
+import { GastoAddItemsComponent } from './components/views/gastos-charge/gasto-add-items/gasto-add-items.component';
 import { CargandoComponent } from './components/shared/cargando/cargando.component';
+import { NotificacionModalComponent } from './components/shared/modals/notificacion-modal/notificacion-modal.component';
+import { TableGastosVariablesComponent } from './components/views/gastos-variables/table-gastos-variables.component';
+import { PasivoInfoComponent } from './components/views/gastos-variables/pasivo-info/pasivo-info.component';
+import { GastoInfoComponent } from './components/views/gastos-variables/gasto-info/gasto-info.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +36,11 @@ import { CargandoComponent } from './components/shared/cargando/cargando.compone
     LoginComponent,
     GastoFormComponent,
     GastoAddItemsComponent,
-    CargandoComponent
+    CargandoComponent,
+    NotificacionModalComponent,
+    TableGastosVariablesComponent,
+    PasivoInfoComponent,
+    GastoInfoComponent    
   ],
   imports: [
     BrowserModule,

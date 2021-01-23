@@ -1,13 +1,13 @@
 export class Gasto {
-    idGasto : number;
+    idGasto : number = 0;
     idSubCategoria : number;
     subCategoria : string | undefined;
+    subCategoriaNombre : string = "";
     idPasivo : number;
     monto : number;
     concepto : string;
 
-    constructor(idGasto : number, idSubCategoria : number, idPasivo : number,monto : number, concepto : string, subCategoria : string | undefined) {
-        this.idGasto = idGasto;
+    constructor(idSubCategoria : number, idPasivo : number,monto : number, concepto : string, subCategoria : string | undefined) {        
         this.idSubCategoria = idSubCategoria;
         this.idPasivo = idPasivo;
         this.monto = monto;

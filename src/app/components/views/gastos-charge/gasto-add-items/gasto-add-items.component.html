@@ -1,0 +1,76 @@
+<div class="card text-left shadow mt-2" *ngIf="chargeItems">
+    <div class="card-body">
+      <h4>Carga de Items <span *ngIf="categoria">-  <i class="{{categoriaIcons[+categoriaIndex-1]}}"></i> {{categoria}}</span></h4>
+      
+      <div class="row mb-1">        
+        <div class="col-sm-5">
+          <div class="form-group">
+            <label for="sel1">Sub Categoria</label>
+            <select class="custom-select" [(ngModel)]="idSubCategoria">
+              <option hidden disabled selected value>-</option>
+              <option *ngFor="let sc of subCategorias" value="{{sc.idSubCategoria}}">{{sc.nombre}}</option>
+            </select>
+          </div> 
+        </div>
+        <div class="col-sm-3">
+          <label for="Monto" class="form-label">Monto</label>
+          <input type="number" class="form-control" id="Monto" placeholder="monto" step="any" name="monto" [(ngModel)]="monto">
+        </div>   
+        <div class="col-sm-3">
+          <label for="Concepto" class="form-label">Concepto (opcional)</label>
+          <input type="text" class="form-control" id="Concepto" placeholder="concepto" name="concpeto" [(ngModel)]="concepto">
+        </div>  
+  
+        <div class="col-sm-1 text-center">
+          <button type="button" class="btn btn-waste btnAdd" (click)="addGasto()"><i class="fas fa-plus-circle"></i></button>
+        </div>
+      </div>    
+  
+      <p *ngIf="gastosFormsFeedback" class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{gastosFormsFeedback}}</p>
+  
+      <div *ngIf="gastos.length >0">
+        <h2 class="mb-3" style="float: left;"><span class="badge badge-waste">Total: {{total | currency}}</span></h2>
+  
+        <table class="table table-hover table-sm" >
+          <thead>
+            <tr>
+              <th class="col-2">ID</th>
+              <th class="col-3">Categoria</th>
+              <th class="col-3">Concepto</th>
+              <th class="col-3">Monto</th>
+              <th class="col-1">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let g of gastos; let i = index"> 
+              <td class="col-2" scope="row">{{i+1}}</td>
+              <td class="col-3">{{g.subCategoria}}</td>
+              <td class="col-3">{{g.concepto}}</td>
+              <td class="col-3">{{g.monto | currency}}</td>
+              <td class="col-1 text-center">
+                <a class="text-danger" (click)="deleteGasto(i)"><i class="fas fa-trash-alt"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>    
+  
+      <div class="text-center">
+        <button type="button" class=" btn btn-waste" style="width: 30%;" 
+          (click)="saveGastos()" 
+          [disabled]="!gastos.length"
+          data-toggle="modal" 
+          data-target="#Modal">
+          <i class="fas fa-save"></i> Registrar Gasto
+        </button> 
+      </div>    
+      
+      <app-notificacion-modal
+        [title]="'Operacion Completada'"
+        [subtitle]="'Los Gastos se han registrado correctamente en la Base de datos'"
+        [descp]="'Total de '+total"
+        [url]="'gastos/variables'">
+      </app-notificacion-modal>
+
+    </div>
+  </div>

@@ -1,0 +1,23 @@
+<app-dashboard>
+  <app-gasto-form 
+    (chargeItemsEmitter)="onCategoriasReady($event)"
+    (subCategoriasEmitter)="onSubCategoria($event)"
+    (categoriaIndexEmitter)="onCategoriaIndex($event)"
+    (categoriaEmitter)="onCategoria($event)"
+    (EgresoIndexEmitter)="onEgreso($event)"
+    (PasivoIndexEmitter)="onPasivo($event)"
+    [categorias]="categorias"
+    [subCategorias]="subCategorias"
+    [formasDePago]="formasDePago"
+    [categoriasSubCategorias]="categoriasSubCategorias">
+  </app-gasto-form>
+
+  <app-gasto-add-items
+    [chargeItems]="chargeItems"
+    [categoriaIndex]="idCategoria"
+    [categoria]="categoria"
+    [subCategorias]="subCategoriasSelect"
+    [idPasivo]="idPasivo">
+  </app-gasto-add-items>
+</app-dashboard>
+

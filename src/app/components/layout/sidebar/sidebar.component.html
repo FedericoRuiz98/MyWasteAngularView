@@ -22,17 +22,24 @@
                 </li>  
 
                 <li routerLinkActive="active">
-                    <a class="nav-custom" role="button">                                
+                    <a class="nav-custom" role="button"
+                        [routerLink]="['/gastos/variables/cargar']">                                
                         <p class="font-weight-light">Gastos Variables</p>
+                    </a>
+                </li>
+
+                <li routerLinkActive="active">
+                    <a class="nav-custom" role="button">                                
+                        <p class="font-weight-light">Errores/Omisiones</p>
                     </a>
                 </li>
             </ul>       
             
-            <a class="nav-custom" role="button">                                
+            <a class="nav-custom" role="button"
+            [routerLink]="['/gastos/variables']">                                
                 <p class="font-weight-light"><i class="fas fa-list"></i> Listas</p>
             </a>
-        </li> 
-
+        </li>         
 
         <p class="text-white mt-2">Ingresos</p>
         <li routerLinkActive="active" class="nav-item">

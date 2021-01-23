@@ -21,4 +21,11 @@ export class FormaDePagoService extends GlobalServiceService {
     this.debugResponse(httpResp,"Forma de Pago");
     return httpResp;
   }
+
+  public getFormasDePago(id : number) : Observable<FormaDePago[]> {
+    this.url = this.baseurl+endsPoints.FormaDePago;
+    const httpResp = this.http.get<FormaDePago[]>(this.url+"/"+id).pipe(shareReplay());
+    this.debugResponse(httpResp,"Forma de Pago");
+    return httpResp;
+  }
 }

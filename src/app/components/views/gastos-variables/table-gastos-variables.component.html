@@ -1,0 +1,70 @@
+<app-dashboard>
+    <div class="d-flex align-items-center p-3 my-3 text-white bg-waste rounded shadow">        
+        <h3 class="my-0 fw-normal text-white text-center">Gastos variables</h3>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-12 col-sm-6 col-xxl d-flex">
+        <div class="card flex-fill shadow">
+          <div class="card-body py-4">
+            <div class="media">
+              <div class="media-body">
+                <h3 class="mb-2 text-danger">{{total | currency}}</h3>
+                <p class="mb-2">Total Gastados en el mes de {{fecha}}</p>
+                <div class="mb-0">
+                  <span class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> +5.35% </span>
+                  <span class="text-muted">Since last week</span>
+                </div>
+              </div>
+              <div class="d-inline-block ml-3">
+                <div class="stat">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign align-middle text-success"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-xxl d-flex">
+        <div class="card flex-fill shadow">
+          <div class="card-body py-4">
+            <div class="media">
+              <div class="media-body">
+                <h3 class="mb-2">40 %</h3>
+                <p class="mb-2">Supermercado en el mes de {{fecha}}</p>
+                <div class="mb-0">
+                  <span class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> +5.35% </span>
+                  <span class="text-muted">Since last week</span>
+                </div>
+              </div>
+              <div class="d-inline-block ml-3">
+                <div class="stat text-waste">
+                  <h3><i class="fas fa-chart-pie"></i></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card text-left shadow">
+        <div class="card-body">
+            <h6 class="text-muted pb-2 mb-0">{{fecha}}</h6>
+            
+            <app-pasivo-info 
+                *ngIf="idEgreso != 0"
+                [idEgreso]="idEgreso"
+                [year]="year"
+                [mes]="mes"
+                [total]="total">
+            </app-pasivo-info>            
+            
+        </div>
+    </div>
+
+</app-dashboard>
+
+  
+  
+ 
