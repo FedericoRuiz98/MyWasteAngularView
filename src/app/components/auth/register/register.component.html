@@ -1,1 +1,53 @@
-<p>register works!</p>
+<div class="container text-center">
+    <div class="card login-card shadow">
+        <div class="card-body">
+            <div class="brand-wrapper text-center">
+                <img src="/assets/svg/MyWasteAppLogo.svg" width="90" height="90" class="mb-1">
+                <h4 class="pl-2 text-muted">WasMo</h4>
+            </div>
+            <p class="font-italic text-muted">Crea una cuenta nueva</p>
+            <form [formGroup]="RegisterForm" (ngSubmit)="onSubmit()" class="text-left">
+                <div class="form-group">
+                <label class="text-muted" for="email"><i class="fas fa-envelope text-waste"></i> Email</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="Email"
+                    required/>
+                </div>
+
+                <div class="form-group mt-1 ">
+                    <label class="text-muted" for="password"><i class="fas fa-key text-waste"></i> Contraseña</label>
+                    <input
+                    type="password"
+                    class="form-control"
+                    formControlName="password"
+                    placeholder="Contraseña"
+                    required/>
+                </div>
+
+                <div class="form-group mt-1 ">
+                    <label class="text-muted" for="passwordConfirm"><i class="fas fa-key text-waste"></i> Confirmar Contraseña</label>
+                    <input
+                    type="password"
+                    class="form-control"
+                    formControlName="passwordConfirm"
+                    placeholder="Contraseña"
+                    required/>
+                </div>
+
+                <button [disabled]="!RegisterForm.valid" class="btn btn-waste btn-lg btn-block mt-4 shadow">
+                Registrarte <i class="fas fa-sign-in-alt"></i>
+                </button>
+            </form>
+
+            <div class="mt-3">
+                <p class="login-card-footer-text">
+                Ya tienes una cuenta?
+                <a class="text-secondary" href="#!" routerLink="/login">Ingresa aqui</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>

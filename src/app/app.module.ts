@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 //components
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +24,7 @@ import { NotificacionModalComponent } from './components/shared/modals/notificac
 import { TableGastosVariablesComponent } from './components/views/gastos-variables/table-gastos-variables.component';
 import { PasivoInfoComponent } from './components/views/gastos-variables/pasivo-info/pasivo-info.component';
 import { GastoInfoComponent } from './components/views/gastos-variables/gasto-info/gasto-info.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,9 @@ import { GastoInfoComponent } from './components/views/gastos-variables/gasto-in
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

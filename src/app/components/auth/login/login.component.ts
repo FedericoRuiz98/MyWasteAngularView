@@ -9,46 +9,55 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {  
+export class LoginComponent implements OnInit {
 
   //@Output() sessionEmitter = new EventEmitter();
 
   LoginForm = new FormGroup({
-    email: new FormControl("",[
+    email: new FormControl("", [
       Validators.required,
       Validators.email,
       Validators.minLength(4),
       Validators.maxLength(32)
     ]),
-    password: new FormControl("",[
+    password: new FormControl("", [
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(32)
     ])
   })
-  
+
   constructor(
     private router: Router,
-    private auth : AuthService) { }
+    private auth: AuthService) { }
 
   ngOnInit(): void {
   }
 
-  onSubmit() {
-    
-    if(this.LoginForm.valid) {
-      const {email, password} = this.LoginForm.value;
-      
-      this.auth.login(email).subscribe(resp => {
-        console.log(resp);
-        if(resp.password == password && resp.email == email) {
-          this.router.navigate(['/dashboard']);
+  async onSubmit() {
+
+    if (this.LoginForm.valid) {
+      const { email, password } = this.LoginForm.value;
+
+      //Intentar logearse
+      try {
+
+        //login
+        const user = this.auth.login(email, password);
+
+        if(user) {
+          console.log(user);
+          //this.router.navigate(['/dashboard']);
+        } else {
+          console.log("No existe ese usuario");
         }
-      });    
-      //this.sessionEmitter.emit(email);
-      
+
+      } catch (error) {
+        console.log(error);
+      }
+
     }
-    
+
   }
 
 }

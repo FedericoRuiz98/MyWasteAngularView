@@ -1,17 +1,16 @@
 <div class="container text-center">
-    <div class="card login-card">
+    <div class="card login-card shadow">
         <div class="card-body">
-            <div class="brand-wrapper">
-                <h4 class="pl-2">My Waste App</h4>
+            <div class="brand-wrapper text-center">
+                <img src="/assets/svg/MyWasteAppLogo.svg" width="90" height="90" class="mb-1">
+                <h4 class="pl-2 text-muted">WasMo</h4>
             </div>
-            <p class="font-italic">Sign into your account</p>
+            <p class="font-italic text-muted">Ingresa en tu cuenta</p>
             <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" class="text-left">
                 <div class="form-group">
-                <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                <label class="text-muted" for="email"><i class="fas fa-envelope text-waste"></i> Email</label>
                 <input
                     type="email"
-                    name="email"
-                    id="email"
                     class="form-control"
                     formControlName="email"
                     placeholder="Email"
@@ -19,27 +18,31 @@
                 </div>
 
                 <div class="form-group mt-1">
-                <label for="password"><i class="fas fa-key"></i> Contraseña</label>
+                <label class="text-muted" for="password"><i class="fas fa-key text-waste"></i> Contraseña</label>
                 <input
                     type="password"
-                    name="password"
-                    id="password"
                     class="form-control"
                     formControlName="password"
                     placeholder="Contraseña"
                     required/>
                 </div>
 
-                <button [disabled]="!LoginForm.valid" class="btn btn-dark btn-lg btn-block mt-4">
-                Login <i class="fas fa-sign-in-alt"></i>
+                <button [disabled]="!LoginForm.valid" class="btn btn-waste btn-lg btn-block mt-4 shadow">
+                Ingresar <i class="fas fa-sign-in-alt"></i>
                 </button>
+
+                <button class="btn btn-ligth btn-lg btn-block mt-4 login-google shadow"> 
+                    <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                     Ingresar con Google
+                </button>
+
             </form>
 
             <div class="mt-3">
-                <a href="#!" class="forgot-password-link">Forgot your password?</a>
+                <a href="#!" class="forgot-password-link text-secondary">Olvidaste tu contraseña?</a>
                 <p class="login-card-footer-text">
-                Don't have an account?
-                <a href="#!" routerLink="/register">Register here</a>
+                No tienes una cuenta?
+                <a class="text-secondary" href="#!" routerLink="/register">Registrate aqui</a>
                 </p>
             </div>
         </div>

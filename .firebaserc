@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "wasmo-5217a": {
+      "hosting": {
+        "MyWasteAngularView": [
+          "wasmo-5217a"
+        ]
+      }
+    }
+  }
+}

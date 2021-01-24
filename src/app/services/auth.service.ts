@@ -1,22 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpConsoleResponse } from '../util/httpConsoleResponse';
-import endsPoints from './config/endsPoints.json'
+import { AngularFireAuth } from '@angular/fire/auth';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly baseurl = endsPoints.api;
-  private url = this.baseurl+endsPoints.Usuario;
+  constructor(public afauth: AngularFireAuth) { }
 
-  constructor(private http : HttpClient) { }
-
-  public login(email : string) : Observable<any> {
-    const httpResp = this.http.post<any>(this.url+"/login?email="+email,email);
-    return httpResp;
+  async login(email:string, password:string) {
+    try {
+      const result = await this.afauth.signInWithEmailAndPassword(email, password);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }    
   }
+
+  async register(email: string, password:string) {
+    try {
+      const result = await this.afauth.createUserWithEmailAndPassword(email, password);
+      return result;
+    } catch (error) {
+      console.log(error);      
+    }    
+  }
+
+  async logout() {
+    try {
+      await this.afauth.signOut();
+    } catch (error) {
+      console.log(error);      
+    }    
+  }
+
+  getCurrentUser() {
+   return this.afauth.authState.pipe(first()).toPromise();
+  }
+
+
 
 }
