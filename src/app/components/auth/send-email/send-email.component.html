@@ -1,0 +1,18 @@
+<div class="container text-center" *ngIf="user | async as user">
+    <div class="card send-card shadow">
+        <div class="card-body">
+            <div class="brand-wrapper text-center">
+                <img src="/assets/svg/MyWasteAppLogo.svg" width="90" height="90" class="mb-1">
+                <h4 class="pl-2 text-muted">WasMo</h4>
+            </div>
+            <h3 class="font-italic text-muted">Gracias por registrarte</h3>
+            <p class="font-italic text-muted">Te hemos enviado un mail a la direccion <strong class="text-waste">{{user?.email}}</strong>, por favor ingresa en tu email para verificar tu cuenta.</p>
+            
+            <button class="btn btn-waste btn-lg btn-block mt-4 shadow"
+                (click)="sendEmail()">
+                Reenviar <i class="fas fa-envelope"></i>
+            </button>
+
+        </div>
+    </div>
+  </div>

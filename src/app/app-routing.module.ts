@@ -5,6 +5,8 @@ import { GastosComponent } from './components/views/gastos-charge/gastos.compone
 import { TableGastosVariablesComponent } from './components/views/gastos-variables/table-gastos-variables.component';
 import { DashboardComponent } from './components/layout/dashboard/dashboard.component';
 import { RegisterComponent } from './components/auth/register/register.component';
+import { SendEmailComponent } from './components/auth/send-email/send-email.component';
+import { SuccessEmailComponent } from './components/auth/success-email/success-email.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,14 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'send/email',
+    component: SendEmailComponent
+  },
+  {
+    path: 'account-confirm',
+    component: SuccessEmailComponent
   }
 ];
 

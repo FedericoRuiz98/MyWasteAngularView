@@ -14,7 +14,10 @@
                     class="form-control"
                     formControlName="email"
                     placeholder="Email"
-                    required/>
+                    required
+                    [ngClass]="{
+                        'is-valid': email && email.valid,
+                        'is-invalid': email && email.errors && (email.dirty || email.touched)}"/>
                 </div>
 
                 <div class="form-group mt-1 ">
@@ -24,7 +27,11 @@
                     class="form-control"
                     formControlName="password"
                     placeholder="Contraseña"
-                    required/>
+                    required
+                    [(ngModel)]="passwordI"
+                    [ngClass]="{
+                        'is-valid': password && password.valid && passwordI == passwordConfirmI,
+                        'is-invalid': password && password.errors && (password.dirty || password.touched)}"/>
                 </div>
 
                 <div class="form-group mt-1 ">
@@ -34,9 +41,15 @@
                     class="form-control"
                     formControlName="passwordConfirm"
                     placeholder="Contraseña"
-                    required/>
+                    required
+                    [(ngModel)]="passwordConfirmI"
+                    [ngClass]="{
+                        'is-valid': passwordConfirm && passwordConfirm.valid && passwordI == passwordConfirmI, 
+                        'is-invalid': passwordConfirm && passwordConfirm.errors && (passwordConfirm.dirty || passwordConfirm.touched)}"/>
                 </div>
 
+                <p class="text-danger" *ngIf="feedback"><i class="fas fa-exclamation-triangle"></i> {{feedback}}</p>
+                
                 <button [disabled]="!RegisterForm.valid" class="btn btn-waste btn-lg btn-block mt-4 shadow">
                 Registrarte <i class="fas fa-sign-in-alt"></i>
                 </button>

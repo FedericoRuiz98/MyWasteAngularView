@@ -7,7 +7,8 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [AuthService]
 })
 export class LoginComponent implements OnInit {
 
@@ -27,11 +28,21 @@ export class LoginComponent implements OnInit {
     ])
   })
 
+  feedback : string = "";
+
   constructor(
     private router: Router,
     private auth: AuthService) { }
 
   ngOnInit(): void {
+  }
+
+  get email() { return this.LoginForm.get('email');}
+
+  get password() { return this.LoginForm.get('password');}
+
+  async loginGoogle() {
+    this.auth.loginGoogle();
   }
 
   async onSubmit() {
@@ -43,21 +54,25 @@ export class LoginComponent implements OnInit {
       try {
 
         //login
-        const user = this.auth.login(email, password);
+        const user = await this.auth.login(email, password);
 
+        //&& user.user?.emailVerified
         if(user) {
-          console.log(user);
-          //this.router.navigate(['/dashboard']);
+
+          //email verificado?
+          if(user.user?.emailVerified) {
+            this.feedback = "";
+            console.log(user);
+            //this.router.navigate(['/dashboard']);
+          } else {
+            this.feedback = "Necesitas verificar tu email.";
+          }  
         } else {
-          console.log("No existe ese usuario");
+          this.feedback = "El email y/o la contraseña son incorrectas.";
         }
-
       } catch (error) {
-        console.log(error);
+        this.feedback = "Ocurrio un error inesperado.";
       }
-
     }
-
   }
-
 }

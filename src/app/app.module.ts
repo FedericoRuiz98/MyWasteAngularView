@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore'
 
 //components
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,8 @@ import { TableGastosVariablesComponent } from './components/views/gastos-variabl
 import { PasivoInfoComponent } from './components/views/gastos-variables/pasivo-info/pasivo-info.component';
 import { GastoInfoComponent } from './components/views/gastos-variables/gasto-info/gasto-info.component';
 import { environment } from 'src/environments/environment';
+import { SendEmailComponent } from './components/auth/send-email/send-email.component';
+import { SuccessEmailComponent } from './components/auth/success-email/success-email.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,9 @@ import { environment } from 'src/environments/environment';
     NotificacionModalComponent,
     TableGastosVariablesComponent,
     PasivoInfoComponent,
-    GastoInfoComponent    
+    GastoInfoComponent,
+    SendEmailComponent,
+    SuccessEmailComponent    
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,8 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
