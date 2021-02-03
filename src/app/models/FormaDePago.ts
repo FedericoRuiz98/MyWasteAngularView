@@ -1,9 +1,6 @@
-export class FormaDePago {
-    idFormaDePago : number;
+export interface FormaDePago {
+    id? : string;
     nombre : string;
-
-    constructor(idFormaDePago : number, nombre : string) {
-        this.idFormaDePago = idFormaDePago;
-        this.nombre = nombre;
-    }
+    cuotas : boolean;
+    interes : boolean;
 }

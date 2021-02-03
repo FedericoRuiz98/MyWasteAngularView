@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
-import { Pasivo } from '../models/Pasivo';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { User } from 'firebase';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { flatMap, map, shareReplay, switchMap } from 'rxjs/operators';
+import { Pasivo } from '../models/Pasivo.interface';
 import { HttpConsoleResponse } from '../util/httpConsoleResponse';
 import endsPoints from './config/endsPoints.json'
 import { GlobalServiceService } from './global-service.service';
@@ -10,59 +12,44 @@ import { GlobalServiceService } from './global-service.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PasivoService extends GlobalServiceService{
+export class PasivoService{
   
-  url = this.baseurl+endsPoints.Pasivo;
+  pasivos: Observable<Pasivo[]>;
+  private pasivoCollection: AngularFirestoreCollection;
 
-  constructor(private http : HttpClient) {
-    super();
+  constructor(private readonly afs: AngularFirestore) {
+    this.pasivoCollection = afs.collection<Pasivo>('Pasivos');
+    this.getPasivos();
   }
 
-  public getAllPasivos() : Observable<Pasivo[]> {
-    const httpResp = this.http.get<Pasivo[]>(this.url).pipe(shareReplay());
-    this.debugResponse(httpResp,"Pasivos");
-    return httpResp;
+  savePasivo(pasivo : Pasivo,idPasivo? : string) : Promise<void>{
+    return new Promise(async (resolve,reject) => {
+      try {
+        const id = idPasivo || this.afs.createId();
+        const data = {id, ...pasivo};
+        const result = await this.pasivoCollection.doc(id).set(data);
+        resolve(result);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
-  public getPasivoById(id : number) : Observable<Pasivo[]> {
-    const httpResp = this.http.get<Pasivo[]>(this.url+"/"+id).pipe(shareReplay());
-    this.debugResponse(httpResp,"Pasivos");
-    return httpResp;
+  deletePasivo(idPasivo : string) : Promise<void>{
+    return new Promise(async (resolve,reject) => {
+      try {
+        const resp = await this.pasivoCollection.doc(idPasivo).delete();
+      } catch (error) {
+        reject(error);
+      }
+    })
   }
 
-  public getPasivoByEgreso(id : number) : Observable<Pasivo[]> {
-    const httpResp = this.http.get<Pasivo[]>(this.url+"/byEgreso/"+id).pipe(shareReplay());
-    this.debugResponse(httpResp,"Pasivos");
-    return httpResp;
+  getPasivos(): void {
+    this.pasivos = this.pasivoCollection
+      .snapshotChanges()
+      .pipe(map((action) => action.map((a) => a.payload.doc.data() as Pasivo)));
   }
 
-  public createPasivo(pasivo : Pasivo) : Observable<Pasivo> {
-    let todayDate = new Date();
-    const httpResp = this.http.post<Pasivo>(this.url,{
-      "idPasivo": pasivo.idPasivo,
-      "idCategoria": pasivo.idCategoria,
-      "idFormaDePago": pasivo.idFormaDePago,
-      "idEgreso": pasivo.idEgreso,
-      "fecha": todayDate,
-      "total": pasivo.total,
-      "cuotas": pasivo.cuotas,
-    }).pipe(shareReplay());
-    this.debugResponse(httpResp,"Pasivos");
-    return httpResp;
-  }
 
-  public updatePasivo(pasivo : Pasivo) : Observable<Pasivo> {
-    let todayDate = new Date();
-    const httpResp = this.http.post<Pasivo>(this.url+"/edit",{
-      "idPasivo": pasivo.idPasivo,
-      "idCategoria": pasivo.idCategoria,
-      "idFormaDePago": pasivo.idFormaDePago,
-      "idEgreso": pasivo.idEgreso,
-      "fecha": todayDate,
-      "total": pasivo.total,
-      "cuotas": pasivo.cuotas,
-    }).pipe(shareReplay());
-    this.debugResponse(httpResp,"Pasivos");
-    return httpResp;
-  }
 }

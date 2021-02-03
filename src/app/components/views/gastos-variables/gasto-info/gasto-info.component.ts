@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Gasto } from 'src/app/models/Gasto';
+import { Gasto } from 'src/app/models/Gasto.interface';
 import { GastoService } from 'src/app/services/gasto.service';
 import { CategoriaUtil } from 'src/app/util/CategoriaUtil';
 
@@ -29,6 +29,7 @@ export class GastoInfoComponent implements OnInit {
   }
 
   ngDoCheck() {
+    /*
     if(this.openTable && this.spawn) {
       this.gastoService.getGastoByPasivo(this.idPasivo).subscribe(resp => {
         resp.forEach(g => {
@@ -41,6 +42,7 @@ export class GastoInfoComponent implements OnInit {
         })      
       })
     }
+    */
 
     if(this.gastos.length) {
       this.isLoaded = true;

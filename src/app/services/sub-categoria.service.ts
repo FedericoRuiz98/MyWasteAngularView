@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { SubCategoria } from '../models/SubCategoria';
+import { SubCategoria } from '../models/SubCategoria.interface';
 import endsPoints from './config/endsPoints.json'
 import { GlobalServiceService } from './global-service.service';
 

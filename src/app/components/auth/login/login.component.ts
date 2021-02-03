@@ -1,5 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Session } from 'src/app/models/auth/Session';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
       Validators.required,
       Validators.email,
       Validators.minLength(4),
-      Validators.maxLength(32)
+      Validators.maxLength(32),
+      Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
     ]),
     password: new FormControl("", [
       Validators.required,
@@ -32,9 +34,11 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('WasMo - Login');
   }
 
   get email() { return this.LoginForm.get('email');}
@@ -42,7 +46,11 @@ export class LoginComponent implements OnInit {
   get password() { return this.LoginForm.get('password');}
 
   async loginGoogle() {
-    this.auth.loginGoogle();
+    const resp = await this.auth.loginGoogle();
+
+    if(resp) {
+      this.router.navigate(['/test']);
+    }
   }
 
   async onSubmit() {
@@ -54,16 +62,15 @@ export class LoginComponent implements OnInit {
       try {
 
         //login
-        const user = await this.auth.login(email, password);
+        const resp = await this.auth.login(email, password);
 
-        //&& user.user?.emailVerified
-        if(user) {
+        //hay respuesta?
+        if(resp) {
 
           //email verificado?
-          if(user.user?.emailVerified) {
+          if(resp.user?.emailVerified) {
             this.feedback = "";
-            console.log(user);
-            //this.router.navigate(['/dashboard']);
+            this.router.navigate(['/test']);
           } else {
             this.feedback = "Necesitas verificar tu email.";
           }  

@@ -1,24 +1,50 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
-import { Categoria } from '../models/Categoria';
-import endsPoints from './config/endsPoints.json'
-import { GlobalServiceService } from './global-service.service';
+import { map } from 'rxjs/operators';
+import { Categoria } from '../models/Categoria.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriaService extends GlobalServiceService {
+export class CategoriaService {
 
-  constructor(private http : HttpClient) {
-    super();
+  categorias: Observable<Categoria[]>;
+  private categoriaCollection: AngularFirestoreCollection;
+
+  constructor(private readonly afs: AngularFirestore) {
+    this.categoriaCollection = afs.collection<Categoria>('Categorias');
+    this.getCategorias();
   }
 
-  public getAllCategorias() : Observable<Categoria[]> {
-    this.url = this.baseurl+endsPoints.Categoria;
-    const httpResp = this.http.get<Categoria[]>(this.url).pipe(shareReplay());
-    this.debugResponse(httpResp,"Categoria");
-    return httpResp;
+  saveCategoria(categoria : Categoria) : Promise<void>{
+    return new Promise(async (resolve,reject) => {
+      try {
+        const id = categoria.categoria;
+        const data = {id, ...categoria};
+        console.log(data);
+        const result = await this.categoriaCollection.doc(id).set(data);
+        console.log(result);
+        resolve(result);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  deleteCategoria(idCategoria : string) : Promise<void>{
+    return new Promise(async (resolve,reject) => {
+      try {
+        const resp = await this.categoriaCollection.doc(idCategoria).delete();
+      } catch (error) {
+        reject(error);
+      }
+    })
+  }
+
+  getCategorias(): void {
+    this.categorias = this.categoriaCollection
+      .snapshotChanges()
+      .pipe(map((action) => action.map((a) => a.payload.doc.data() as Categoria)));
   }
 }

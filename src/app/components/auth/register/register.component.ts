@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,7 +17,8 @@ export class RegisterComponent implements OnInit {
       Validators.required,
       Validators.email,
       Validators.minLength(4),
-      Validators.maxLength(32)
+      Validators.maxLength(32),
+      Validators.pattern(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
     ]),
     password: new FormControl("", [
       Validators.required,
@@ -32,9 +34,13 @@ export class RegisterComponent implements OnInit {
 
   feedback : string = "";
 
-  constructor(private auth: AuthService, private router : Router) { }
+  constructor(
+      private auth: AuthService, 
+      private router : Router,
+      private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('WasMo - Register');
   }
 
   passwordI = "";
@@ -54,20 +60,19 @@ export class RegisterComponent implements OnInit {
         //Intentar registrar usuario
         try {
 
-          const resp =  this.auth.emailIsUsed(email);
-
-          if(!resp) {
-            //register
-            const user = this.auth.register(email, password);
-            if (user) {   
-              console.log(user);
-              this.router.navigate(['/send/email']);
+          this.auth.emailIsUsed(email).then(resp => {
+            if(!resp?.length) {
+              //register
+              const user = this.auth.register(email, password);
+              if (user) {   
+                this.router.navigate(['/send/email']);
+              } else {
+                this.feedback = "Ocurrio un error inesperado.";
+              }
             } else {
-              this.feedback = "Ocurrio un error inesperado.";
+              this.feedback = "Este email ya ha sido utilizado.";
             }
-          } else {
-            this.feedback = "Este email ya ha sido utilizado.";
-          }
+          });
           
         } catch (error) {
           this.feedback = "Ocurrio un error inesperado.";

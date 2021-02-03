@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Egreso } from 'src/app/models/Egreso';
-import { Gasto } from 'src/app/models/Gasto';
-import { Pasivo } from 'src/app/models/Pasivo';
+import { Egreso } from 'src/app/models/Egreso.interface';
+import { Gasto } from 'src/app/models/Gasto.interface';
+import { Pasivo } from 'src/app/models/Pasivo.interface';
 import { FormaDePagoService } from 'src/app/services/forma-de-pago.service';
 import { GastoService } from 'src/app/services/gasto.service';
 import { PasivoService } from 'src/app/services/pasivo.service';
@@ -42,7 +42,7 @@ export class PasivoInfoComponent implements OnInit {
   ngOnInit(): void {
         
     //traer pasivos
-    this.pasivoService.getPasivoByEgreso(this.idEgreso).subscribe(resp => {      
+    /*this.pasivoService.getPasivoByEgreso(this.idEgreso).subscribe(resp => {      
       if(resp.length) {
         //guardos todos los pasivos en una lista
         resp.forEach(p => {
@@ -63,12 +63,12 @@ export class PasivoInfoComponent implements OnInit {
         }
         console.log(this.openTable);         
       }                       
-    });
+    });*/
 
     //traer gastos
-    this.gastoService.getAllGasto().subscribe(resp => {
+    /*this.gastoService.getAllGasto().subscribe(resp => {
       this.gastos = resp;
-    });
+    });*/
   }
 
   ngDoCheck() {

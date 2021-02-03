@@ -1,32 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Gasto } from 'src/app/models/Gasto';
-import { Pasivo } from 'src/app/models/Pasivo';
-import { SubCategoria } from 'src/app/models/SubCategoria';
-import { GastoService } from 'src/app/services/gasto.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { take } from 'rxjs/operators';
+import { Categoria } from 'src/app/models/Categoria.interface';
+import { Egreso } from 'src/app/models/Egreso.interface';
+import { Gasto } from 'src/app/models/Gasto.interface';
+import { Pasivo } from 'src/app/models/Pasivo.interface';
 import { PasivoService } from 'src/app/services/pasivo.service';
 import { CategoriaUtil } from 'src/app/util/CategoriaUtil';
+import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
 
 @Component({
   selector: 'app-gasto-add-items',
   templateUrl: './gasto-add-items.component.html',
-  styleUrls: ['./gasto-add-items.component.scss']
+  styleUrls: ['./gasto-add-items.component.scss'],
+  providers: [PasivoService]
 })
 export class GastoAddItemsComponent implements OnInit {
 
-  
+  //input form
+  subCategoria : string;
   monto : string = "";
   concepto : string ="";
-  idSubCategoria : number = 0;
   total : number = 0;
-  currentMonth : number = 0;
+
+  //flag
+  desktop : boolean = true;
 
   //input
-  @Input() idPasivo : string = "";
-  @Input() chargeItems : boolean = false;
-  @Input() categoriaIndex : string = "";
-  @Input() categoria : string = "";
-  @Input() subCategorias : SubCategoria[] = [];
+  @Input() egreso : Egreso;
+  @Input() categoria : Categoria;
+  @Input() chargeItems : boolean;
 
   //array
   gastos : Gasto[] = [];  
@@ -36,31 +39,32 @@ export class GastoAddItemsComponent implements OnInit {
   gastosFormsFeedback : string = "";
   
   constructor(
-    private gastoServices : GastoService,
     private pasivoService : PasivoService,
-    private router: Router) { }
-
-  ngOnInit(): void {    
+    private deviceDetectorService : DeviceDetectorService) { 
+    this.desktop = this.deviceDetectorService.isDesktop();
   }
+
+  ngOnInit(): void {}
 
   private cleanForm() : void {
     this.monto = "";
     this.concepto = ""; 
-    this.idSubCategoria = 0;
+    this.subCategoria = "";
   }
 
   addGasto() {
     if(this.categoria) {
 
       //check input fields
-      if(+this.monto != 0 && +this.idSubCategoria > 0) {
+      if(+this.monto != 0 && this.subCategoria != "") {
         //clean invalid feedback
         this.gastosFormsFeedback = "";
 
-        //new gasto
-        var sc = this.subCategorias.find(sc => sc.idSubCategoria == +this.idSubCategoria);      
-        let gasto = new Gasto(+this.idSubCategoria,+this.idPasivo,+this.monto,this.concepto.toLowerCase(),sc?.nombre);
-        console.log(gasto);
+        const gasto : Gasto = {
+          subCategoria : this.subCategoria,
+          monto : +this.monto,
+          concepto : this.concepto.toLowerCase(),
+        }
 
         //pusheo lista de gastos y sumo el total
         this.gastos.push(gasto);
@@ -68,6 +72,8 @@ export class GastoAddItemsComponent implements OnInit {
 
         //clean form
         this.cleanForm();
+
+        console.log(this.gastos);
       } else {
         this.gastosFormsFeedback = "Los campos sub categoria y monto son obligatorios";
       }            
@@ -76,26 +82,50 @@ export class GastoAddItemsComponent implements OnInit {
 
   deleteGasto(index : number) : void {
     this.gastos.splice(index,1);
-    console.log(this.gastos);
   }
 
+  //Guardar en firebase
   saveGastos() : void {
+    //Completar egreso
+    this.egreso.gastos = this.gastos;
+    this.egreso.total = this.total;
 
-    //guardar en la DB todos los gastos
-    this.gastos.forEach(g => {
-      this.gastoServices.createGasto(g);  
-    });    
+    this.pasivoService.pasivos.pipe(take(1)).subscribe(resp => {
+      let pasivo = resp.find(p => {
+        return p.email == this.egreso.email 
+          && p.year == this.egreso.fecha.getFullYear().toString()
+          && p.mes == DateUtilSpanish.monthToString(this.egreso.fecha.getMonth())
+      });
 
-    //modificar total del pasivo
-    this.pasivoService.getPasivoById(+this.idPasivo).subscribe(resp => {
-      if(resp.length) {        
-        let pasivo : Pasivo = resp[0];
-        pasivo.total = this.total;
-        this.pasivoService.updatePasivo(pasivo);
+      //meto el egreso en un array
+      let egresos : Egreso[] = [];
+      egresos.push(this.egreso);
 
-        //move to lista de gastos variables
-        this.router.navigate(['/gastos/variables']);
+      if(!pasivo) {
+        console.log('No hay Pasivo previo');
+        //si no existe el pasivo lo creo
+        
+        let pasivo : Pasivo = {
+          email : this.egreso.email,
+          mes : DateUtilSpanish.monthToString(this.egreso.fecha.getMonth()),
+          year : this.egreso.fecha.getFullYear().toString(),
+          egresos : egresos
+        }
+
+        //los guardo en Firebase 🔥
+        this.pasivoService.savePasivo(pasivo);
+
+      } else {
+        console.log('Si hay Pasivo previo');
+
+        //agrego el egreso al pasivo
+        pasivo.egresos?.push(this.egreso);
+
+        //actualizo en Firebase 🔥
+        this.pasivoService.savePasivo(pasivo,pasivo.id);
       }
+
     });
+    
   }
 }

@@ -1,1 +1,6 @@
-<button type="button" class="btn btn-primary" (click)="onClick()">TEST</button>
+<app-dashboard>
+    <div *ngFor="let i of categorias | async">
+        {{i.categoria}}
+        {{i.subCategorias}}
+    </div>
+</app-dashboard>

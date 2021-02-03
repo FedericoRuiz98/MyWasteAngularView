@@ -1,14 +1,14 @@
 <div class="card text-left shadow mt-2" *ngIf="chargeItems">
     <div class="card-body">
-      <h4>Carga de Items <span *ngIf="categoria">-  <i class="{{categoriaIcons[+categoriaIndex-1]}}"></i> {{categoria}}</span></h4>
+      <h4>Carga de Items <span *ngIf="categoria">- {{categoria.categoria}}</span></h4>
       
       <div class="row mb-1">        
         <div class="col-sm-5">
           <div class="form-group">
             <label for="sel1">Sub Categoria</label>
-            <select class="custom-select" [(ngModel)]="idSubCategoria">
+            <select class="custom-select" [(ngModel)]="subCategoria">
               <option hidden disabled selected value>-</option>
-              <option *ngFor="let sc of subCategorias" value="{{sc.idSubCategoria}}">{{sc.nombre}}</option>
+              <option *ngFor="let sc of categoria?.subCategorias as subCategoria" value="{{sc.nombre}}">{{sc.nombre}}</option>
             </select>
           </div> 
         </div>
@@ -22,7 +22,10 @@
         </div>  
   
         <div class="col-sm-1 text-center">
-          <button type="button" class="btn btn-waste btnAdd" (click)="addGasto()"><i class="fas fa-plus-circle"></i></button>
+          <button type="button" class="btn btn-waste btnAdd" 
+            (click)="addGasto()"
+            [ngStyle]="{'width': desktop ? '' : '100%'}"><i class="fas fa-plus-circle"></i>
+          </button>
         </div>
       </div>    
   
@@ -55,12 +58,13 @@
         </table>
       </div>    
   
-      <div class="text-center">
+      <div class="text-center mt-2">
         <button type="button" class=" btn btn-waste" style="width: 30%;" 
           (click)="saveGastos()" 
           [disabled]="!gastos.length"
           data-toggle="modal" 
-          data-target="#Modal">
+          data-target="#Modal"
+          [ngStyle]="{'width': desktop ? '20%' : '100%'}">
           <i class="fas fa-save"></i> Registrar Gasto
         </button> 
       </div>    

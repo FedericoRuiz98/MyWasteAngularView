@@ -4,14 +4,15 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { first } from 'rxjs/operators';
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
-import { User } from '../models/User';
+import { User } from '../models/User.interface';
+import { promise } from 'protractor';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  //public user: Observable<firebase.User>;
+  public usuario: firebase.User | null = null;
 
   constructor(public afauth: AngularFireAuth) {}
 
@@ -58,7 +59,6 @@ export class AuthService {
 
   async logout() {
     try {
-      console.log("Logout");
       await this.afauth.signOut();
     } catch (error) {
       console.log(error);
@@ -70,6 +70,7 @@ export class AuthService {
       return await this.afauth.fetchSignInMethodsForEmail(email);
     } catch (error) {
       console.log(error);
+      return null;
     }
   }
 
@@ -89,6 +90,14 @@ export class AuthService {
 
     if(email) {
       this.afauth.sendSignInLinkToEmail(email,actionCodeSettings);
+    }
+  }
+
+  async recoverPassword(email : string) : Promise<void> {
+    try {
+      return await this.afauth.sendPasswordResetEmail(email);
+    } catch (error) {
+      console.log(error);
     }
   }
 }

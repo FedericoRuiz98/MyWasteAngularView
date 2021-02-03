@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouteInfo } from 'src/app/models/Routes/RouteInfo';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
+  providers: [AuthService]
 })
 export class SidebarComponent implements OnInit {
 
@@ -25,10 +27,14 @@ export class SidebarComponent implements OnInit {
     new RouteInfo("/","Balance","")
   ];
 
+  
+
   constructor() { }
 
   ngOnInit(): void { 
     
   }
+
+  
 
 }

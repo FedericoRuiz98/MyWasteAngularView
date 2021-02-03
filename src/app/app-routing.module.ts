@@ -7,6 +7,8 @@ import { DashboardComponent } from './components/layout/dashboard/dashboard.comp
 import { RegisterComponent } from './components/auth/register/register.component';
 import { SendEmailComponent } from './components/auth/send-email/send-email.component';
 import { SuccessEmailComponent } from './components/auth/success-email/success-email.component';
+import { TestBtnComponent } from './components/test-btn/test-btn.component';
+import { RecoverPasswordComponent } from './components/auth/recover-password/recover-password.component';
 
 const routes: Routes = [
   {
@@ -37,6 +39,14 @@ const routes: Routes = [
   {
     path: 'account-confirm',
     component: SuccessEmailComponent
+  },
+  {
+    path: 'recover-password',
+    component: RecoverPasswordComponent
+  },
+  {
+    path: 'test',
+    component: TestBtnComponent
   }
 ];
 

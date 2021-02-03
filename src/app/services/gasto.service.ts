@@ -1,45 +1,46 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GlobalServiceService } from './global-service.service';
-import endsPoints from './config/endsPoints.json'
+import { async } from '@angular/core/testing';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Gasto } from '../models/Gasto';
-import { shareReplay } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { Gasto } from '../models/Gasto.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class GastoService extends GlobalServiceService{
+export class GastoService {
+  gastos: Observable<Gasto[]>;
+  private gastoCollection: AngularFirestoreCollection;
 
-  constructor(private http : HttpClient) {
-    super();
-   }
+  constructor(private readonly afs: AngularFirestore) {
+    this.gastoCollection = afs.collection<Gasto>('Gastos');
+    this.getGastos();
+  }
 
-   getAllGasto() : Observable<Gasto[]> {
-    this.url = this.baseurl+endsPoints.Gasto;
-    const httpResp = this.http.get<Gasto[]>(this.url).pipe(shareReplay());
-    this.debugResponse(httpResp,"Gastos");
-    return httpResp;
-   }
+  saveGasto(gasto : Gasto) : Promise<void>{
+    return new Promise(async (resolve,reject) => {
+      try {
+        const id = this.afs.createId();
+        const data = {id, ...gasto};
+        console.log(data);
+        const result = await this.gastoCollection.doc(id).set(data);
+        console.log(result);
+        resolve(result);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
 
-   getGastoByPasivo(id : number) : Observable<Gasto[]> {
-    this.url = this.baseurl+endsPoints.Gasto;
-    const httpResp = this.http.get<Gasto[]>(this.url+"/bypasivo/"+id).pipe(shareReplay());
-    this.debugResponse(httpResp,"Gastos");
-    return httpResp;
-   }
+  deleteGasto() {}
 
-   createGasto(gasto : Gasto) : Observable<Gasto> {
-    this.url = this.baseurl+endsPoints.Gasto;
-    const httpResp = this.http.post<Gasto>(this.url,{
-      "idSubCategoria": gasto.idSubCategoria,
-      "idPasivo": gasto.idPasivo,
-      "monto": gasto.monto,
-      "concepto": gasto.concepto
-    }).pipe(shareReplay());
-    this.debugResponse(httpResp,"Gastos");
-    return httpResp;
-   }
-   
+  getGastos(): void {
+    this.gastos = this.gastoCollection
+      .snapshotChanges()
+      .pipe(map((action) => action.map((a) => a.payload.doc.data() as Gasto)));
+  }
 }
-

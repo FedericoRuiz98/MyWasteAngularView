@@ -1,188 +1,152 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Categoria } from 'src/app/models/Categoria';
-import { CategoriaSubCategorias } from 'src/app/models/categoriaSubCategorias';
-import { Egreso } from 'src/app/models/Egreso';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { Observable } from 'rxjs';
+import { Categoria } from 'src/app/models/Categoria.interface';
+import { Egreso } from 'src/app/models/Egreso.interface';
 import { FormaDePago } from 'src/app/models/FormaDePago';
-import { Pasivo } from 'src/app/models/Pasivo';
-import { SubCategoria } from 'src/app/models/SubCategoria';
-import { EgresoService } from 'src/app/services/egreso.service';
-import { PasivoService } from 'src/app/services/pasivo.service';
-import { CategoriaUtil } from 'src/app/util/CategoriaUtil';
-import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-gasto-form',
   templateUrl: './gasto-form.component.html',
-  styleUrls: ['./gasto-form.component.scss']
+  styleUrls: ['./gasto-form.component.scss'],
+  providers: [AuthService],
 })
 export class GastoFormComponent implements OnInit {
-
-  subCategoriasFilter : SubCategoria[] = [];  
-  categoria : string = "";
-  idCategoria : string = "";
-  idFormaDePago : string = "";
-  idEgreso : string = "";
-  idPasivo : string = "";
-  currentDateString : string = (new Date()).toISOString().substring(0,10);
+  //Instancias
+  formaDePago: FormaDePago | undefined;
+  categoria: Categoria | undefined;
+  egreso: Egreso;
+  usuario: firebase.User | null;
+  currentDateString: string = new Date().toISOString().substring(0, 10);
 
   //flags
-  isLoaded : boolean = false;
-  isCredito : boolean = false;
-  chargeItems : boolean = false; //se puede empezar a cargar los items?
+  isLoaded: boolean = false;
+  catBool: boolean = false;
+  formBool: boolean = false;
+  chargeItems: boolean = false; //se puede empezar a cargar los items?
+  desktop: boolean = true;
+
+  //form inputs
+  Concepto: string = '';
+  interes: number = 0;
+  cuotas: number = 1;
 
   //inputs
-  @Input() categorias : Categoria[] = [];
-  @Input() subCategorias : SubCategoria[] = [];
-  @Input() formasDePago : FormaDePago[] = [];
-  @Input() categoriasSubCategorias : CategoriaSubCategorias[] = [];
-  
+  @Input() categorias: Observable<Categoria[]>;
+  @Input() formasDePago: Observable<FormaDePago[]>;
+
   //output
-  @Output() chargeItemsEmitter = new EventEmitter<boolean>(); //Emitter para poder empezar a cargar los items?
-  @Output() subCategoriasEmitter = new EventEmitter<SubCategoria[]>();
-  @Output() categoriaEmitter = new EventEmitter<string>();
-  @Output() categoriaIndexEmitter = new EventEmitter<string>();
-  @Output() EgresoIndexEmitter = new EventEmitter<string>();
-  @Output() PasivoIndexEmitter = new EventEmitter<string>();
+  @Output() egresoEmiter = new EventEmitter<Egreso>();
+  @Output() categoriaEmiter = new EventEmitter<Categoria>();
+  @Output() cargarItemsEmiter = new EventEmitter<boolean>();
 
   //invalid feedbacks
-  categoriaFromsFeedback : string = "";
+  categoriaFromsFeedback: string = '';
 
   constructor(
-    private egresoService : EgresoService,
-    private pasivoService : PasivoService) { }
-
-  ngOnInit(): void {
+    private auth: AuthService,
+    private deviceDetectorService : DeviceDetectorService
+  ) {
+    this.desktop = this.deviceDetectorService.isDesktop();
   }
 
+  ngOnInit(): void {}
+
   ngDoCheck() {
-    if(this.categorias.length && this.formasDePago.length) {
-      this.isLoaded = true;
+    //cargaron las categorias y las formas de pago?
+    if (!this.isLoaded) {
+      this.categorias.subscribe((resp) => {
+        this.catBool = true;
+      });
+      this.formasDePago.subscribe((resp) => {
+        this.formBool = true;
+      });
+      this.auth.getCurrentUser().then((resp) => {
+        this.usuario = resp;
+      });
+
+      if (this.formBool && this.catBool) {
+        this.isLoaded = true;
+      }
     }
   }
 
   //selects
-  formaDePagoChange(value : string) {
-    this.idFormaDePago = value;
-    if(value == "3") {
-      this.isCredito = true;
-    } else {
-      this.isCredito = false;
-    }
+  formaDePagoChange(value: string) {
+    this.formasDePago.subscribe((resp) => {
+      this.formaDePago = resp.find((f) => f.id == value);
+    });
   }
 
-  categoriaChange(value : string) {
-    this.idCategoria = value;
-    this.categoria = CategoriaUtil.getCategoriaString(this.idCategoria);
+  categoriaChange(value: string) {
+    this.categorias.subscribe((resp) => {
+      this.categoria = resp.find((f) => f.id == value);
+    });
+    //this.categoria = CategoriaUtil.getCategoriaString(this.idCategoria);
   }
 
-  //Permitir cargar items y filtar sub categorias
-  categoriasReady(idCategoria : number,formaDePago : number) {
-    if(idCategoria != 0 && formaDePago != 0) {
-
-      //no feedback
-      this.categoriaFromsFeedback = "";
-
-      //poder cargar items
-      this.dejarCararItems(true);
-
-      //busco id de las subcategorias que quiero
-      this.categoriasSubCategorias = this.categoriasSubCategorias.filter(csc => csc.idCategoria == idCategoria);
-
-      //filtro subcategorias
-      let subCategoriasNew : SubCategoria[] = [];
-      this.subCategorias.forEach(sc => {
-        this.categoriasSubCategorias.forEach(csc => {
-          if(sc.idSubCategoria == csc.idSubCategoria) {
-            subCategoriasNew.push(sc);
-          }
-        })
-      })
-
-      //subcategorias restantes
-      this.subCategorias = subCategoriasNew;
-      
-      //guardo subcategoria 8
-      var scOtros : any; 
-      this.subCategorias.forEach(sc => {
-        if(sc.idSubCategoria == 8) {
-          scOtros = sc;          
-        }        
-      })
-
-      //pongo subcategoria 8 al final si existe
-      if(scOtros) {
-        this.subCategorias = this.subCategorias.filter(sc => sc.idSubCategoria != 8);
-        this.subCategorias.push(scOtros);
-      }
-
-      this.subCategoriasFilter = this.subCategorias; 
-
-      //Crear Egreso Mensual
-      this.generateEgreso();           
-    } else {
-      //feedback
-      this.categoriaFromsFeedback = "Los campos categoria y forma de pago son obligatorios";
-
-      //No poder cargar items
-      this.dejarCararItems(false);
-    }
-  }
-
-  private dejarCararItems(flag : boolean) {
-    if(flag) {
+  private dejarCararItems(flag: boolean) {
+    if (flag) {
       this.chargeItems = true;
     } else {
-      this.chargeItems = false;      
-    }        
+      this.chargeItems = false;
+    }
   }
 
-  //emitir variables y arrays al padre (Gastos)
   private emitToFather() {
-    this.chargeItemsEmitter.emit(this.chargeItems);
-    this.subCategoriasEmitter.emit(this.subCategoriasFilter); 
-    this.categoriaEmitter.emit(this.categoria);
-    this.categoriaIndexEmitter.emit(this.idCategoria); 
-    this.EgresoIndexEmitter.emit(this.idEgreso);
-    this.PasivoIndexEmitter.emit(this.idPasivo);
+    this.egresoEmiter.emit(this.egreso);
+    this.categoriaEmiter.emit(this.categoria);
+    this.cargarItemsEmiter.emit(this.chargeItems);
   }
 
-  //Crear en la bd el egreso de este mes
-  private generateEgreso() : void {
-
-    //harcodeado
+  generateEgreso(): void {
     let todayDate = new Date();
-    const email = "federicofruiz@hotmail.com";
-    const mes = DateUtilSpanish.monthToString(todayDate.getMonth());
-    const year = todayDate.getFullYear().toString();    
+    const email = this.usuario?.email;
 
-    this.egresoService.getEgresosByEmailAndDate(email,mes,year).subscribe(resp => {
-      if(resp.length == 0) {
-        let egreso = new Egreso(email,mes,year);
-        this.egresoService.createEgreso(egreso).subscribe(e => {
-          console.log("No habia in Egreso previo: id nuevo "+e.idEgreso);
-          //crar pasivo del egreso
-          this.generatePasivo(e.idEgreso);
-        });         
+    if (this.categoria && this.formaDePago && email) {
+      if (!this.formaDePago.cuotas) {
+        this.categoriaFromsFeedback = '';
+        this.dejarCararItems(true);
+
+        //completar egerso
+        this.egreso = {
+          categoria: this.categoria?.categoria,
+          email: email.toLowerCase(),
+          fecha: todayDate,
+          concepto: this.Concepto.toLowerCase(),
+          formaDepago: this.formaDePago.nombre,
+        };
+
+        //emitir
+        this.emitToFather();
+
       } else {
-        let egreso = resp[0];
-        console.log("Hay Egreso previo: id ",egreso.idEgreso);
-        this.generatePasivo(egreso.idEgreso);
+        if (this.cuotas > 0) {
+          this.categoriaFromsFeedback = '';
+          this.dejarCararItems(true);
+
+          //completar egerso
+          this.egreso = {
+            categoria: this.categoria?.categoria,
+            email: email,
+            fecha: todayDate,
+            concepto: this.Concepto,
+            formaDepago: this.formaDePago.nombre,
+            cuotas: this.cuotas,
+            interes: this.interes,
+          };
+
+          //emitir
+          this.emitToFather();
+
+        } else {
+          this.categoriaFromsFeedback = 'El campo Cuotas es obligatorios.';
+        }
       }
-    },
-    error => console.log(error));    
-  }
-
-  private generatePasivo(idEgreso : number) : void {
-    let todayDate = new Date();
-    let pasivo = new Pasivo(+this.idFormaDePago,+this.idCategoria,idEgreso,todayDate);
-    
-    this.pasivoService.createPasivo(pasivo).subscribe(resp => {
-      this.idEgreso = resp.idEgreso.toString();
-      this.idPasivo = resp.idPasivo.toString();
-
-      //Como es la ultima operacion que realizon, espero a que termine para mandar la info a su padre
-      //emit
-      this.emitToFather();
-    });
+    } else {
+      this.categoriaFromsFeedback =
+        'Los campos Categorias y Formas de Pago son obligatorios.';
+    }
   }
 }

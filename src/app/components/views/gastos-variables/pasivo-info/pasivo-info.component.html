@@ -6,16 +6,16 @@
 
     <hr class="m-0">
 
-    <div *ngIf="p.total != 0">    
+    <div>    
       <div class="pasivo-card d-flex text-muted pt-3" >
-        <h1><span class="badge badge-{{p.categoria}}"><i class="{{p.categoriaIcon}}"></i></span></h1>
+        <h1><span class="badge badge"><i class=""></i></span></h1>
 
           <div class="ml-2 mb-0 small lh-sm w-100">
             <div class="d-flex justify-content-between">
-              <strong class="text-gray-dark">{{p.categoria}}</strong>              
+              <strong class="text-gray-dark"></strong>              
             </div>
-            <span class="d-block">{{p.fecha | date: 'dd/MM/yyyy'}}</span>
-            <span class="d-block">total: {{p.total | currency}}</span>
+            <span class="d-block">{{1 | date: 'dd/MM/yyyy'}}</span>
+            <span class="d-block">total: {{12 | currency}}</span>
             <a class="btn btn-outline-waste btn-drop" (click)="toggleGastos(i)">
               <i class="fas fa-angle-down" *ngIf="!openTable[i]"></i>
               <i class="fas fa-angle-up" *ngIf="openTable[i]"></i>
@@ -24,8 +24,8 @@
       </div>      
 
       <app-gasto-info
-        [idPasivo]="p.idPasivo"
-        [total]="p.total"
+        [idPasivo]="1"
+        [total]="1"
         [openTable]="openTable[i]">
       </app-gasto-info> 
     </div>

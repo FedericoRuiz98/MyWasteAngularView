@@ -1,55 +1,53 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
-import { Egreso } from '../models/Egreso';
-import endsPoints from './config/endsPoints.json'
-import { GlobalServiceService } from './global-service.service';
+import { map, shareReplay } from 'rxjs/operators';
+import { Egreso } from '../models/Egreso.interface';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class EgresoService extends GlobalServiceService {
+export class EgresoService {
 
-  url = this.baseurl+endsPoints.Egreso;
+  egresos: Observable<Egreso[]>;
+  private egresoCollection: AngularFirestoreCollection;
 
-  constructor(private http : HttpClient) {
-    super();
+  constructor(private readonly afs: AngularFirestore) {
+    this.egresoCollection = afs.collection<Egreso>('Egresos');
+    this.getEgresos();
   }
 
-  public getAllEgresos() : Observable<Egreso[]> {
-    const httpResp = this.http.get<Egreso[]>(this.url).pipe(shareReplay());
-    this.debugResponse(httpResp,"Egreso");
-    return httpResp;
+  saveEgreso(egreso : Egreso) : Promise<void>{
+    return new Promise(async (resolve,reject) => {
+      try {
+        const id = this.afs.createId();
+        const data = {id, ...egreso};
+        console.log(data);
+        const result = await this.egresoCollection.doc(id).set(data);
+        console.log(result);
+        resolve(result);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
-  public getEgresosByEmail(email : string) : Observable<Egreso[]> {
-    const httpResp = this.http.get<Egreso[]>(this.url+"/byEmail/"+email).pipe(shareReplay());
-    this.debugResponse(httpResp,"Egreso");
-    return httpResp;
+  deleteEgreso(idEgreso : string) : Promise<void>{
+    return new Promise(async (resolve,reject) => {
+      try {
+        const resp = await this.egresoCollection.doc(idEgreso).delete();
+      } catch (error) {
+        reject(error);
+      }
+    })
   }
 
-  public getEgresoById(id : number) : Observable<Egreso[]> {
-    const httpResp = this.http.get<Egreso[]>(this.url+"/byId/"+id).pipe(shareReplay());
-    this.debugResponse(httpResp,"Egreso");
-    return httpResp;
+  getEgresos(): void {
+    this.egresos = this.egresoCollection
+      .snapshotChanges()
+      .pipe(map((action) => action.map((a) => a.payload.doc.data() as Egreso)));
   }
-
-  public createEgreso(egreso : Egreso) : Observable<Egreso> {
-    const httpResp = this.http.post<Egreso>(this.url, {
-      "mes": egreso.mes,
-      "email": egreso.email,
-      "year": egreso.year,
-      "total": egreso.total
-    }).pipe(shareReplay());
-
-    this.debugResponse(httpResp,"Egreso");
-    return httpResp;
-  }
-
-  public getEgresosByEmailAndDate(email : string,mes : string,year : string) : Observable<Egreso[]> {
-    const httpResp = this.http.get<Egreso[]>(this.url+"/byEmail/date/"+email+"&"+mes+"&"+year).pipe(shareReplay());
-    this.debugResponse(httpResp,"Egreso");
-    return httpResp;
-  }
+ 
 }

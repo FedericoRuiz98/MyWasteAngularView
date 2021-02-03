@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Egreso, IEgreso } from 'src/app/models/Egreso';
+import { Egreso } from 'src/app/models/Egreso.interface';
 import { EgresoService } from 'src/app/services/egreso.service';
 import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
 
@@ -33,13 +33,14 @@ export class TableGastosVariablesComponent implements OnInit {
     const year = todayDate.getFullYear().toString(); 
     this.fecha = mes+" del "+todayDate.getFullYear();
     
-    this.egresoService.getEgresosByEmailAndDate(email,mes,year).subscribe(resp => {
+    /*this.egresoService.getEgresosByEmailAndDate(email,mes,year).subscribe(resp => {
       let egreso : Egreso = resp[0];
       this.year = egreso.year;
       this.idEgreso = egreso.idEgreso;
       this.mes = egreso.mes;
       this.total = egreso.total;
     });
+    */
   }
 
 }
