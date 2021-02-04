@@ -4,6 +4,7 @@ export interface Egreso {
     idEgreso? : string;
     concepto? : string;
     categoria : string;
+    icon? : string,
     formaDepago : string;
     fecha : Date;
     idPasivo?: number;

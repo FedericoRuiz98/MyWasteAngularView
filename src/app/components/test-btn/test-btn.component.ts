@@ -9,7 +9,7 @@ import { Gasto } from 'src/app/models/Gasto.interface';
 import { Categoria } from 'src/app/models/Categoria.interface';
 import { SubCategoria } from 'src/app/models/SubCategoria.interface';
 import { FormaDePagoService } from 'src/app/services/forma-de-pago.service';
-import { FormaDePago } from 'src/app/models/FormaDePago';
+import { FormaDePago } from 'src/app/models/FormaDePago.interface';
 import { Pasivo } from 'src/app/models/Pasivo.interface';
 import { Console } from 'console';
 import { PasivoService } from 'src/app/services/pasivo.service';

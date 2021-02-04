@@ -2,20 +2,24 @@
 
 <div *ngIf="isLoaded">
 
-  <div *ngFor="let p of pasivos; index as i">
+  <div *ngFor="let e of egresos; index as i">
 
     <hr class="m-0">
 
     <div>    
       <div class="pasivo-card d-flex text-muted pt-3" >
-        <h1><span class="badge badge"><i class=""></i></span></h1>
+        <h1><span class="badge badge-{{e.categoria}}"><i class="{{e.icon}} text-white"></i></span></h1>
 
           <div class="ml-2 mb-0 small lh-sm w-100">
             <div class="d-flex justify-content-between">
               <strong class="text-gray-dark"></strong>              
             </div>
-            <span class="d-block">{{1 | date: 'dd/MM/yyyy'}}</span>
-            <span class="d-block">total: {{12 | currency}}</span>
+            <span class="d-block">{{e.fecha.toMillis()  | date: 'dd/MM/yyyy'}}</span>
+            <span class="d-block">
+              total: <span class="text-dark">{{e.total | currency}}</span> {{e.formaDepago}}
+              <span *ngIf="e.cuotas">({{e.cuotas}} cuota<span *ngIf="e.cuotas>1">s</span>)</span>
+            </span>
+            <span class="d-block" *ngIf="e.concepto">Concepto: <span class="text-waste">{{e.concepto}}</span></span>
             <a class="btn btn-outline-waste btn-drop" (click)="toggleGastos(i)">
               <i class="fas fa-angle-down" *ngIf="!openTable[i]"></i>
               <i class="fas fa-angle-up" *ngIf="openTable[i]"></i>
@@ -24,8 +28,7 @@
       </div>      
 
       <app-gasto-info
-        [idPasivo]="1"
-        [total]="1"
+        [egreso]="e"
         [openTable]="openTable[i]">
       </app-gasto-info> 
     </div>

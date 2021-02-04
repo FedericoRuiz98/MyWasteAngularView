@@ -3,7 +3,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { Observable } from 'rxjs';
 import { Categoria } from 'src/app/models/Categoria.interface';
 import { Egreso } from 'src/app/models/Egreso.interface';
-import { FormaDePago } from 'src/app/models/FormaDePago';
+import { FormaDePago } from 'src/app/models/FormaDePago.interface';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({

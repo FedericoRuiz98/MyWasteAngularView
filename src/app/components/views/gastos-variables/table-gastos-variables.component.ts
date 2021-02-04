@@ -1,46 +1,57 @@
 import { Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { Egreso } from 'src/app/models/Egreso.interface';
-import { EgresoService } from 'src/app/services/egreso.service';
+import { Pasivo } from 'src/app/models/Pasivo.interface';
+import { AuthService } from 'src/app/services/auth.service';
+import { PasivoService } from 'src/app/services/pasivo.service';
 import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
 
 @Component({
   selector: 'app-table-gastos-variables',
   templateUrl: './table-gastos-variables.component.html',
-  styleUrls: ['./table-gastos-variables.component.scss']
+  styleUrls: ['./table-gastos-variables.component.scss'],
+  providers: [AuthService]
 })
 export class TableGastosVariablesComponent implements OnInit {
 
-  
-  idEgreso : number = 0;
-  year : string = "";
-  mes : string = "";
+  pasivo : Pasivo | undefined;
+  todayDate : Date;
   total : number = 0;
-  fecha : string = "";
 
+  usuario: firebase.User | null;
 
   constructor(
-    private egresoService : EgresoService) { }
+    private pasivoService : PasivoService,
+    private auth: AuthService) { 
+      //traigo al usuario
+      this.auth.getCurrentUser().then(resp => {
+        this.usuario = resp;
+        this.todayDate = new Date();
 
-  ngOnInit(): void {
-    this.getEgreso();
+        //traigo los pasivos de este mes y usuario
+        this.pasivoService.pasivos.pipe(take(1)).subscribe(resp => {
+          this.pasivo = resp.find(p => {
+            return p.email == this.usuario?.email 
+              && p.year == this.todayDate.getFullYear().toString()
+              && p.mes == DateUtilSpanish.monthToString(this.todayDate.getMonth())
+          })
+
+          //calcular total
+          if(this.pasivo?.egresos) {
+            let egresos : Egreso[] = this.pasivo.egresos;
+
+            console.log(egresos)
+            egresos.forEach(e => {
+              if(e.total) {
+                this.total += e.total;
+              }
+            })
+          }
+        });
+      });
   }
 
-  private getEgreso() {
-    //harcodeado
-    let todayDate = new Date();
-    const email = "federicofruiz@hotmail.com";
-    const mes = DateUtilSpanish.monthToString(todayDate.getMonth());
-    const year = todayDate.getFullYear().toString(); 
-    this.fecha = mes+" del "+todayDate.getFullYear();
-    
-    /*this.egresoService.getEgresosByEmailAndDate(email,mes,year).subscribe(resp => {
-      let egreso : Egreso = resp[0];
-      this.year = egreso.year;
-      this.idEgreso = egreso.idEgreso;
-      this.mes = egreso.mes;
-      this.total = egreso.total;
-    });
-    */
+  ngOnInit(): void {
   }
 
 }

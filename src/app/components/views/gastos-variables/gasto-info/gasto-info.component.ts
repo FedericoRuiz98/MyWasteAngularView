@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Egreso } from 'src/app/models/Egreso.interface';
 import { Gasto } from 'src/app/models/Gasto.interface';
 import { GastoService } from 'src/app/services/gasto.service';
 import { CategoriaUtil } from 'src/app/util/CategoriaUtil';
@@ -11,8 +12,7 @@ import { CategoriaUtil } from 'src/app/util/CategoriaUtil';
 export class GastoInfoComponent implements OnInit {
 
   //input
-  @Input() idPasivo : number = 0;
-  @Input() total : number = 0;
+  @Input() egreso : Egreso;
   @Input() openTable : boolean = false;
 
   //flag
@@ -20,32 +20,21 @@ export class GastoInfoComponent implements OnInit {
   spawn : boolean = true;
 
   //arrays
-  gastos : Gasto[] = [];
+  gastos : Gasto[] | undefined = [];
 
   constructor(private gastoService : GastoService) { }
 
   ngOnInit(): void {
-    
+    if(this.egreso) {
+      this.gastos = this.egreso.gastos;
+    }
   }
 
   ngDoCheck() {
-    /*
-    if(this.openTable && this.spawn) {
-      this.gastoService.getGastoByPasivo(this.idPasivo).subscribe(resp => {
-        resp.forEach(g => {
-          let gasto : Gasto = g;
-          gasto.subCategoriaNombre = CategoriaUtil.getSubCategoriaString(gasto.idSubCategoria-1);
-          this.gastos.push(gasto);
-
-          //no traer mas gastos una vez abierto
-          this.spawn = false;
-        })      
-      })
-    }
-    */
-
-    if(this.gastos.length) {
-      this.isLoaded = true;
+    if(this.gastos) {
+      if(this.gastos.length) {
+        this.isLoaded = true;
+      }
     }
   }
 

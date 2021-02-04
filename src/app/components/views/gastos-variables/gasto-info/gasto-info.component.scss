@@ -7,3 +7,9 @@
   display: none;
   transition: display 0s, opacity 0.5s linear;
 }
+
+.long-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

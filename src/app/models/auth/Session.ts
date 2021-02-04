@@ -1,6 +1,6 @@
 
 import { Categoria } from "../Categoria.interface";
-import { FormaDePago } from "../FormaDePago";
+import { FormaDePago } from "../FormaDePago.interface";
 import { SubCategoria } from "../SubCategoria.interface";
 import { Usuario } from "./Usuario";
 

@@ -25,9 +25,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.auth.getCurrentUser().then(resp => {
       this.usuario = resp;
-
-      console.log(this.usuario);
-      console.log(this.usuario?.photoURL);
     });
   }
 

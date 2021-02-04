@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Egreso } from 'src/app/models/Egreso.interface';
 import { Gasto } from 'src/app/models/Gasto.interface';
 import { Pasivo } from 'src/app/models/Pasivo.interface';
+import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaDePagoService } from 'src/app/services/forma-de-pago.service';
 import { GastoService } from 'src/app/services/gasto.service';
 import { PasivoService } from 'src/app/services/pasivo.service';
@@ -16,65 +17,39 @@ import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
 export class PasivoInfoComponent implements OnInit {
 
   //flags
-  isLoaded : boolean = false;
-
-  //ids
-  idCategoria : number = 0;
-  idFormaDePago : number = 0;
+  isLoaded : boolean = true;
 
   //arrays
-  gastos : Gasto[] = [];
-  pasivos : Pasivo[] = [];
+  egresos : Egreso[] | undefined = [];
   openTable : boolean[] = [];
 
   //input
-  @Input() idEgreso : number = 0;
-  @Input() year : string = "";
-  @Input() mes : string = "";
-  @Input() total : number = 0;
+  @Input() pasivo : Pasivo;
 
-
-  constructor(
-    private pasivoService : PasivoService,
-    private gastoService : GastoService,
-    private formaDePagoService : FormaDePagoService) { }
+  constructor(private categoriaService : CategoriaService) { }
 
   ngOnInit(): void {
-        
-    //traer pasivos
-    /*this.pasivoService.getPasivoByEgreso(this.idEgreso).subscribe(resp => {      
-      if(resp.length) {
-        //guardos todos los pasivos en una lista
-        resp.forEach(p => {
-          let pasivo : Pasivo = p;
-          p.categoriaIcon = CategoriaUtil.getCategoriaIcon(p.idCategoria-1);
-          p.categoria = CategoriaUtil.getCategoriaString(p.idCategoria.toString());
-          this.pasivos.push(pasivo);
-        }); 
+    if(this.pasivo) {
+      this.egresos = this.pasivo.egresos;
 
-        //ordenar
-        this.pasivos.sort((a: Pasivo, b: Pasivo) => {
-          return b.idPasivo - a.idPasivo;
-        });      
+      //traer icono
+      this.egresos?.forEach(e => {
+        this.categoriaService.categorias.subscribe(categoria => {
+          //buscar categoria
+          let cat = categoria.find(c => c.categoria == e.categoria);
+          e.icon = cat?.icon;
+        })
+      })
 
-        //lista parar abir los gastos
-        for (let i = 0; i < resp.length; i++) {
-          this.openTable.push(false);           
-        }
-        console.log(this.openTable);         
-      }                       
-    });*/
-
-    //traer gastos
-    /*this.gastoService.getAllGasto().subscribe(resp => {
-      this.gastos = resp;
-    });*/
+      //ordenar egresos
+      this.egresos?.sort((a,b) => {
+        return (b.fecha.seconds - a.fecha.seconds);
+      });
+    }
   }
 
   ngDoCheck() {
-    if(this.pasivos.length) {
-      this.isLoaded = true;
-    }
+   
   }
 
   toggleGastos(index : number) : void {

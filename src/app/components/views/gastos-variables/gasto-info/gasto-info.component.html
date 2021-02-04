@@ -14,7 +14,7 @@
     <tr *ngFor="let g of gastos; index as i"> 
         <td class="col-2" scope="row">{{i+1}}</td>
         <td class="col-4">{{g.subCategoria}}</td>
-        <td class="col-3">{{g.concepto}}</td>
+        <td class="col-3 long-text">{{g.concepto}}</td>
         <td class="col-3" [ngClass]="{'text-green': g.monto<0,'text-danger': g.monto>0}">
             <div *ngIf="g.monto<0">
                 {{g.monto*-1 | currency}}
@@ -24,11 +24,11 @@
             </div>                                                
         </td>                                                
     </tr>
-    <tr> 
+    <tr *ngIf="gastos.length > 1"> 
         <td class="col-2"></td>
         <td class="col-4"></td>
         <td class="col-3"></td>
-        <td class="col-3 text-danger h5">{{total | currency}}</td>
+        <td class="col-3 text-danger h5" >{{egreso.total | currency}}</td>
     </tr>
     </tbody>
 </table>

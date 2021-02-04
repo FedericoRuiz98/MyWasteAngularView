@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FormaDePago } from '../models/FormaDePago';
+import { FormaDePago } from '../models/FormaDePago.interface';
 
 
 @Injectable({

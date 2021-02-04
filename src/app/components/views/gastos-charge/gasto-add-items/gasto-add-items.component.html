@@ -1,7 +1,7 @@
 <div class="card text-left shadow mt-2" *ngIf="chargeItems">
     <div class="card-body">
-      <h4>Carga de Items <span *ngIf="categoria">- {{categoria.categoria}}</span></h4>
-      
+      <h4>Carga de Items <span class="badge badge-{{categoria.categoria}}" *ngIf="categoria"> <i class="{{categoria.icon}} text-white"> {{categoria.categoria}}</i></span></h4>
+
       <div class="row mb-1">        
         <div class="col-sm-5">
           <div class="form-group">
@@ -32,21 +32,21 @@
       <p *ngIf="gastosFormsFeedback" class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{gastosFormsFeedback}}</p>
   
       <div *ngIf="gastos.length >0">
-        <h2 class="mb-3" style="float: left;"><span class="badge badge-waste">Total: {{total | currency}}</span></h2>
+        <h2 class="mb-3" style="float: left;"><span class="badge badge-waste">Total: {{+total | currency}}</span></h2>
   
         <table class="table table-hover table-sm" >
           <thead>
             <tr>
-              <th class="col-2">ID</th>
+              <th class="col-2" *ngIf="desktop">ID</th>
               <th class="col-3">Categoria</th>
               <th class="col-3">Concepto</th>
               <th class="col-3">Monto</th>
-              <th class="col-1">ACCIONES</th>
+              <th class="col-1" *ngIf="desktop">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let g of gastos; let i = index"> 
-              <td class="col-2" scope="row">{{i+1}}</td>
+              <td class="col-2" scope="row" *ngIf="desktop">{{i+1}}</td>
               <td class="col-3">{{g.subCategoria}}</td>
               <td class="col-3">{{g.concepto}}</td>
               <td class="col-3">{{g.monto | currency}}</td>

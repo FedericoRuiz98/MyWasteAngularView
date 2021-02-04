@@ -1,5 +1,5 @@
 import { Egreso } from "./Egreso.interface";
-import { FormaDePago } from "./FormaDePago";
+import { FormaDePago } from "./FormaDePago.interface";
 
 export interface Pasivo {
     id? : string,
