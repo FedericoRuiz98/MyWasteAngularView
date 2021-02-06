@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,10 +8,17 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  toggleSideBar : boolean = true;
-  toggled = "toggled";
+  toggleSideBar : boolean = false;
+  toggled = "";
+  headerTop : string = "";
 
-  constructor() { }
+  constructor(private deviceDetectorService : DeviceDetectorService) { 
+    let desktop = this.deviceDetectorService.isDesktop();
+
+    if(!desktop) {
+      this.headerTop = ""//"fixed-top";
+    }
+  }
 
   ngOnInit(): void {
   }
@@ -24,14 +32,6 @@ export class DashboardComponent implements OnInit {
       this.toggled = "";
     }
     console.log(this.toggleSideBar);
-  }
-
-  isInMobile() {
-    if(window.innerWidth > 900) {
-      return false;
-    } else {
-      return true;
-    }
   }
 
 }

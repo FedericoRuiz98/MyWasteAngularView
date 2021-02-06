@@ -4,7 +4,7 @@
 <table class="table table-hover table-sm" *ngIf="isLoaded" [ngClass]="{'toggle': openTable,'not-toggle' : !openTable}">
     <thead>
     <tr>
-        <th class="col-2">ID</th>
+        <th class="col-2" *ngIf="desktop">ID</th>
         <th class="col-4">Sub Categoria</th>
         <th class="col-3">Concepto</th>
         <th class="col-3">Monto</th>
@@ -12,9 +12,13 @@
     </thead>
     <tbody>
     <tr *ngFor="let g of gastos; index as i"> 
-        <td class="col-2" scope="row">{{i+1}}</td>
+        <td class="col-2" scope="row" *ngIf="desktop">{{i+1}}</td>
         <td class="col-4">{{g.subCategoria}}</td>
-        <td class="col-3 long-text">{{g.concepto}}</td>
+        <td class="col-3">
+            <span class="long-text"
+                [ngStyle]="{'max-width': !desktop ? '80px' : '450px'}">{{g.concepto}}
+            </span>
+        </td>
         <td class="col-3" [ngClass]="{'text-green': g.monto<0,'text-danger': g.monto>0}">
             <div *ngIf="g.monto<0">
                 {{g.monto*-1 | currency}}
@@ -24,8 +28,8 @@
             </div>                                                
         </td>                                                
     </tr>
-    <tr *ngIf="gastos.length > 1"> 
-        <td class="col-2"></td>
+    <tr *ngIf="gastos!.length > 1"> 
+        <td class="col-2" *ngIf="desktop"></td>
         <td class="col-4"></td>
         <td class="col-3"></td>
         <td class="col-3 text-danger h5" >{{egreso.total | currency}}</td>

@@ -2,6 +2,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { Session } from 'src/app/models/auth/Session';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,7 +15,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
 
   //@Output() sessionEmitter = new EventEmitter();
-
+  desktop : boolean = true;
   LoginForm = new FormGroup({
     email: new FormControl("", [
       Validators.required,
@@ -35,7 +36,10 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private titleService: Title) { }
+    private titleService: Title,
+    private deviceDetectorService : DeviceDetectorService) { 
+      this.desktop = this.deviceDetectorService.isDesktop();
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle('WasMo - Login');
@@ -49,7 +53,7 @@ export class LoginComponent implements OnInit {
     const resp = await this.auth.loginGoogle();
 
     if(resp) {
-      this.router.navigate(['/test']);
+      this.router.navigate(['/home']);
     }
   }
 
@@ -70,7 +74,7 @@ export class LoginComponent implements OnInit {
           //email verificado?
           if(resp.user?.emailVerified) {
             this.feedback = "";
-            this.router.navigate(['/test']);
+            this.router.navigate(['/home']);
           } else {
             this.feedback = "Necesitas verificar tu email.";
           }  

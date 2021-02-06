@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -12,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
+  desktop : boolean = true;
   RegisterForm = new FormGroup({
     email: new FormControl("", [
       Validators.required,
@@ -37,7 +39,10 @@ export class RegisterComponent implements OnInit {
   constructor(
       private auth: AuthService, 
       private router : Router,
-      private titleService: Title) { }
+      private titleService: Title,
+      private deviceDetectorService : DeviceDetectorService) { 
+        this.desktop = this.deviceDetectorService.isDesktop();
+      }
 
   ngOnInit(): void {
     this.titleService.setTitle('WasMo - Register');

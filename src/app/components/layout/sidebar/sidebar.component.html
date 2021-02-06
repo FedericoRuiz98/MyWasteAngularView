@@ -1,6 +1,6 @@
 <div class="sidebar-sticky bg-dark text-white">    
     <div class="text-center">
-        <a class="navbar-brand text-white" href="#">
+        <a class="navbar-brand text-white" [routerLink]="['/home']">
             <img src="/assets/svg/MyWasteAppLogo.svg" width="30" height="30" class="mb-1">
             <span class="ml-1">WasMo</span>          
         </a>
@@ -39,20 +39,25 @@
             [routerLink]="['/gastos/variables']">                                
                 <p class="font-weight-light"><i class="fas fa-list"></i> Gastos variables</p>
             </a>
+
+            <a class="nav-custom" role="button"
+            [routerLink]="['/gastos/variables']">                                
+                <p class="font-weight-light"><i class="fas fa-list"></i> Gastos Fijos</p>
+            </a>
         </li>         
 
         <p class="text-white mt-2">Ingresos</p>
         <li routerLinkActive="active" class="nav-item">
             <a class="nav-custom" role="button">                                
-                <p class="font-weight-light"><i class="fas fa-file-upload"></i> Cargar</p>
+                <p class="font-weight-light"><i class="fas fa-file-upload"></i> Cargar Ingreso</p>
             </a>
 
             <a class="nav-custom" role="button">                                
-                <p class="font-weight-light"><i class="fas fa-list"></i> Listas</p>
+                <p class="font-weight-light"><i class="fas fa-list"></i> Ingresos</p>
             </a>
         </li>
 
-        <p class="text-white mt-2">Etiquetas</p>
+        <!-- <p class="text-white mt-2">Etiquetas</p>
         <li routerLinkActive="active" class="nav-item">
             <a class="nav-custom" role="button">                                
                 <p class="font-weight-light"><i class="fas fa-tag"></i> Categorias</p>
@@ -68,11 +73,11 @@
             <a class="nav-custom" role="button">                                
                 <p class="font-weight-light"><i class="fas fa-chart-line"></i> Balance</p>
             </a>
-
+            
             <a class="nav-custom" role="button">                                
                 <p class="font-weight-light"><i class="fas fa-chart-pie"></i> Consumo</p>
             </a>
-        </li>
+        </li> -->
 
     </ul>
 </div>

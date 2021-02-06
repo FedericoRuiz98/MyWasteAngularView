@@ -14,13 +14,15 @@
             <div class="d-flex justify-content-between">
               <strong class="text-gray-dark"></strong>              
             </div>
-            <span class="d-block">{{e.fecha.toMillis()  | date: 'dd/MM/yyyy'}}</span>
+            <span class="d-block">{{e.fecha.toMillis()  | date: 'dd/MM/yyyy'}} 
+              <span class="badge badge-waste" *ngIf="(todayDate.getTime() - e.fecha.toDate().getTime())/1000/60/60 < 2">NEW</span>
+            </span>
             <span class="d-block">
               total: <span class="text-dark">{{e.total | currency}}</span> {{e.formaDepago}}
               <span *ngIf="e.cuotas">({{e.cuotas}} cuota<span *ngIf="e.cuotas>1">s</span>)</span>
             </span>
             <span class="d-block" *ngIf="e.concepto">Concepto: <span class="text-waste">{{e.concepto}}</span></span>
-            <a class="btn btn-outline-waste btn-drop" (click)="toggleGastos(i)">
+            <a class="btn btn-outline-waste btn-drop" (click)="toggleGastos(i)" *ngIf="e.gastos && e.gastos.length > 1">
               <i class="fas fa-angle-down" *ngIf="!openTable[i]"></i>
               <i class="fas fa-angle-up" *ngIf="openTable[i]"></i>
             </a>
@@ -28,6 +30,7 @@
       </div>      
 
       <app-gasto-info
+        *ngIf="e.gastos && e.gastos.length > 1"
         [egreso]="e"
         [openTable]="openTable[i]">
       </app-gasto-info> 

@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent implements OnInit {
 
   @Output() sidebarShow = new EventEmitter<boolean>();
-  flag : boolean = true;
+  flag : boolean = false;
   usuario : firebase.User | null = null;
   desktop : boolean = true
 

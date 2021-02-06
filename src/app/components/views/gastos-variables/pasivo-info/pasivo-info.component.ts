@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { timestamp } from 'rxjs/operators';
 import { Egreso } from 'src/app/models/Egreso.interface';
-import { Gasto } from 'src/app/models/Gasto.interface';
 import { Pasivo } from 'src/app/models/Pasivo.interface';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { FormaDePagoService } from 'src/app/services/forma-de-pago.service';
@@ -16,8 +16,11 @@ import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
 })
 export class PasivoInfoComponent implements OnInit {
 
+  todayDate = new Date();
+  
   //flags
-  isLoaded : boolean = true;
+  isLoaded : boolean = false;
+  iconsReady : boolean = false;
 
   //arrays
   egresos : Egreso[] | undefined = [];
@@ -38,18 +41,24 @@ export class PasivoInfoComponent implements OnInit {
           //buscar categoria
           let cat = categoria.find(c => c.categoria == e.categoria);
           e.icon = cat?.icon;
+          this.iconsReady = true;
         })
       })
+      
 
       //ordenar egresos
       this.egresos?.sort((a,b) => {
         return (b.fecha.seconds - a.fecha.seconds);
       });
+
+      
     }
   }
 
   ngDoCheck() {
-   
+   if(this.egresos!.length && this.iconsReady) {
+     this.isLoaded = true;
+   }
   }
 
   toggleGastos(index : number) : void {

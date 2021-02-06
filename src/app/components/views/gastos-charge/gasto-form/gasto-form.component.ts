@@ -1,10 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Categoria } from 'src/app/models/Categoria.interface';
 import { Egreso } from 'src/app/models/Egreso.interface';
 import { FormaDePago } from 'src/app/models/FormaDePago.interface';
+import { Pasivo } from 'src/app/models/Pasivo.interface';
 import { AuthService } from 'src/app/services/auth.service';
+import { PasivoService } from 'src/app/services/pasivo.service';
+import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
 
 @Component({
   selector: 'app-gasto-form',
@@ -26,11 +30,13 @@ export class GastoFormComponent implements OnInit {
   formBool: boolean = false;
   chargeItems: boolean = false; //se puede empezar a cargar los items?
   desktop: boolean = true;
+  fastCharge : boolean = false;
 
   //form inputs
   Concepto: string = '';
   interes: number = 0;
   cuotas: number = 1;
+  total: number = 0;
 
   //inputs
   @Input() categorias: Observable<Categoria[]>;
@@ -46,7 +52,8 @@ export class GastoFormComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private deviceDetectorService : DeviceDetectorService
+    private deviceDetectorService : DeviceDetectorService,
+    private pasivoService : PasivoService
   ) {
     this.desktop = this.deviceDetectorService.isDesktop();
   }
@@ -57,10 +64,10 @@ export class GastoFormComponent implements OnInit {
     //cargaron las categorias y las formas de pago?
     if (!this.isLoaded) {
       this.categorias.subscribe((resp) => {
-        this.catBool = true;
+        if(resp) {this.catBool = true;}
       });
       this.formasDePago.subscribe((resp) => {
-        this.formBool = true;
+        if(resp) {this.formBool = true;}
       });
       this.auth.getCurrentUser().then((resp) => {
         this.usuario = resp;
@@ -100,15 +107,20 @@ export class GastoFormComponent implements OnInit {
     this.cargarItemsEmiter.emit(this.chargeItems);
   }
 
-  generateEgreso(): void {
+  generateEgreso(fast : boolean): void {
     let todayDate = new Date();
     const email = this.usuario?.email;
 
     if (this.categoria && this.formaDePago && email) {
       if (!this.formaDePago.cuotas) {
         this.categoriaFromsFeedback = '';
-        this.dejarCararItems(true);
 
+        if(fast) {
+          this.fastCharge = true;
+        } else {
+          this.dejarCararItems(true);
+        }
+        
         //completar egerso
         this.egreso = {
           categoria: this.categoria?.categoria,
@@ -124,7 +136,12 @@ export class GastoFormComponent implements OnInit {
       } else {
         if (this.cuotas > 0) {
           this.categoriaFromsFeedback = '';
-          this.dejarCararItems(true);
+          
+          if(fast) {
+            this.fastCharge = true;
+          } else {
+            this.dejarCararItems(true);
+          }
 
           //completar egerso
           this.egreso = {
@@ -149,4 +166,52 @@ export class GastoFormComponent implements OnInit {
         'Los campos Categorias y Formas de Pago son obligatorios.';
     }
   }
+
+  generateFastCharge() {
+    this.generateEgreso(true);
+  }
+
+  saveGastos() {
+    if(this.total > 0) {
+      this.egreso.total = this.total;
+      
+      this.pasivoService.pasivos.pipe(take(1)).subscribe(resp => {
+        let pasivo = resp.find(p => {
+          return p.email == this.egreso.email 
+            && p.year == this.egreso.fecha.getFullYear().toString()
+            && p.mes == DateUtilSpanish.monthToString(this.egreso.fecha.getMonth())
+        });
+  
+        //meto el egreso en un array
+        let egresos : Egreso[] = [];
+        egresos.push(this.egreso);
+  
+        if(!pasivo) {
+          console.log('No hay Pasivo previo');
+          //si no existe el pasivo lo creo
+          
+          let pasivo : Pasivo = {
+            email : this.egreso.email,
+            mes : DateUtilSpanish.monthToString(this.egreso.fecha.getMonth()),
+            year : this.egreso.fecha.getFullYear().toString(),
+            egresos : egresos
+          }
+  
+          //los guardo en Firebase 🔥
+          this.pasivoService.savePasivo(pasivo);
+  
+        } else {
+          console.log('Si hay Pasivo previo');
+  
+          //agrego el egreso al pasivo
+          pasivo.egresos?.push(this.egreso);
+  
+          //actualizo en Firebase 🔥
+          this.pasivoService.savePasivo(pasivo,pasivo.id);
+        }
+  
+      });
+    }
+  }
 }
+

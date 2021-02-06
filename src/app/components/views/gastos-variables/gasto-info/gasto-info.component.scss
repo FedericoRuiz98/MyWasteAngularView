@@ -12,4 +12,6 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  word-wrap: break-word;
+  display: inline-block;
 }

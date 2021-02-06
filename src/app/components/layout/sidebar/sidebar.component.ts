@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { RouteInfo } from 'src/app/models/Routes/RouteInfo';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -10,31 +11,21 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SidebarComponent implements OnInit {
 
-  RoutesEgreosos : RouteInfo[] = [
-    new RouteInfo("/","Cargar","",true),
-    new RouteInfo("/","Listas","")
-  ];
-  RoutesIngresos : RouteInfo[] = [
-    new RouteInfo("/","Cargar",""),
-    new RouteInfo("/","Listas","")
-  ];
-  RoutesEtiquetas : RouteInfo[] = [
-    new RouteInfo("/","Categorias",""),
-    new RouteInfo("/","Sub Categorias","")
-  ];
-  RoutesEstadisticas : RouteInfo[] = [
-    new RouteInfo("/","Consumo",""),
-    new RouteInfo("/","Balance","")
-  ];
+  @Output() sidebarShow = new EventEmitter<boolean>();
+  flag : boolean = false;
+  desktop: boolean = true;
 
-  
-
-  constructor() { }
+  constructor(private deviceDetectorService : DeviceDetectorService) { 
+    this.desktop = this.deviceDetectorService.isDesktop();
+  }
 
   ngOnInit(): void { 
     
   }
 
-  
+  toggleSideBar() {
+    this.flag = !this.flag;
+    this.sidebarShow.emit(this.flag);
+  }
 
 }

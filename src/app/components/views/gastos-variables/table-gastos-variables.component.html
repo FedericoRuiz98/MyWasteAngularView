@@ -1,13 +1,15 @@
 <app-dashboard>
+
     <div class="d-flex align-items-center p-3 my-3 text-white bg-waste rounded shadow">        
         <h3 class="my-0 fw-normal text-white text-center">Gastos variables</h3>
     </div>
 
-    <div class="row mb-3" *ngIf="pasivo">
+    <div class="row mb-3" >
       <div class="col-12 col-sm-6 col-xxl d-flex">
         <div class="card flex-fill shadow">
           <div class="card-body py-4">
-            <div class="media">
+            <app-cargando [isLoaded]="isLoaded"></app-cargando>
+            <div class="media" *ngIf="pasivo">
               <div class="media-body">
                 <h3 class="mb-2 text-danger">{{total | currency}}</h3>
                 <p class="mb-2">Total Gastados en el mes de {{pasivo?.mes}}</p>
@@ -28,10 +30,11 @@
       <div class="col-12 col-sm-6 col-xxl d-flex">
         <div class="card flex-fill shadow">
           <div class="card-body py-4">
-            <div class="media">
+            <app-cargando [isLoaded]="isLoaded"></app-cargando>
+            <div class="media" *ngIf="pasivo">
               <div class="media-body">
-                <h3 class="mb-2">40 %</h3>
-                <p class="mb-2">Supermercado en el mes de {{pasivo?.mes}}</p>
+                <h3 class="mb-2">{{categoriaDominante.porcentaje | percent}}</h3>
+                <p class="mb-2">{{categoriaDominante.categoria}} es el mayor gasto en el mes de {{pasivo?.mes}}</p>
                 <div class="mb-0">
                   <span class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> +5.35% </span>
                   <span class="text-muted">Since last week</span>
@@ -48,12 +51,11 @@
       </div>
     </div>
 
-    <div class="card text-left shadow">
+    <div class="card text-left shadow" *ngIf="pasivo">
         <div class="card-body">
             <h6 class="text-muted pb-2 mb-0">{{todayDate | date: 'dd/MM/yyyy'}}</h6>
             
             <app-pasivo-info 
-                *ngIf="pasivo"
                 [pasivo]="pasivo">
             </app-pasivo-info>            
             

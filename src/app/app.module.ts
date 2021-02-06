@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore'
+import { AngularFirestore } from '@angular/fire/firestore';
 
 //components
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +29,7 @@ import { environment } from 'src/environments/environment';
 import { SendEmailComponent } from './components/auth/send-email/send-email.component';
 import { SuccessEmailComponent } from './components/auth/success-email/success-email.component';
 import { RecoverPasswordComponent } from './components/auth/recover-password/recover-password.component';
+import { HomeComponent } from './components/views/home/home.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { RecoverPasswordComponent } from './components/auth/recover-password/rec
     GastoInfoComponent,
     SendEmailComponent,
     SuccessEmailComponent,
-    RecoverPasswordComponent    
+    RecoverPasswordComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

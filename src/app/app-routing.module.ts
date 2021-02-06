@@ -9,6 +9,7 @@ import { SendEmailComponent } from './components/auth/send-email/send-email.comp
 import { SuccessEmailComponent } from './components/auth/success-email/success-email.component';
 import { TestBtnComponent } from './components/test-btn/test-btn.component';
 import { RecoverPasswordComponent } from './components/auth/recover-password/recover-password.component';
+import { HomeComponent } from './components/views/home/home.component';
 
 const routes: Routes = [
   {
@@ -45,8 +46,8 @@ const routes: Routes = [
     component: RecoverPasswordComponent
   },
   {
-    path: 'test',
-    component: TestBtnComponent
+    path: 'home',
+    component: HomeComponent
   }
 ];
 

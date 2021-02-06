@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { Egreso } from 'src/app/models/Egreso.interface';
 import { Gasto } from 'src/app/models/Gasto.interface';
 import { GastoService } from 'src/app/services/gasto.service';
@@ -15,14 +16,20 @@ export class GastoInfoComponent implements OnInit {
   @Input() egreso : Egreso;
   @Input() openTable : boolean = false;
 
-  //flag
+  //flags
+  desktop : boolean = true;
   isLoaded : boolean = false;
   spawn : boolean = true;
 
   //arrays
   gastos : Gasto[] | undefined = [];
 
-  constructor(private gastoService : GastoService) { }
+  constructor(
+    private gastoService : GastoService,
+    private deviceDetectorService : DeviceDetectorService) { 
+      this.desktop = this.deviceDetectorService.isDesktop();
+    }
+    
 
   ngOnInit(): void {
     if(this.egreso) {
@@ -31,11 +38,9 @@ export class GastoInfoComponent implements OnInit {
   }
 
   ngDoCheck() {
-    if(this.gastos) {
-      if(this.gastos.length) {
-        this.isLoaded = true;
-      }
+    if(this.gastos!.length) {
+      this.isLoaded = true;
     }
-  }
+   }
 
 }

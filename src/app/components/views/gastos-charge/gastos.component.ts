@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Categoria } from 'src/app/models/Categoria.interface';
 import { Egreso } from 'src/app/models/Egreso.interface';
 import { Gasto } from 'src/app/models/Gasto.interface';
@@ -34,11 +35,14 @@ export class GastosComponent implements OnInit {
 
   constructor(
     private categoriasService : CategoriaService,
+    private titleService : Title,
     private formaDePagoService : FormaDePagoService) { }
 
   ngOnInit(): void {
     var currentDate = new Date();
     this.currentMonth = currentDate.getMonth();
+
+    this.titleService.setTitle('WasMo - Cargar Gastos variables');
   }
     
   onEgreso(event : Egreso) {
