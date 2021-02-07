@@ -6,6 +6,17 @@ import { CookieService } from 'ngx-cookie-service';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
+
+//calender
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction'; 
+FullCalendarModule.registerPlugins([ 
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 //components
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +41,8 @@ import { SendEmailComponent } from './components/auth/send-email/send-email.comp
 import { SuccessEmailComponent } from './components/auth/success-email/success-email.component';
 import { RecoverPasswordComponent } from './components/auth/recover-password/recover-password.component';
 import { HomeComponent } from './components/views/home/home.component';
+import { IngresosChargeComponent } from './components/views/ingresos-charge/ingresos-charge.component';
+import { CalenderComponent } from './components/views/home/calender/calender.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +65,9 @@ import { HomeComponent } from './components/views/home/home.component';
     SendEmailComponent,
     SuccessEmailComponent,
     RecoverPasswordComponent,
-    HomeComponent
+    HomeComponent,
+    IngresosChargeComponent,
+    CalenderComponent
   ],
   imports: [
     BrowserModule,
@@ -61,11 +76,14 @@ import { HomeComponent } from './components/views/home/home.component';
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    FullCalendarModule
   ],
   providers: [
     CookieService,
-    AngularFirestore
+    AngularFirestore,
+    DatePipe,
+    CurrencyPipe
   ],
   bootstrap: [AppComponent]
 })

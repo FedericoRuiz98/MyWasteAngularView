@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   todayDate : Date;
 
   //stats
-  totalIngresos : number = 72500;
+  totalIngresos : number = 6000;
   totalGastado : number = 0;
   
 

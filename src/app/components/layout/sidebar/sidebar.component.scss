@@ -36,6 +36,10 @@ p {
   text-decoration: none;
 }
 
-
+.disable-links {
+  pointer-events: none;
+  text-decoration:line-through;
+  color: orangered;
+}
 
 
