@@ -1,3 +1,36 @@
 .container {
-    max-width: 100vw;
+  max-width: 100vw;
+}
+
+.info-card {
+  display: block;
+}
+
+.long-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  word-wrap: break-word;
+  display: inline-block;
+  max-width: 90%;
+}
+
+.border-left-primary {
+  border-left: 0.75rem solid #4e73df !important;
+}
+
+.border-left-green {
+  border-left: 0.75rem solid #1cc88a !important;
+}
+
+.border-left-warning {
+  border-left: 0.75rem solid #f6c23e !important;
+}
+
+.border-left-danger {
+  border-left: 0.75rem solid #e74a3b !important;
+}
+
+.border-left-waste {
+  border-left: 0.75rem solid #84329b !important;
 }

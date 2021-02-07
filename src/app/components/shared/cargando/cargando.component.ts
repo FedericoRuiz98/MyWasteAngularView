@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CargandoComponent implements OnInit {
 
-  @Input() isLoaded : boolean = false;
+  @Input() isLoaded : any = false;
   
   constructor() { }
 
