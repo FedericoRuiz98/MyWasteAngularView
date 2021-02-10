@@ -1,5 +1,6 @@
 import { unary } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { take } from 'rxjs/operators';
 import { Activo } from 'src/app/models/Activo.interface';
 import { ActivoService } from 'src/app/services/activo.service';
@@ -16,10 +17,14 @@ export class IngresosComponent implements OnInit {
 
   activo : Activo | undefined;
   todayDate = new Date();
+  desktop : boolean = true;
 
   constructor(
     private activoService : ActivoService,
-    private auth : AuthService) { }
+    private deviceDetectorService : DeviceDetectorService,
+    private auth : AuthService) { 
+      this.desktop = this.deviceDetectorService.isDesktop();
+    }
 
   ngOnInit(): void {
 
