@@ -48,7 +48,18 @@ export class PasivoInfoComponent implements OnInit {
 
       //ordenar egresos
       this.egresos?.sort((a,b) => {
-        return (b.fecha.seconds - a.fecha.seconds);
+
+        //ordeno por fecha de cracion, en caso contrario por fecha de gasto
+        if(a.createDate && b.createDate) {
+          return (b.createDate.seconds - a.createDate.seconds);
+        } else if(a.createDate) {
+          return (b.fecha.seconds - a.createDate.seconds);
+        } else if(b.createDate) {
+          return (b.createDate.seconds - a.fecha.seconds);
+        } else {
+          return (b.fecha.seconds - a.fecha.seconds);
+        }
+        
       });
 
       

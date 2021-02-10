@@ -3,13 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
 import { GastosComponent } from './components/views/gastos-charge/gastos.component';
 import { TableGastosVariablesComponent } from './components/views/gastos-variables/table-gastos-variables.component';
-import { DashboardComponent } from './components/layout/dashboard/dashboard.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { SendEmailComponent } from './components/auth/send-email/send-email.component';
 import { SuccessEmailComponent } from './components/auth/success-email/success-email.component';
-import { TestBtnComponent } from './components/test-btn/test-btn.component';
 import { RecoverPasswordComponent } from './components/auth/recover-password/recover-password.component';
 import { HomeComponent } from './components/views/home/home.component';
+import { IngresosComponent } from './components/views/ingresos/ingresos.component';
+import { IngresosChargeComponent } from './components/views/ingresos-charge/ingresos-charge.component';
 
 const routes: Routes = [
   {
@@ -48,6 +48,14 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'ingresos',
+    component: IngresosComponent
+  },
+  {
+    path: 'ingresos/cargar',
+    component: IngresosChargeComponent
   }
 ];
 

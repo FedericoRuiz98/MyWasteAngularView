@@ -36,24 +36,33 @@
             </ul>       
             
             <a class="nav-custom" role="button"
-            [routerLink]="['/gastos/variables']">                                
+                [routerLink]="['/gastos/variables']">                                
                 <p class="font-weight-light"><i class="fas fa-list"></i> Gastos variables</p>
             </a>
 
             <a class="nav-custom disable-links" role="button"
-            [routerLink]="['/gastos/variables']">                                
+                [routerLink]="['/gastos/variables']">                                
                 <p class="font-weight-light"><i class="fas fa-list"></i> Gastos Fijos</p>
             </a>
         </li>         
 
         <p class="text-white mt-2">Ingresos</p>
         <li routerLinkActive="active" class="nav-item">
-            <a class="nav-custom disable-links" role="button">                                
+            <a class="nav-custom" role="button"
+                [routerLink]="['/ingresos/cargar']">                                
                 <p class="font-weight-light"><i class="fas fa-file-upload"></i> Cargar Ingreso</p>
             </a>
 
-            <a class="nav-custom disable-links" role="button">                                
+            <a class="nav-custom" role="button"
+                [routerLink]="['/ingresos']">                                
                 <p class="font-weight-light"><i class="fas fa-list"></i> Ingresos</p>
+            </a>
+        </li>
+
+        <p class="text-white mt-2">Util</p>
+        <li routerLinkActive="active" class="nav-item">
+            <a class="nav-custom" role="button">                                
+                <p class="font-weight-light"><i class="fas fa-calculator"></i> Calculadora de Interes</p>
             </a>
         </li>
 

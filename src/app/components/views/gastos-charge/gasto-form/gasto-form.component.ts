@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Observable } from 'rxjs';
@@ -24,8 +25,11 @@ export class GastoFormComponent implements OnInit {
   usuario: firebase.User | null;
   currentDateString: string = new Date().toISOString().substring(0, 10);
 
-  //flags
-  isLoaded: boolean = false;
+  //arrays
+  categorias : Categoria[] = [];
+  formasDePago : FormaDePago[] = [];
+
+  //flags  
   catBool: boolean = false;
   formBool: boolean = false;
   chargeItems: boolean = false; //se puede empezar a cargar los items?
@@ -39,8 +43,8 @@ export class GastoFormComponent implements OnInit {
   total: number = 0;
 
   //inputs
-  @Input() categorias: Observable<Categoria[]>;
-  @Input() formasDePago: Observable<FormaDePago[]>;
+  @Input() categoriasOb: Observable<Categoria[]>;
+  @Input() formasDePagoOb: Observable<FormaDePago[]>;
 
   //output
   @Output() egresoEmiter = new EventEmitter<Egreso>();
@@ -53,44 +57,37 @@ export class GastoFormComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private deviceDetectorService : DeviceDetectorService,
-    private pasivoService : PasivoService
+    private pasivoService : PasivoService,
+    private datePipe : DatePipe
   ) {
     this.desktop = this.deviceDetectorService.isDesktop();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    
+  }
 
   ngDoCheck() {
-    //cargaron las categorias y las formas de pago?
-    if (!this.isLoaded) {
-      this.categorias.subscribe((resp) => {
-        if(resp) {this.catBool = true;}
-      });
-      this.formasDePago.subscribe((resp) => {
-        if(resp) {this.formBool = true;}
-      });
-      this.auth.getCurrentUser().then((resp) => {
-        this.usuario = resp;
-      });
 
-      if (this.formBool && this.catBool) {
-        this.isLoaded = true;
-      }
-    }
+    if(!this.categorias.length || !this.formasDePago.length) {
+      this.categoriasOb.subscribe(resp => {
+        this.categorias = resp;
+      });
+  
+      this.formasDePagoOb.subscribe(resp => {
+        this.formasDePago = resp;
+      });
+    }      
   }
 
   //selects
   formaDePagoChange(value: string) {
-    this.formasDePago.subscribe((resp) => {
-      this.formaDePago = resp.find((f) => f.id == value);
-    });
+    this.formaDePago = this.formasDePago.find((f) => f.id == value);
   }
 
   categoriaChange(value: string) {
-    this.categorias.subscribe((resp) => {
-      this.categoria = resp.find((f) => f.id == value);
-    });
-    //this.categoria = CategoriaUtil.getCategoriaString(this.idCategoria);
+    this.categoria = this.categorias.find((f) => f.id == value);
   }
 
   private dejarCararItems(flag: boolean) {
@@ -125,7 +122,8 @@ export class GastoFormComponent implements OnInit {
         this.egreso = {
           categoria: this.categoria?.categoria,
           email: email.toLowerCase(),
-          fecha: todayDate,
+          fecha: DateUtilSpanish.localDate(this.currentDateString),
+          createDate : todayDate,
           concepto: this.Concepto.toLowerCase(),
           formaDepago: this.formaDePago.nombre,
         };
@@ -147,7 +145,8 @@ export class GastoFormComponent implements OnInit {
           this.egreso = {
             categoria: this.categoria?.categoria,
             email: email,
-            fecha: todayDate,
+            fecha: DateUtilSpanish.localDate(this.currentDateString),
+            createDate : todayDate,
             concepto: this.Concepto,
             formaDepago: this.formaDePago.nombre,
             cuotas: this.cuotas,

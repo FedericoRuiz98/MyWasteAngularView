@@ -8,8 +8,8 @@
         <div class="col-12 col-sm-4 col-xxl d-flex">
           <div class="card border-left-green flex-fill shadow">
             <div class="card-body py-4">
-              <app-cargando [isLoaded]="pasivo"></app-cargando>
-              <div class="media" *ngIf="pasivo">
+              <app-cargando [isLoaded]="activo"></app-cargando>
+              <div class="media" *ngIf="activo">
                 <div class="media-body">
                     <div class="row no-gutters align-items-center info-card">
                         <div class="text-xs text-green text-uppercase mb-1">
@@ -83,7 +83,9 @@
 
       <div class="card shadow mt-2">
         <div class="card-body">
-          <app-calender [pasivo]="pasivo"></app-calender>
+          <app-calender 
+            [pasivo]="pasivo"
+            [activo]="activo"></app-calender>
         </div>
       </div>
         

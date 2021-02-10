@@ -7,9 +7,9 @@
     </div>
     <div class="card-body">
   
-      <app-cargando [isLoaded]="isLoaded"></app-cargando>
+      <app-cargando [isLoaded]="formasDePago.length && categorias.length"></app-cargando>
 
-      <form *ngIf="isLoaded">
+      <form *ngIf="formasDePago.length && categorias.length">
         <div class="row mb-3">
           <div class="col-sm-5">
             <div class="form-group">
@@ -20,7 +20,7 @@
                 [ngClass]="{'is-valid': chargeItems}"
                 [disabled]="chargeItems">
                 <option hidden disabled selected value>-</option>
-                <option *ngFor="let cat of categorias | async" value="{{cat.id}}">{{cat.categoria}}</option>
+                <option *ngFor="let cat of categorias" value="{{cat.id}}">{{cat.categoria}}</option>
               </select>
             </div> 
           </div>
@@ -35,7 +35,9 @@
           <div class="col-sm-2">            
             <label for="Concpeto" class="form-label">Fecha</label>
               <div class='input-group date' id='datetimepicker1'>
-                  <input type='date' class="form-control" [value]="currentDateString" disabled/>
+                  <input type='date' class="form-control"
+                    [(ngModel)]="currentDateString" 
+                    [ngModelOptions]="{standalone: true}"/>
               </div>
           </div>          
         </div>
@@ -50,7 +52,7 @@
                 [ngClass]="{'is-valid': chargeItems}"
                 [disabled]="chargeItems">
                 <option hidden disabled selected value>-</option>
-                <option *ngFor="let f of formasDePago | async" value="{{f.id}}">{{f.nombre}}</option>
+                <option *ngFor="let f of formasDePago" value="{{f.id}}">{{f.nombre}}</option>
               </select>
             </div> 
           </div>

@@ -43,6 +43,8 @@ import { RecoverPasswordComponent } from './components/auth/recover-password/rec
 import { HomeComponent } from './components/views/home/home.component';
 import { IngresosChargeComponent } from './components/views/ingresos-charge/ingresos-charge.component';
 import { CalenderComponent } from './components/views/home/calender/calender.component';
+import { IngresosComponent } from './components/views/ingresos/ingresos.component';
+import { CurrencyCustomPipe } from './pipes/currency-custom.pipe';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { CalenderComponent } from './components/views/home/calender/calender.com
     RecoverPasswordComponent,
     HomeComponent,
     IngresosChargeComponent,
-    CalenderComponent
+    CalenderComponent,
+    IngresosComponent,
+    CurrencyCustomPipe
   ],
   imports: [
     BrowserModule,

@@ -49,20 +49,20 @@ export class TestBtnComponent implements OnInit {
       },
     ]
 
-    const egreso : Egreso[] = [{
-      categoria : 'Supermercado',
-      formaDepago : 'efectivo',
-      fecha : new Date(),
-      email : 'federicofruiz@hotmail.com',
-      gastos : gastos
-    }]
+    // const egreso : Egreso[] = [{
+    //   categoria : 'Supermercado',
+    //   formaDepago : 'efectivo',
+    //   fecha : new Date(),
+    //   email : 'federicofruiz@hotmail.com',
+    //   gastos : gastos
+    // }]
 
-    let pasivo : Pasivo = {
-      mes : 'febrero',
-      year : '2020',
-      email : 'federicofruiz@hotmail.com',
-      egresos : egreso
-    }
+    // let pasivo : Pasivo = {
+    //   mes : 'febrero',
+    //   year : '2020',
+    //   email : 'federicofruiz@hotmail.com',
+    //   egresos : egreso
+    // }
 
 
     //console.log(pasivo);

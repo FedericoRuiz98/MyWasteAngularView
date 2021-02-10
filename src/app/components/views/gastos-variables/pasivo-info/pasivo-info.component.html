@@ -15,7 +15,7 @@
               <strong class="text-gray-dark"></strong>              
             </div>
             <span class="d-block">{{e.fecha.toMillis()  | date: 'dd/MM/yyyy'}} 
-              <span class="badge badge-waste" *ngIf="(todayDate.getTime() - e.fecha.toDate().getTime())/1000/60/60 < 2">NEW</span>
+              <span class="badge badge-waste" *ngIf="(todayDate.getTime() - e.createDate?.toDate().getTime())/1000/60/60 < 2">NEW</span>
             </span>
             <span class="d-block">
               total: <span class="text-dark">{{e.total | currency}}</span> {{e.formaDepago}}

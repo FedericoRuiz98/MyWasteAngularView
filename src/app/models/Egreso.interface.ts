@@ -7,6 +7,7 @@ export interface Egreso {
     icon? : string,
     formaDepago : string;
     fecha : any;
+    createDate : any;
     idPasivo?: number;
     email : string;
     gastos? : Gasto[];

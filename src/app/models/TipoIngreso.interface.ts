@@ -1,3 +1,3 @@
 export interface TipoIngreso {
-    nombre : string
+    Ingresos : any[]
 }
