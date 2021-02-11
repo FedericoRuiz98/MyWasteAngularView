@@ -16,7 +16,7 @@ import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
   providers: [PasivoService]
 })
 export class GastoAddItemsComponent implements OnInit {
-
+  
   //input form
   subCategoria : string;
   monto : string = "";
@@ -114,6 +114,7 @@ export class GastoAddItemsComponent implements OnInit {
 
         //los guardo en Firebase 🔥
         this.pasivoService.savePasivo(pasivo);
+  
 
       } else {
         console.log('Si hay Pasivo previo');
@@ -127,5 +128,11 @@ export class GastoAddItemsComponent implements OnInit {
 
     });
     
+  }
+
+  deleteForm() {
+    this.gastos = [];
+    this.cleanForm();
+
   }
 }

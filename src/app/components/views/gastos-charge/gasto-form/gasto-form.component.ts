@@ -40,7 +40,7 @@ export class GastoFormComponent implements OnInit {
   Concepto: string = '';
   interes: number = 0;
   cuotas: number = 1;
-  total: number = 0;
+  total: number;
 
   //inputs
   @Input() categoriasOb: Observable<Categoria[]>;
@@ -69,7 +69,6 @@ export class GastoFormComponent implements OnInit {
   }
 
   ngDoCheck() {
-
     if(!this.categorias.length || !this.formasDePago.length) {
       this.categoriasOb.subscribe(resp => {
         this.categorias = resp;
@@ -84,10 +83,12 @@ export class GastoFormComponent implements OnInit {
   //selects
   formaDePagoChange(value: string) {
     this.formaDePago = this.formasDePago.find((f) => f.id == value);
+    console.log(this.formaDePago)
   }
 
   categoriaChange(value: string) {
     this.categoria = this.categorias.find((f) => f.id == value);
+    console.log(this.categoria)
   }
 
   private dejarCararItems(flag: boolean) {
@@ -106,64 +107,66 @@ export class GastoFormComponent implements OnInit {
 
   generateEgreso(fast : boolean): void {
     let todayDate = new Date();
-    const email = this.usuario?.email;
+    this.auth.getCurrentUser().then(u => {
+      let email = u?.email;
 
-    if (this.categoria && this.formaDePago && email) {
-      if (!this.formaDePago.cuotas) {
-        this.categoriaFromsFeedback = '';
-
-        if(fast) {
-          this.fastCharge = true;
-        } else {
-          this.dejarCararItems(true);
-        }
-        
-        //completar egerso
-        this.egreso = {
-          categoria: this.categoria?.categoria,
-          email: email.toLowerCase(),
-          fecha: DateUtilSpanish.localDate(this.currentDateString),
-          createDate : todayDate,
-          concepto: this.Concepto.toLowerCase(),
-          formaDepago: this.formaDePago.nombre,
-        };
-
-        //emitir
-        this.emitToFather();
-
-      } else {
-        if (this.cuotas > 0) {
+      if (this.categoria && this.formaDePago) {
+        if (!this.formaDePago.cuotas) {
           this.categoriaFromsFeedback = '';
-          
+  
           if(fast) {
             this.fastCharge = true;
           } else {
             this.dejarCararItems(true);
           }
-
+          
           //completar egerso
           this.egreso = {
             categoria: this.categoria?.categoria,
-            email: email,
+            email: email!.toLowerCase(),
             fecha: DateUtilSpanish.localDate(this.currentDateString),
             createDate : todayDate,
-            concepto: this.Concepto,
+            concepto: this.Concepto.toLowerCase(),
             formaDepago: this.formaDePago.nombre,
-            cuotas: this.cuotas,
-            interes: this.interes,
           };
-
+  
           //emitir
           this.emitToFather();
-
+  
         } else {
-          this.categoriaFromsFeedback = 'El campo Cuotas es obligatorios.';
+          if (this.cuotas > 0) {
+            this.categoriaFromsFeedback = '';
+            
+            if(fast) {
+              this.fastCharge = true;
+            } else {
+              this.dejarCararItems(true);
+            }
+  
+            //completar egerso
+            this.egreso = {
+              categoria: this.categoria?.categoria,
+              email: email!.toLowerCase(),
+              fecha: DateUtilSpanish.localDate(this.currentDateString),
+              createDate : todayDate,
+              concepto: this.Concepto,
+              formaDepago: this.formaDePago.nombre,
+              cuotas: this.cuotas,
+              interes: this.interes,
+            };
+  
+            //emitir
+            this.emitToFather();
+  
+          } else {
+            this.categoriaFromsFeedback = 'El campo Cuotas es obligatorios.';
+          }
         }
+      } else {
+        this.categoriaFromsFeedback =
+          'Los campos Categorias y Formas de Pago son obligatorios.';
       }
-    } else {
-      this.categoriaFromsFeedback =
-        'Los campos Categorias y Formas de Pago son obligatorios.';
-    }
+    });    
   }
 
   generateFastCharge() {

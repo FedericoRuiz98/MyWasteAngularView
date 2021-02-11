@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { take } from 'rxjs/operators';
 import { Categoria } from 'src/app/models/Categoria.interface';
 import { Egreso } from 'src/app/models/Egreso.interface';
@@ -24,11 +25,15 @@ export class TableGastosVariablesComponent implements OnInit {
   categoriaDominante : GastoPorCategoria;
 
   usuario: firebase.User | null;
+  desktop : boolean = true;
 
   constructor(
     private pasivoService : PasivoService,
     private titleService : Title,
-    private auth: AuthService) { 
+    private auth: AuthService,
+    private deviceDetectorService : DeviceDetectorService) { 
+      this.desktop = this.deviceDetectorService.isDesktop();
+
       //traigo al usuario
       this.auth.getCurrentUser().then(resp => {
         this.usuario = resp;

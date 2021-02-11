@@ -5,7 +5,8 @@
     </div>
 
     <div class="row mb-3" >
-        <div class="col-12 col-sm-4 col-xxl d-flex">
+        <div class="col-12 col-sm-4 col-xxl d-flex"
+          [ngClass]="{'mobile': !desktop}">
           <div class="card border-left-green flex-fill shadow">
             <div class="card-body py-4">
               <app-cargando [isLoaded]="activo"></app-cargando>
@@ -23,7 +24,8 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-sm-4 col-xxl d-flex">
+        <div class="col-12 col-sm-4 col-xxl d-flex"
+          [ngClass]="{'mobile': !desktop}">
             <div class="card border-left-waste flex-fill shadow"
               [ngClass]="{
               'border-left-danger': totalGastado > totalIngresos,
@@ -61,7 +63,8 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-sm-4 col-xxl d-flex">
+          <div class="col-12 col-sm-4 col-xxl d-flex"
+            [ngClass]="{'mobile': !desktop}">
             <div class="card border-left-danger flex-fill shadow">
               <div class="card-body py-4">
                 <app-cargando [isLoaded]="pasivo"></app-cargando>

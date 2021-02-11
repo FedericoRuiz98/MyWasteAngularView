@@ -10,7 +10,7 @@
           <div class="card-body py-4">
             <app-cargando [isLoaded]="isLoaded"></app-cargando>
             <div class="media" *ngIf="pasivo">
-              <div class="media-body">
+              <div class="media-body" [ngClass]="{'mobile': !desktop}">
                 <h3 class="mb-2 text-danger">{{total | currency}}</h3>
                 <p class="mb-2">Total Gastados en el mes de {{pasivo?.mes}}</p>
                 <div class="mb-0">
@@ -32,7 +32,7 @@
           <div class="card-body py-4">
             <app-cargando [isLoaded]="isLoaded"></app-cargando>
             <div class="media" *ngIf="pasivo">
-              <div class="media-body">
+              <div class="media-body" [ngClass]="{'mobile': !desktop}">
                 <h3 class="mb-2">{{categoriaDominante.porcentaje | percent}}</h3>
                 <p class="mb-2">{{categoriaDominante.categoria}} es el mayor gasto en el mes de {{pasivo?.mes}}</p>
                 <div class="mb-0">
