@@ -1,0 +1,39 @@
+<app-dashboard>
+
+    <div class="d-flex align-items-center p-3 my-3 text-white bg-waste rounded shadow">        
+        <h3 class="my-0 fw-normal text-white text-center">Gastos Fijos</h3>
+    </div>
+
+    <div class="card text-left shadow">
+      <div class="card-body">
+
+        <app-cargando [isLoaded]="egresosFijos.length"></app-cargando>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-sm" *ngIf="egresosFijos.length">            
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Gasto</th>
+                            <th *ngIf="desktop">Concepto</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let e of egresosFijos">
+                            <td scope="row">
+                                <span *ngIf="!desktop">{{e.fecha  | date: 'dd/MM'}}</span>  
+                                <span *ngIf="desktop">{{e.fecha  | date: 'dd/MM/yyyy'}}</span>
+                                <span class="badge badge-waste ml-2" *ngIf="(todayDate.getTime() - e.createDate?.toDate().getTime())/1000/60/60 < 2">NEW</span>
+                            </td>
+                            <td>{{e.categoria}}</td>
+                            <td *ngIf="desktop">{{e.concepto}}</td>
+                            <td>{{e.monto | currency}}</td>
+                        </tr>
+                    </tbody>            
+            </table>
+        </div>
+      </div>
+    </div>
+
+

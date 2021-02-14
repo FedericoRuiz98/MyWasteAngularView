@@ -44,8 +44,10 @@ export class IngresosChargeComponent implements OnInit {
     this.tiposIngreso = this.serviceTipoIngreso.tiposIngreso;
 
     this.tiposIngreso.subscribe(ti => {
-      this.ingresos = ti;
-      console.log(this.ingresos)
+      this.ingresos = ti;    
+      this.ingresos.push({
+        nombre : "Otros"
+      })  
     })
   }
 

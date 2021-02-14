@@ -1,0 +1,102 @@
+<app-dashboard>
+
+    <div class="card text-left shadow">
+        <div class="card-header text-center bg-waste">
+          <h3 class="my-0 fw-normal text-white"
+            [ngStyle]="{'font-size': !desktop ? '1rem' : ''}">
+            <i class="text-white fas fa-chevron-circle-down"></i> Registrar Nuevo Gastos Fijo
+          </h3>
+        </div>
+        <div class="card-body">
+      
+          <app-cargando [isLoaded]="gastosFijos.length && formasDePago.length"></app-cargando>
+    
+          <form *ngIf="gastosFijos.length && formasDePago.length">
+            <div class="row mb-3" >
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="sel1">Gasto Fijo</label>
+                  <select class="custom-select" 
+                    #tipoEgresoSelect 
+                    required
+                    (change)='tipoEgresoChange(tipoEgresoSelect.value)'>
+                    <option hidden disabled selected value>-</option>
+                    <option *ngFor="let gf of gastosFijos" value="{{gf.nombre}}">{{gf.nombre}}</option>
+                  </select>
+                </div> 
+              </div>
+              <div class="col-sm-6">
+                <label for="Monto" class="form-label">Monto</label>
+                <input type="number" class="form-control" placeholder="Monto" min="1" required                                   
+                  [(ngModel)]="monto" 
+                  [ngModelOptions]="{standalone: true}"> 
+              </div>                               
+            </div>
+
+            <div class="row mb-3" >
+              <div class="col-sm-6">
+                <label for="Concpeto" class="form-label">Concepto (opcional)</label>
+                <input type="text" class="form-control" placeholder="Concepto" required                                   
+                  [(ngModel)]="concepto" 
+                  [ngModelOptions]="{standalone: true}"> 
+              </div>  
+              <div class="col-sm-6">            
+                <label for="Concpeto" class="form-label">Fecha</label>
+                  <div class='input-group date' id='datetimepicker1'>
+                      <input type='date' class="form-control" 
+                        [(ngModel)]="currentDateString"
+                        [ngModelOptions]="{standalone: true}"/>
+                  </div>
+              </div> 
+            </div>
+
+            <div class="row mb-3">        
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="sel1">Forma de pago</label>
+                  <select class="custom-select" 
+                    #formaDePagoSelect 
+                    (change)='formaDePagoChange(formaDePagoSelect.value)'>
+                    <option hidden disabled selected value>-</option>
+                    <option *ngFor="let f of formasDePago" value="{{f.id}}">{{f.nombre}}</option>
+                  </select>
+                </div> 
+              </div>
+              <div class="col-sm-3" *ngIf="formaDePago?.cuotas">
+                <label for="cuotas" class="form-label">Cuotas</label>
+                <input type="number" class="form-control" id="cuotas" placeholder="cuotas" min="1"                                    
+                  [(ngModel)]="cuotas" 
+                  [ngModelOptions]="{standalone: true}">
+              </div>   
+              <div class="col-sm-3" *ngIf="formaDePago?.interes">
+                <label for="interes" class="form-label">Interes (opcional)</label>
+                <input type="number" class="form-control" id="interes" placeholder="interes" min="0"
+                  [(ngModel)]="interes" 
+                  [ngModelOptions]="{standalone: true}">
+              </div>  
+            </div>
+                            
+            <!-- <p *ngIf="categoriaFromsFeedback" class="text-danger"><i class="fas fa-exclamation-triangle"></i> {{categoriaFromsFeedback}}</p>-->
+      
+            <div class="text-center">
+              <button type="button" class="mt-2 btn btn-waste" style="width: 20%;" 
+                (click)="generateEgresoFijo()" 
+                data-toggle="modal" 
+                data-target="#Modal"
+                [disabled]="!monto || !tipoGastoFijo || !currentDateString"                
+                [ngStyle]="desktop ? {'width':  '20%','margin-rigth' : '15px' } : {'width':  '100%'}">
+                <i class="fas fa-save"></i> Registrar Ingreso
+              </button> 
+            </div>    
+
+          </form>
+
+          <app-notificacion-modal
+            [title]="'Operacion Completada'"
+            [subtitle]="'El ingreso se han registrado correctamente en la Base de datos'"            
+            [url]="'gastos/fijos'">
+          </app-notificacion-modal>
+
+        </div>
+    </div>
+</app-dashboard>

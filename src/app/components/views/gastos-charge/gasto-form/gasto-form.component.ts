@@ -82,13 +82,11 @@ export class GastoFormComponent implements OnInit {
 
   //selects
   formaDePagoChange(value: string) {
-    this.formaDePago = this.formasDePago.find((f) => f.id == value);
-    console.log(this.formaDePago)
+    this.formaDePago = this.formasDePago.find((f) => f.id == value);    
   }
 
   categoriaChange(value: string) {
-    this.categoria = this.categorias.find((f) => f.id == value);
-    console.log(this.categoria)
+    this.categoria = this.categorias.find((f) => f.id == value);    
   }
 
   private dejarCararItems(flag: boolean) {

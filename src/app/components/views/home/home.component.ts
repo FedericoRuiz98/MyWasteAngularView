@@ -75,7 +75,12 @@ export class HomeComponent implements OnInit {
             this.pasivo?.egresos?.forEach(e => {
               this.totalGastado += e.total!;
             });
+
+            this.pasivo?.egresosFijos?.forEach(ef => {
+              this.totalGastado += ef.monto!;
+            })
           }
+          
 
         }); 
       })

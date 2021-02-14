@@ -10,6 +10,8 @@ import { RecoverPasswordComponent } from './components/auth/recover-password/rec
 import { HomeComponent } from './components/views/home/home.component';
 import { IngresosComponent } from './components/views/ingresos/ingresos.component';
 import { IngresosChargeComponent } from './components/views/ingresos-charge/ingresos-charge.component';
+import { GatosFijosComponent } from './components/views/gatos-fijos/gatos-fijos.component';
+import { GatosFijosChargeComponent } from './components/views/gatos-fijos-charge/gatos-fijos-charge.component';
 
 const routes: Routes = [
   {
@@ -56,6 +58,14 @@ const routes: Routes = [
   {
     path: 'ingresos/cargar',
     component: IngresosChargeComponent
+  },
+  { 
+    path: 'gastos/fijos/cargar',
+    component: GatosFijosChargeComponent
+  },
+  { 
+    path: 'gastos/fijos',
+    component: GatosFijosComponent
   }
 ];
 

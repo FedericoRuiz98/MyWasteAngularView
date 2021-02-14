@@ -45,6 +45,8 @@ import { IngresosChargeComponent } from './components/views/ingresos-charge/ingr
 import { CalenderComponent } from './components/views/home/calender/calender.component';
 import { IngresosComponent } from './components/views/ingresos/ingresos.component';
 import { CurrencyCustomPipe } from './pipes/currency-custom.pipe';
+import { GatosFijosComponent } from './components/views/gatos-fijos/gatos-fijos.component';
+import { GatosFijosChargeComponent } from './components/views/gatos-fijos-charge/gatos-fijos-charge.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { CurrencyCustomPipe } from './pipes/currency-custom.pipe';
     IngresosChargeComponent,
     CalenderComponent,
     IngresosComponent,
-    CurrencyCustomPipe
+    CurrencyCustomPipe,
+    GatosFijosComponent,
+    GatosFijosChargeComponent
   ],
   imports: [
     BrowserModule,

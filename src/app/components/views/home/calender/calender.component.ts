@@ -61,7 +61,30 @@ export class CalenderComponent implements OnInit {
           this.egresos.push({
             title: e.total!, date: this.datePipe.transform(e.fecha.toMillis(),'yyyy-MM-dd')!, color: '#e74a3b'
           });
-        }              
+        }          
+      });
+
+      this.pasivo.egresosFijos?.forEach(e => {
+
+        //hay egresos?
+        if(this.egresos.length) {
+
+          //busco si hay un gasto en esta fecha
+          let event = this.egresos.find(ev => ev.date == this.datePipe.transform(e.fecha,'yyyy-MM-dd'));
+
+          if(event) {
+            let acum : number = e.monto! +Number(event.title);
+            event.title = acum!;
+          } else {
+            this.egresos.push({
+              title: e.monto!, date: this.datePipe.transform(e.fecha,'yyyy-MM-dd'), color: '#e74a3b'
+            });
+          } 
+        } else {
+          this.egresos.push({
+            title: e.monto!, date: this.datePipe.transform(e.fecha,'yyyy-MM-dd')!, color: '#e74a3b'
+          });
+        }          
       });
 
       this.activo?.ingresos?.forEach(e => {
