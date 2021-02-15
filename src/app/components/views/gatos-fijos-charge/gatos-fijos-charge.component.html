@@ -83,7 +83,7 @@
                 (click)="generateEgresoFijo()" 
                 data-toggle="modal" 
                 data-target="#Modal"
-                [disabled]="!monto || !tipoGastoFijo || !currentDateString"                
+                [disabled]="!monto || monto <=0 || !tipoGastoFijo || !currentDateString || !formaDePago"                
                 [ngStyle]="desktop ? {'width':  '20%','margin-rigth' : '15px' } : {'width':  '100%'}">
                 <i class="fas fa-save"></i> Registrar Ingreso
               </button> 

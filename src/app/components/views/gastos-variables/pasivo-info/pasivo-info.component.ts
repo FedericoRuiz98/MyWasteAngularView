@@ -61,9 +61,7 @@ export class PasivoInfoComponent implements OnInit {
         }
         
       });
-
-      
-    }
+    } 
   }
 
   ngDoCheck() {

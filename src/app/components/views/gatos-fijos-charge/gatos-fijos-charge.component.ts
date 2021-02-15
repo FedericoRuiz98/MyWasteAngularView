@@ -24,7 +24,7 @@ export class GatosFijosChargeComponent implements OnInit {
 
   //input fields
   concepto : string = "";
-  monto : number = 0;
+  monto : number;
   tipoGastoFijo : string = "";
   formaDePago : FormaDePago | undefined;
   cuotas : number = 1;
@@ -94,8 +94,8 @@ export class GatosFijosChargeComponent implements OnInit {
 
           //hay pasivo este mes
           if(pasivo) {
-            console.log("hay pasivos");
 
+            //hay egresos fijos?
             if(pasivo.egresosFijos?.length) {
               pasivo.egresosFijos!.push(egresoFijo);
             } else {
@@ -108,8 +108,7 @@ export class GatosFijosChargeComponent implements OnInit {
             
             this.pasivoService.savePasivo(pasivo,pasivo.id);
 
-          } else {
-            console.log("No hay pasivos");
+          } else {            
 
             //creo array de gastos fijos
             let gastosFijos : EgresoFijo[] = [];

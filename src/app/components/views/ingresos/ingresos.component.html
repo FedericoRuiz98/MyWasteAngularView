@@ -7,10 +7,18 @@
     <div class="card text-left shadow">
       <div class="card-body">
 
-        <app-cargando [isLoaded]="activo"></app-cargando>
+        <app-cargando [isLoaded]="activo || activoUndefined"></app-cargando>       
+
+        <app-item-undefined
+            [condition]="activoUndefined"
+            [title]="'No tienes Ingresos'"
+            [subTitle]="'No has cargado ningun ingreso en este mes.'"
+            [btnMsg]="'Carga un nuevo Ingreso'"
+            [url]="'/ingresos/cargar'">            
+        </app-item-undefined>
 
         <div class="table-responsive">
-            <table class="table table-hover table-sm" *ngIf="activo">            
+            <table class="table table-hover table-sm" *ngIf="activo && activo.ingresos?.length">            
                     <thead>
                         <tr>
                             <th>Fecha</th>

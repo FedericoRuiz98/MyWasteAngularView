@@ -20,6 +20,7 @@ export class GatosFijosComponent implements OnInit {
   desktop : boolean = true;
   todayDate = new Date();
   egresosFijos : EgresoFijo[] = [];
+  egresosUndefined : boolean = false;
   
   constructor(
     private pasivoService : PasivoService,
@@ -35,20 +36,29 @@ export class GatosFijosComponent implements OnInit {
 
       //traer el pasivo de este mes del usuario
       this.pasivoService.pasivos.pipe(take(1)).subscribe(resp => {
-        this.pasivo = resp.find(a => {
+        let pasivo = resp.find(a => {
           return a.email == u?.email 
             && a.year == this.todayDate.getFullYear().toString()
             && a.mes == DateUtilSpanish.monthToString(this.todayDate.getMonth())
         });
 
-        if(this.pasivo) {
-          //ordenar egresos fijos
-          this.pasivo?.egresosFijos?.sort((a,b) => {
-            return b.createDate.toMillis() - a.createDate.toMillis()
-          })
+        if(pasivo) {
+          this.pasivo = pasivo;
 
-          this.egresosFijos = this.pasivo!.egresosFijos!;
-        }        
+          //hay egresos fijos?
+          if(this.pasivo.egresosFijos) {
+            //ordenar egresos fijos
+            this.pasivo?.egresosFijos?.sort((a,b) => {
+              return b.createDate.toMillis() - a.createDate.toMillis()
+            })
+
+            this.egresosFijos = this.pasivo!.egresosFijos!;
+          } else {
+            this.egresosUndefined = true;
+          }          
+        } else {
+          this.egresosUndefined = true;
+        }
       });
     })   
   }

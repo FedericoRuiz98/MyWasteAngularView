@@ -186,8 +186,7 @@ export class GastoFormComponent implements OnInit {
         let egresos : Egreso[] = [];
         egresos.push(this.egreso);
   
-        if(!pasivo) {
-          console.log('No hay Pasivo previo');
+        if(!pasivo) {          
           //si no existe el pasivo lo creo
           
           let pasivo : Pasivo = {
@@ -200,11 +199,19 @@ export class GastoFormComponent implements OnInit {
           //los guardo en Firebase 🔥
           this.pasivoService.savePasivo(pasivo);
   
-        } else {
-          console.log('Si hay Pasivo previo');
+        } else {          
   
-          //agrego el egreso al pasivo
-          pasivo.egresos?.push(this.egreso);
+          //hay egresos variables?
+          if(pasivo.egresos) {
+            //agrego el egreso al pasivo
+            pasivo.egresos?.push(this.egreso);
+          } else {
+            //meto el egreso en un array
+            let egresos : Egreso[] = [];
+            egresos.push(this.egreso);
+
+            pasivo.egresos = egresos;
+          }  
   
           //actualizo en Firebase 🔥
           this.pasivoService.savePasivo(pasivo,pasivo.id);

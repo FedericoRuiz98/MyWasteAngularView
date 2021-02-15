@@ -8,6 +8,7 @@ import { Pasivo } from 'src/app/models/Pasivo.interface';
 import { PasivoService } from 'src/app/services/pasivo.service';
 import { CategoriaUtil } from 'src/app/util/CategoriaUtil';
 import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
+import { PasivoInfoComponent } from '../../gastos-variables/pasivo-info/pasivo-info.component';
 
 @Component({
   selector: 'app-gasto-add-items',
@@ -101,10 +102,9 @@ export class GastoAddItemsComponent implements OnInit {
       let egresos : Egreso[] = [];
       egresos.push(this.egreso);
 
-      if(!pasivo) {
-        console.log('No hay Pasivo previo');
-        //si no existe el pasivo lo creo
+      if(!pasivo) {        
         
+        //si no existe el pasivo lo creo        
         let pasivo : Pasivo = {
           email : this.egreso.email,
           mes : DateUtilSpanish.monthToString(this.egreso.fecha.getMonth()),
@@ -116,11 +116,19 @@ export class GastoAddItemsComponent implements OnInit {
         this.pasivoService.savePasivo(pasivo);
   
 
-      } else {
-        console.log('Si hay Pasivo previo');
+      } else {        
 
-        //agrego el egreso al pasivo
-        pasivo.egresos?.push(this.egreso);
+        //hay egresos variables?
+        if(pasivo.egresos) {
+          //agrego el egreso al pasivo
+          pasivo.egresos?.push(this.egreso);
+        } else {
+          //meto el egreso en un array
+          let egresos : Egreso[] = [];
+          egresos.push(this.egreso);
+
+          pasivo.egresos = egresos;
+        }        
 
         //actualizo en Firebase 🔥
         this.pasivoService.savePasivo(pasivo,pasivo.id);

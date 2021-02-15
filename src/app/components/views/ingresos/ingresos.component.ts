@@ -16,8 +16,10 @@ import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
 export class IngresosComponent implements OnInit {
 
   activo : Activo | undefined;
+  activoUndefined : boolean = false;
   todayDate = new Date();
   desktop : boolean = true;
+  mes = DateUtilSpanish.monthToString(this.todayDate.getMonth())
 
   constructor(
     private activoService : ActivoService,
@@ -33,12 +35,19 @@ export class IngresosComponent implements OnInit {
 
       //traer el activo de este mes del usuario
       this.activoService.activos.pipe(take(1)).subscribe(resp => {
-        this.activo = resp.find(a => {
+        let activo = resp.find(a => {
           return a.email == u?.email 
             && a.year == this.todayDate.getFullYear().toString()
             && a.mes == DateUtilSpanish.monthToString(this.todayDate.getMonth())
         });
 
+        //hay activo?
+        if(activo) {
+          this.activo = activo;
+        } else {
+          this.activoUndefined = true;
+        }
+      
         //ordenar ingresos
         this.activo?.ingresos?.sort((a,b) => {
           return b.createDate.toMillis() - a.createDate.toMillis()

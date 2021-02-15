@@ -4,62 +4,78 @@
         <h3 class="my-0 fw-normal text-white text-center">Gastos variables</h3>
     </div>
 
-    <div class="row mb-3" >
-      <div class="col-12 col-sm-6 col-xxl d-flex">
-        <div class="card flex-fill shadow">
-          <div class="card-body py-4">
-            <app-cargando [isLoaded]="isLoaded"></app-cargando>
-            <div class="media" *ngIf="pasivo">
-              <div class="media-body" [ngClass]="{'mobile': !desktop}">
-                <h3 class="mb-2 text-danger">{{total | currency}}</h3>
-                <p class="mb-2">Total Gastados en el mes de {{pasivo?.mes}}</p>
-                <div class="mb-0">
-                  <span class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> +5.35% </span>
-                  <span class="text-muted">Since last week</span>
-                </div>
-              </div>
-              <div class="d-inline-block ml-3">
-                <div class="stat text-waste">
-                  <h3><i class="fas fa-money-bill-wave"></i></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-xxl d-flex">
-        <div class="card flex-fill shadow">
-          <div class="card-body py-4">
-            <app-cargando [isLoaded]="isLoaded"></app-cargando>
-            <div class="media" *ngIf="pasivo">
-              <div class="media-body" [ngClass]="{'mobile': !desktop}">
-                <h3 class="mb-2">{{categoriaDominante.porcentaje | percent}}</h3>
-                <p class="mb-2">{{categoriaDominante.categoria}} es el mayor gasto en el mes de {{pasivo?.mes}}</p>
-                <div class="mb-0">
-                  <span class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> +5.35% </span>
-                  <span class="text-muted">Since last week</span>
-                </div>
-              </div>
-              <div class="d-inline-block ml-3">
-                <div class="stat text-waste">
-                  <h3><i class="fas fa-chart-pie"></i></h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+   
+    <div class="card flex-fill shadow" *ngIf="pasivoUndefined">
+      <div class="card-body">
+        <app-item-undefined
+          [condition]="pasivoUndefined"
+          [title]="'No tienes Gastos'"
+          [subTitle]="'No has cargado ningun Gasto en este mes.'"
+          [btnMsg]="'Carga un nuevo Gasto'"
+          [url]="'/gastos/variables/cargar'">            
+        </app-item-undefined>
+      </div>        
     </div>
+  
 
-    <div class="card text-left shadow" *ngIf="pasivo">
-        <div class="card-body">
-            <h6 class="text-muted pb-2 mb-0">{{todayDate | date: 'dd/MM/yyyy'}}</h6>
-            
-            <app-pasivo-info 
-                [pasivo]="pasivo">
-            </app-pasivo-info>            
-            
+    <div *ngIf="!pasivoUndefined">
+      <div class="row mb-3" >
+        <div class="col-12 col-sm-6 col-xxl d-flex">
+          <div class="card flex-fill shadow">
+            <div class="card-body py-4">
+              <app-cargando [isLoaded]="isLoaded"></app-cargando>
+              <div class="media" *ngIf="pasivo">
+                <div class="media-body" [ngClass]="{'mobile': !desktop}">
+                  <h3 class="mb-2 text-danger">{{total | currency}}</h3>
+                  <p class="mb-2">Total Gastados en el mes de {{pasivo?.mes}}</p>
+                  <div class="mb-0">
+                    <span class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> +5.35% </span>
+                    <span class="text-muted">Since last week</span>
+                  </div>
+                </div>
+                <div class="d-inline-block ml-3">
+                  <div class="stat text-waste">
+                    <h3><i class="fas fa-money-bill-wave"></i></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="col-12 col-sm-6 col-xxl d-flex">
+          <div class="card flex-fill shadow">
+            <div class="card-body py-4">
+              <app-cargando [isLoaded]="isLoaded"></app-cargando>
+              <div class="media" *ngIf="pasivo">
+                <div class="media-body" [ngClass]="{'mobile': !desktop}">
+                  <h3 class="mb-2">{{categoriaDominante.porcentaje | percent}}</h3>
+                  <p class="mb-2">{{categoriaDominante.categoria}} es el mayor gasto en el mes de {{pasivo?.mes}}</p>
+                  <div class="mb-0">
+                    <span class="badge badge-soft-success mr-2"> <i class="mdi mdi-arrow-bottom-right"></i> +5.35% </span>
+                    <span class="text-muted">Since last week</span>
+                  </div>
+                </div>
+                <div class="d-inline-block ml-3">
+                  <div class="stat text-waste">
+                    <h3><i class="fas fa-chart-pie"></i></h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card text-left shadow" *ngIf="pasivo">
+          <div class="card-body">
+              <h6 class="text-muted pb-2 mb-0">{{mes}}</h6>
+              
+              <app-pasivo-info 
+                  [pasivo]="pasivo">
+              </app-pasivo-info>            
+              
+          </div>
+      </div>
     </div>
 
 </app-dashboard>

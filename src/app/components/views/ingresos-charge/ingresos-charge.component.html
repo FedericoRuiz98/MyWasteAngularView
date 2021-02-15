@@ -57,7 +57,7 @@
                 (click)="generateIngreso()" 
                 data-toggle="modal" 
                 data-target="#Modal"
-                [disabled]="!monto || !tipoIngreso || !currentDateString"                
+                [disabled]="!monto || monto <= 0 || !tipoIngreso || !currentDateString "                
                 [ngStyle]="desktop ? {'width':  '20%','margin-rigth' : '15px' } : {'width':  '100%'}">
                 <i class="fas fa-save"></i> Registrar Ingreso
               </button> 

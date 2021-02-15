@@ -19,10 +19,12 @@ import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
 export class TableGastosVariablesComponent implements OnInit {
 
   pasivo : Pasivo | undefined;
-  todayDate : Date;
+  pasivoUndefined : boolean = false;
+  todayDate : Date = new Date();
+  mes : string = DateUtilSpanish.monthToString(this.todayDate.getMonth());
   total : number = 0;
   isLoaded : boolean = false;
-  categoriaDominante : GastoPorCategoria;
+  categoriaDominante : GastoPorCategoria;  
 
   usuario: firebase.User | null;
   desktop : boolean = true;
@@ -36,22 +38,32 @@ export class TableGastosVariablesComponent implements OnInit {
 
       //traigo al usuario
       this.auth.getCurrentUser().then(resp => {
-        this.usuario = resp;
-        this.todayDate = new Date();
+        this.usuario = resp;        
 
         //traigo los pasivos de este mes y usuario
         this.pasivoService.pasivos.pipe(take(1)).subscribe(resp => {
-          this.pasivo = resp.find(p => {
+          let pasivo = resp.find(p => {
             return p.email == this.usuario?.email 
               && p.year == this.todayDate.getFullYear().toString()
               && p.mes == DateUtilSpanish.monthToString(this.todayDate.getMonth())
           })
 
-          //calcular total
-          this.getTotal();
+          if(pasivo) {
+            this.pasivo = pasivo;
 
-          //calcular categoria dominante
-          this.getCategoriaDominante();
+            //hay egresos?            
+            if(this.pasivo.egresos) {
+              //calcular total
+              this.getTotal();
+
+              //calcular categoria dominante
+              this.getCategoriaDominante();
+            } else {
+              this.pasivoUndefined = true;
+            }             
+          } else {
+            this.pasivoUndefined = true;
+          }          
         });
       });
   }

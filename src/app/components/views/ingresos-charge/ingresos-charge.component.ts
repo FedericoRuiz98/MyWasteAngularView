@@ -25,7 +25,7 @@ export class IngresosChargeComponent implements OnInit {
 
   //input fields
   concepto : string = "";
-  monto : number = 0;
+  monto : number;
   tipoIngreso : string = "";
   currentDateString : string = new Date().toISOString().substring(0, 10);
 

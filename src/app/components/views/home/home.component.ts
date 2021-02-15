@@ -21,7 +21,9 @@ export class HomeComponent implements OnInit {
 
   desktop : boolean = true;
   pasivo : Pasivo | undefined;
+  pasivoUndefined : boolean = false;
   activo : Activo | undefined;
+  activoUndefined : boolean = false;
   mes : string;
   usuario: firebase.User | null;
   todayDate : Date;
@@ -48,40 +50,54 @@ export class HomeComponent implements OnInit {
 
         //traigo activos del usuario  
         this.activoService.activos.pipe(take(1)).subscribe(resp => {
-          this.activo = resp.find(a => {
+          let activo = resp.find(a => {
             return a.email == this.usuario?.email 
               && a.year == this.todayDate.getFullYear().toString()
               && a.mes == DateUtilSpanish.monthToString(this.todayDate.getMonth())
           });
 
-          //Calcular el total      
-          if(this.activo) {
-            this.activo?.ingresos?.forEach(e => {
-              this.totalIngresos += e.monto!;
-            });
+          if(activo) {
+            this.activo = activo;
+
+            //Calcular el total      
+            if(this.activo) {
+              this.activo?.ingresos?.forEach(e => {
+                this.totalIngresos += e.monto!;
+              });
+            }
+          } else {
+            this.activoUndefined = true;
           }
+          
         });
 
         //traigo pasivos del usuario    
         this.pasivoService.pasivos.pipe(take(1)).subscribe(resp => {
-          this.pasivo = resp.find(p => {
+          let pasivo = resp.find(p => {
             return p.email == this.usuario?.email 
               && p.year == this.todayDate.getFullYear().toString()
               && p.mes == DateUtilSpanish.monthToString(this.todayDate.getMonth())
           });
 
-          //Calcular el total      
-          if(this.pasivo) {
-            this.pasivo?.egresos?.forEach(e => {
-              this.totalGastado += e.total!;
-            });
+          if(pasivo) {
+            this.pasivo = pasivo;
 
-            this.pasivo?.egresosFijos?.forEach(ef => {
-              this.totalGastado += ef.monto!;
-            })
-          }
-          
+            if(this.pasivo.egresos || this.pasivo.egresosFijos) {
+              //Calcular el total      
+              this.pasivo?.egresos?.forEach(e => {
+                this.totalGastado += e.total!;
+              });
 
+              this.pasivo?.egresosFijos?.forEach(ef => {
+                this.totalGastado += ef.monto!;
+              })              
+            } else if(!this.pasivo.egresos && !this.pasivo.egresosFijos) {
+              this.pasivoUndefined = true;
+            }
+            
+          } else {
+            this.pasivoUndefined = true;
+          }                    
         }); 
       })
 

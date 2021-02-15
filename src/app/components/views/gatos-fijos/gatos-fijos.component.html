@@ -7,7 +7,15 @@
     <div class="card text-left shadow">
       <div class="card-body">
 
-        <app-cargando [isLoaded]="egresosFijos.length"></app-cargando>
+        <app-cargando [isLoaded]="egresosFijos.length || egresosUndefined"></app-cargando>
+
+        <app-item-undefined
+            [condition]="egresosUndefined"
+            [title]="'No tienes Gastos Fijos'"
+            [subTitle]="'No has cargado ningun Gasto Fijo en este mes.'"
+            [btnMsg]="'Carga un nuevo Gasto Fijo'"
+            [url]="'/gastos/fijos/cargar'">            
+        </app-item-undefined>
 
         <div class="table-responsive">
             <table class="table table-hover table-sm" *ngIf="egresosFijos.length">            
