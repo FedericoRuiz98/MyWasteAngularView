@@ -11,9 +11,9 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent implements OnInit {
 
   @Output() sidebarShow = new EventEmitter<boolean>();
-  flag : boolean = false;
+  toggleApp : boolean = false;
   usuario : firebase.User | null = null;
-  desktop : boolean = true
+  desktop : boolean = true;
 
   constructor(
       private auth : AuthService,
@@ -29,12 +29,12 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleSideBar() {
-    this.flag = !this.flag;
+    this.toggleApp = !this.toggleApp;
 
-    this.sidebarShow.emit(this.flag);
+    this.sidebarShow.emit(this.toggleApp);
   }
 
   logOut() {
-    this.auth.logout().then(resp => this.router.navigate(['/login']));
+    this.auth.logout().then();
   }
 }

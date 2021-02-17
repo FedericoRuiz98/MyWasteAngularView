@@ -11,11 +11,12 @@ export class DashboardComponent implements OnInit {
   toggleSideBar : boolean = false;
   toggled = "";
   headerTop : string = "";
+  desktop : boolean = true;
 
   constructor(private deviceDetectorService : DeviceDetectorService) { 
-    let desktop = this.deviceDetectorService.isDesktop();
+    this.desktop = this.deviceDetectorService.isDesktop();
 
-    if(!desktop) {
+    if(!this.desktop) {
       this.headerTop = ""//"fixed-top";
     }
   }
@@ -27,7 +28,11 @@ export class DashboardComponent implements OnInit {
     this.toggleSideBar = event;
 
     if(this.toggleSideBar) {
-      this.toggled = "toggled";
+      if(this.desktop) {
+        this.toggled = "toggled";
+      } else {
+        this.toggled = "toggled-mobile";
+      }      
     } else {
       this.toggled = "";
     }

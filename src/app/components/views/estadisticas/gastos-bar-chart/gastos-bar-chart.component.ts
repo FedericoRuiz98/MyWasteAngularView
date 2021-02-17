@@ -46,6 +46,12 @@ export class GastosBarChartComponent implements OnInit {
     private deviceDetectorService: DeviceDetectorService
   ) {
     this.desktop = this.deviceDetectorService.isDesktop();
+
+    //meses
+    for (let i = 0; i < 12; i++) {
+      let mes = DateUtilSpanish.monthToString(i);
+      this.barChartLabels.push(mes);
+    }
   }
 
   ngOnInit(): void {
@@ -63,10 +69,7 @@ export class GastosBarChartComponent implements OnInit {
             this.pasivos = pasivos;
 
             //meses
-            for (let i = 0; i < 12; i++) {
-              let mes = DateUtilSpanish.monthToString(i);
-              this.barChartLabels.push(mes);
-
+            this.barChartLabels.forEach((mes) => {
               this.pasivos.forEach((p) => {
                 //gastos variables
                 let totalMes = 0;
@@ -86,8 +89,7 @@ export class GastosBarChartComponent implements OnInit {
                 }
                 this.gastosFijoMensual.push(totalMesFijo);
               });
-            }
-            
+            });
           } else {
             this.pasivoUndefined = true;
           }

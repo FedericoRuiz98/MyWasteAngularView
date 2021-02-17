@@ -1,7 +1,10 @@
 <nav class="navbar navbar-ligth bg-light shadow">  
 
   <ul class="navbar-nav mr-auto">
-    <button type="button" class="btn" (click)="toggleSideBar()"><i class="fas fa-bars text-waste"></i></button>
+    <button type="button" class="btn" (click)="toggleSideBar()"
+    [ngClass]="{
+      'btn-toggle': toggleApp && !desktop}"><i class="fas fa-bars text-waste"></i>
+    </button>
   </ul>
   
   

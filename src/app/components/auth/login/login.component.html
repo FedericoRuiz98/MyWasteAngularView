@@ -36,13 +36,11 @@
                         'is-invalid': password && password.errors && (password.dirty || password.touched)}"/>
                 </div>
                 
-                <a class="text-waste mr-1" (click)="togglePassword()">
+                <a class="text-waste" (click)="togglePassword()" style="cursor: pointer;">
                     <i class="far fa-eye-slash" *ngIf="showPassword == 'password'"></i>
-                    <i class="far fa-eye" *ngIf="showPassword == 'text'"></i>
-                </a>
-                <label class="form-check-label text-muted" for="defaultCheck1">
-                    Mostrar Contraseña
-                </label>
+                    <i class="far fa-eye" *ngIf="showPassword == 'text'"></i> 
+                    <span class="text-muted ml-2">Mostrar Contraseña</span>
+                </a>               
                 
 
                 <p class="text-danger" *ngIf="feedback"><i class="fas fa-exclamation-triangle"></i> {{feedback}}</p>

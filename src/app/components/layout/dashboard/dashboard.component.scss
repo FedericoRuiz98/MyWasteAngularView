@@ -37,6 +37,15 @@
   margin-left: 200px;
 }
 
+#wrapper.toggled-mobile {
+  padding-left: -300px;
+}
+
+#wrapper.toggled-mobile .sidebar {
+  left: 300px;
+}
+
+
 
 
 
