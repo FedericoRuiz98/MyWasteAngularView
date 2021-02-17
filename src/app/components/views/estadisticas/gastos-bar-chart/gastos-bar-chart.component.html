@@ -1,0 +1,26 @@
+<div [ngStyle]="{'overflow-x': desktop ? 'hide' : 'scroll'}">
+  <app-cargando [isLoaded]="pasivos?.length || pasivoUndefined"></app-cargando>
+
+  <div class="container mt-2" *ngIf="pasivoUndefined">                
+      <div class="align-self-center mx-auto text-center">
+      <div class="h3 text-muted m-2"> No tienes Gastos este año</div>
+      </div>                
+  </div>
+
+  <div *ngIf="pasivos?.length && !pasivoUndefined"
+    class="chart-container"
+    style="position: relative"
+    [ngStyle]="{'width': desktop ? '100%' : '900px'}">
+    <canvas
+      baseChart
+      [height]="30"
+      [width]="100"
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [chartType]="barChartType"
+      >
+    </canvas>
+  </div>
+</div>

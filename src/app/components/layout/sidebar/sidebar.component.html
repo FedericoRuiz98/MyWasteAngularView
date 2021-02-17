@@ -60,34 +60,20 @@
             </a>
         </li>
 
-        <p class="text-white mt-2">Util</p>
+        <!-- <p class="text-white mt-2">Util</p>
         <li routerLinkActive="active" class="nav-item">
             <a class="nav-custom" role="button">                                
                 <p class="font-weight-light"><i class="fas fa-calculator"></i> Calculadora de Interes</p>
             </a>
-        </li>
-
-        <!-- <p class="text-white mt-2">Etiquetas</p>
-        <li routerLinkActive="active" class="nav-item">
-            <a class="nav-custom" role="button">                                
-                <p class="font-weight-light"><i class="fas fa-tag"></i> Categorias</p>
-            </a>
-
-            <a class="nav-custom" role="button">                                
-                <p class="font-weight-light"><i class="fas fa-tags"></i> Sub Categorias</p>
-            </a>
-        </li>
+        </li> -->
 
         <p class="text-white mt-2">Estadisticas</p>
         <li routerLinkActive="active" class="nav-item">
-            <a class="nav-custom" role="button">                                
-                <p class="font-weight-light"><i class="fas fa-chart-line"></i> Balance</p>
+            <a class="nav-custom" role="button"
+                [routerLink]="['/estadisticas']">                                
+                <p class="font-weight-light"><i class="fas fa-chart-line"></i> Consumo</p>
             </a>
-            
-            <a class="nav-custom" role="button">                                
-                <p class="font-weight-light"><i class="fas fa-chart-pie"></i> Consumo</p>
-            </a>
-        </li> -->
+        </li>
 
     </ul>
 </div>

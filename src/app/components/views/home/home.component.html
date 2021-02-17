@@ -13,11 +13,11 @@
 
               <div class="container mt-2" *ngIf="activoUndefined">                
                 <div class="align-self-center mx-auto text-center">
-                  <div class="text-xs text-muted text-uppercase"> No tienes Ingresos</div>
+                  <div class="text-muted m-3"><i class="text-warning fas fa-exclamation-circle"></i> No tienes Ingresos en el mes corriente.</div>
                   <button type="button" class="btn btn-green" routerLink="/ingresos/cargar" 
                     [ngClass]="{
                       'btn-xs': !desktop,
-                      'btn-lg': desktop}">
+                      'btn-md': desktop}">
                     <i class="fas fa-plus-circle"></i> Cargar Ingreso
                   </button>
                 </div>                
@@ -93,11 +93,11 @@
 
                 <div class="container mt-2" *ngIf="pasivoUndefined">                
                   <div class="align-self-center mx-auto text-center">
-                    <div class="text-xs text-muted text-uppercase"> No tienes Gastos</div>
+                    <div class="text-muted m-3"><i class="text-warning fas fa-exclamation-circle"></i> No tienes Gastos en el mes corriente.</div>
                     <button type="button" class="btn btn-danger" routerLink="/gastos/variables/cargar" 
                       [ngClass]="{
                         'btn-xs': !desktop,
-                        'btn-lg': desktop}">
+                        'btn-md': desktop}">
                       <i class="fas fa-plus-circle"></i> Cargar Gasto
                     </button>
                   </div>                

@@ -1,0 +1,59 @@
+<app-dashboard>
+
+    <div class="row">
+        <div class="col-md-6 order-1 order-md-1">            
+            <div class="card shadow mt-2">
+                <div class="card-header">
+                    <p class="text-muted">Gastos Fijos</p>
+                </div>
+                <app-cargando [isLoaded]="pasivo || pasivoUndefined"></app-cargando>
+
+                <div class="container mt-2" *ngIf="pasivoUndefined">                
+                    <div class="align-self-center mx-auto text-center">
+                    <div class="text-muted m-3"><i class="text-warning fas fa-exclamation-circle"></i> No tienes Gastos Fijos en el mes corriente.</div>
+                    </div>                
+                </div>
+
+                <div class="card-body" *ngIf="pasivo && !pasivoUndefined">
+                    <app-gastos-fijos-pie
+                        [pasivo]="pasivo">
+                    </app-gastos-fijos-pie>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 order-3 order-md-2">
+            <div class="card shadow mt-2">
+                <div class="card-header">
+                    <p class="text-muted">Gastos Variables</p>
+                </div>
+                <app-cargando [isLoaded]="pasivo || pasivoUndefined"></app-cargando>
+
+                <div class="container mt-2" *ngIf="pasivoUndefined">                
+                    <div class="align-self-center mx-auto text-center">
+                    <div class="text-muted m-3"><i class="text-warning fas fa-exclamation-circle"></i> No tienes Gastos Variables en el mes corriente.</div>
+                    </div>                
+                </div>
+
+                <div class="card-body" *ngIf="pasivo && !pasivoUndefined">
+                    <app-gastos-variables-pie
+                        [pasivo]="pasivo">
+                    </app-gastos-variables-pie>
+                </div>
+            </div>        
+        </div>
+    </div>
+    
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <p class="text-muted">Gastos por mes del año {{todayDate.getFullYear()}}</p>
+        </div>        
+
+        <div class="card-body">
+            <app-gastos-bar-chart>
+            </app-gastos-bar-chart>
+        </div>
+    </div> 
+    
+</app-dashboard>
+

@@ -8,6 +8,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { DatePipe } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
+import { ChartsModule } from 'ng2-charts';
 
 //calender
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -48,6 +49,10 @@ import { CurrencyCustomPipe } from './pipes/currency-custom.pipe';
 import { GatosFijosComponent } from './components/views/gatos-fijos/gatos-fijos.component';
 import { GatosFijosChargeComponent } from './components/views/gatos-fijos-charge/gatos-fijos-charge.component';
 import { ItemUndefinedComponent } from './components/shared/item-undefined/item-undefined.component';
+import { EstadisticasComponent } from './components/views/estadisticas/estadisticas.component';
+import { GastosFijosPieComponent } from './components/views/estadisticas/gastos-fijos-pie/gastos-fijos-pie.component';
+import { GastosVariablesPieComponent } from './components/views/estadisticas/gastos-variables-pie/gastos-variables-pie.component';
+import { GastosBarChartComponent } from './components/views/estadisticas/gastos-bar-chart/gastos-bar-chart.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +82,11 @@ import { ItemUndefinedComponent } from './components/shared/item-undefined/item-
     CurrencyCustomPipe,
     GatosFijosComponent,
     GatosFijosChargeComponent,
-    ItemUndefinedComponent
+    ItemUndefinedComponent,
+    EstadisticasComponent,
+    GastosFijosPieComponent,
+    GastosVariablesPieComponent,
+    GastosBarChartComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +96,8 @@ import { ItemUndefinedComponent } from './components/shared/item-undefined/item-
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    FullCalendarModule
+    FullCalendarModule,
+    ChartsModule
   ],
   providers: [
     CookieService,

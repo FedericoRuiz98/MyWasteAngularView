@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  //@Output() sessionEmitter = new EventEmitter();
+  showPassword : string = "password";
   desktop : boolean = true;
   LoginForm = new FormGroup({
     email: new FormControl("", [
@@ -85,5 +85,13 @@ export class LoginComponent implements OnInit {
         this.feedback = "Ocurrio un error inesperado.";
       }
     }
+  }
+
+  togglePassword() {
+    if(this.showPassword != "password") {
+      this.showPassword = "password";
+    } else {
+      this.showPassword = "text";
+    }        
   }
 }

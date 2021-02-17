@@ -26,7 +26,7 @@
                 <label class="text-muted" for="password"><i class="fas fa-key text-waste"></i> Contraseña</label>
                 <input
                     id="passwordLogin"
-                    type="password"
+                    type="{{showPassword}}"
                     class="form-control"
                     formControlName="password"
                     placeholder="Contraseña"
@@ -35,6 +35,15 @@
                         'is-valid': password && password.valid,
                         'is-invalid': password && password.errors && (password.dirty || password.touched)}"/>
                 </div>
+                
+                <a class="text-waste mr-1" (click)="togglePassword()">
+                    <i class="far fa-eye-slash" *ngIf="showPassword == 'password'"></i>
+                    <i class="far fa-eye" *ngIf="showPassword == 'text'"></i>
+                </a>
+                <label class="form-check-label text-muted" for="defaultCheck1">
+                    Mostrar Contraseña
+                </label>
+                
 
                 <p class="text-danger" *ngIf="feedback"><i class="fas fa-exclamation-triangle"></i> {{feedback}}</p>
 

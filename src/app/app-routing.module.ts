@@ -12,6 +12,7 @@ import { IngresosComponent } from './components/views/ingresos/ingresos.componen
 import { IngresosChargeComponent } from './components/views/ingresos-charge/ingresos-charge.component';
 import { GatosFijosComponent } from './components/views/gatos-fijos/gatos-fijos.component';
 import { GatosFijosChargeComponent } from './components/views/gatos-fijos-charge/gatos-fijos-charge.component';
+import { EstadisticasComponent } from './components/views/estadisticas/estadisticas.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,10 @@ const routes: Routes = [
   { 
     path: 'gastos/fijos',
     component: GatosFijosComponent
+  },
+  { 
+    path: 'estadisticas',
+    component: EstadisticasComponent
   }
 ];
 
