@@ -12,7 +12,7 @@ export class NotificacionModalComponent implements OnInit {
   @Input() subtitle : string = "";
   @Input() descp : string = "";
   @Input() fecha : string = "";
-  @Input() url : string = "";
+  @Input() url : string = "";  
 
   constructor(private router : Router) { }
 

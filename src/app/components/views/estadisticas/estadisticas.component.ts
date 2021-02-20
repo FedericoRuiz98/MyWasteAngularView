@@ -17,6 +17,8 @@ export class EstadisticasComponent implements OnInit {
   pasivoUndefined : boolean = false;
   activo : Activo;
   activoUndefined : boolean = false;
+  egresosUndefined : boolean = false;
+  egresosFijosUndefined : boolean = false;
   todayDate : Date = new Date();
 
   constructor(
@@ -57,6 +59,14 @@ export class EstadisticasComponent implements OnInit {
 
           if(pasivo) {
             this.pasivo = pasivo;
+
+            if(!this.pasivo.egresos) {
+              this.egresosUndefined = true;
+            } 
+            
+            if(!this.pasivo.egresosFijos) {
+              this.egresosFijosUndefined = true;
+            }
           } else {
             this.pasivoUndefined = true;
           }

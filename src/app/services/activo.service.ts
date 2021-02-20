@@ -20,7 +20,12 @@ export class ActivoService {
   saveActivo(activo : Activo,idActivo? : string) : Promise<void>{
     return new Promise(async (resolve,reject) => {
       try {
-        const id = idActivo || this.afs.createId();;
+        //armar id
+        const nick = activo.email.split('@')[0];
+        const date = activo.mes+"-"+activo.year;        
+        const id = idActivo || nick+"-"+date+":"+this.afs.createId();
+
+        //info
         const data = {id, ...activo};
         console.log(data);
         const result = await this.activosCollection.doc(id).set(data);

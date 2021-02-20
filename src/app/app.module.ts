@@ -53,6 +53,7 @@ import { EstadisticasComponent } from './components/views/estadisticas/estadisti
 import { GastosFijosPieComponent } from './components/views/estadisticas/gastos-fijos-pie/gastos-fijos-pie.component';
 import { GastosVariablesPieComponent } from './components/views/estadisticas/gastos-variables-pie/gastos-variables-pie.component';
 import { GastosBarChartComponent } from './components/views/estadisticas/gastos-bar-chart/gastos-bar-chart.component';
+import { IngresoLineChartComponent } from './components/views/estadisticas/ingreso-line-chart/ingreso-line-chart.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { GastosBarChartComponent } from './components/views/estadisticas/gastos-
     EstadisticasComponent,
     GastosFijosPieComponent,
     GastosVariablesPieComponent,
-    GastosBarChartComponent
+    GastosBarChartComponent,
+    IngresoLineChartComponent
   ],
   imports: [
     BrowserModule,

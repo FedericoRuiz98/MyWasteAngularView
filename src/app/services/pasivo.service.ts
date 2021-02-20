@@ -25,7 +25,12 @@ export class PasivoService{
   savePasivo(pasivo : Pasivo,idPasivo? : string) : Promise<void>{
     return new Promise(async (resolve,reject) => {
       try {
-        const id = idPasivo || this.afs.createId();
+        //armar id
+        const nick = pasivo.email.split('@')[0];
+        const date = pasivo.mes+"-"+pasivo.year;
+        const id = idPasivo || nick+"-"+date+":"+this.afs.createId();
+
+        //info
         const data = {id, ...pasivo};
         const result = await this.pasivoCollection.doc(id).set(data);
         resolve(result);

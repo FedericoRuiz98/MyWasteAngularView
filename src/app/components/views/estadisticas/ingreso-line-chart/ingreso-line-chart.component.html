@@ -1,0 +1,25 @@
+<div [ngStyle]="{'overflow-x': desktop ? 'hide' : 'scroll'}">
+    <app-cargando [isLoaded]="activos?.length || activosUndefined"></app-cargando>
+  
+    <div class="container mt-2" *ngIf="activosUndefined">                
+        <div class="align-self-center mx-auto text-center">
+            <div class="text-muted m-3"><i class="text-warning fas fa-exclamation-circle"></i> No tienes Ingresos este año.</div>
+        </div>                
+    </div>
+  
+    <div     
+        *ngIf="activos?.length && !activosUndefined"
+        class="chart-container"
+        style="position: relative"
+        [ngStyle]="{'width': desktop ? '100%' : '900px'}">
+        <canvas baseChart 
+            [height]="70"
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [colors]="chartColors">
+        </canvas>
+    </div>
+</div>

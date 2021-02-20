@@ -58,8 +58,8 @@
           </div>
           <div class="col-sm-3" *ngIf="formaDePago?.cuotas">
             <label for="cuotas" class="form-label">Cuotas</label>
-            <input type="number" class="form-control" id="cuotas" placeholder="cuotas" min="1"
-              [ngClass]="{'is-valid': chargeItems}"
+            <input type="number" class="form-control" id="cuotas" placeholder="cuotas" min="1" max="32"
+              [ngClass]="{'is-valid': chargeItems,'is-invalid': !+cuotas}"
               [disabled]="chargeItems"
               [(ngModel)]="cuotas" 
               [ngModelOptions]="{standalone: true}">
@@ -67,7 +67,7 @@
           <div class="col-sm-3" *ngIf="formaDePago?.interes">
             <label for="interes" class="form-label">Interes (opcional)</label>
             <input type="number" class="form-control" id="interes" placeholder="interes" min="0"
-              [ngClass]="{'is-valid': chargeItems}"
+              [ngClass]="{'is-valid': chargeItems,'is-invalid': !+interes && interes != 0}"
               [disabled]="chargeItems"
               [(ngModel)]="interes" 
               [ngModelOptions]="{standalone: true}">
@@ -110,7 +110,7 @@
         </div>  
       </form>
 
-      <app-notificacion-modal
+      <app-notificacion-modal        
         [title]="'Operacion Completada'"
         [subtitle]="'Los Gastos se han registrado correctamente en la Base de datos'"
         [descp]="'Total de '+total"

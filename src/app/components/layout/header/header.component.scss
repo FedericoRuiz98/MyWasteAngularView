@@ -1,5 +1,5 @@
 .navbar {
-  position: relative;
+  //position: relative;
 }
 
 .avatar {
@@ -30,6 +30,10 @@
 
 .btn {
   transition: margin 0.4s;
+}
+
+.fixed-top {
+  z-index: 10;
 }
 
 

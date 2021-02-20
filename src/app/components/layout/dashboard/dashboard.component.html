@@ -7,7 +7,7 @@
   <div id="page-content-wrapper" class="main pb-4">
     <app-header class="header {{headerTop}}" (sidebarShow)="onSidebar($event)"></app-header>
     <main class="col">
-        <div class="mt-3">
+        <div [ngClass]="{'mt-mobile': !desktop,'mt-3': desktop}">
             <ng-content></ng-content>            
         </div>                
     </main>

@@ -1,4 +1,5 @@
-<nav class="navbar navbar-ligth bg-light shadow">  
+<nav class="navbar navbar-ligth bg-light shadow"
+  [ngClass]="{'fixed-top': !desktop}">  
 
   <ul class="navbar-nav mr-auto">
     <button type="button" class="btn" (click)="toggleSideBar()"

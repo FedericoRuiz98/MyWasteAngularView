@@ -8,13 +8,13 @@
                 </div>
                 <app-cargando [isLoaded]="pasivo || pasivoUndefined"></app-cargando>
 
-                <div class="container mt-2" *ngIf="pasivoUndefined">                
+                <div class="container mt-2" *ngIf="pasivoUndefined || egresosFijosUndefined">                
                     <div class="align-self-center mx-auto text-center">
                     <div class="text-muted m-3"><i class="text-warning fas fa-exclamation-circle"></i> No tienes Gastos Fijos en el mes corriente.</div>
                     </div>                
                 </div>
 
-                <div class="card-body" *ngIf="pasivo && !pasivoUndefined">
+                <div class="card-body" *ngIf="pasivo && !pasivoUndefined && !egresosFijosUndefined">
                     <app-gastos-fijos-pie
                         [pasivo]="pasivo">
                     </app-gastos-fijos-pie>
@@ -29,13 +29,13 @@
                 </div>
                 <app-cargando [isLoaded]="pasivo || pasivoUndefined"></app-cargando>
 
-                <div class="container mt-2" *ngIf="pasivoUndefined">                
+                <div class="container mt-2" *ngIf="pasivoUndefined || egresosUndefined">                
                     <div class="align-self-center mx-auto text-center">
                     <div class="text-muted m-3"><i class="text-warning fas fa-exclamation-circle"></i> No tienes Gastos Variables en el mes corriente.</div>
                     </div>                
                 </div>
 
-                <div class="card-body" *ngIf="pasivo && !pasivoUndefined">
+                <div class="card-body" *ngIf="pasivo && !pasivoUndefined && !egresosUndefined">
                     <app-gastos-variables-pie
                         [pasivo]="pasivo">
                     </app-gastos-variables-pie>
@@ -55,5 +55,14 @@
         </div>
     </div> 
     
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <p class="text-muted">Evolución del Ingreso en el año {{todayDate.getFullYear()}}</p>
+        </div>
+        <div class="card-body">
+            <app-ingreso-line-chart>                
+            </app-ingreso-line-chart>
+        </div>
+    </div>
 </app-dashboard>
 

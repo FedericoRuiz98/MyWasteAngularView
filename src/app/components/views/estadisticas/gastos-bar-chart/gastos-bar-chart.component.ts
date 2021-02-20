@@ -14,7 +14,7 @@ import { DateUtilSpanish } from 'src/app/util/DateUtilSpanish';
   styleUrls: ['./gastos-bar-chart.component.scss'],
 })
 export class GastosBarChartComponent implements OnInit {
-  pasivos: Pasivo[];
+  pasivos: Pasivo[] = [];
   pasivoUndefined: boolean = false;
   gastosVariableMensual: number[] = [];
   gastosFijoMensual: number[] = [];
@@ -65,31 +65,37 @@ export class GastosBarChartComponent implements OnInit {
             (p) => p.email == email && p.year == this.year
           );
 
-          if (pasivos) {
+          if (pasivos.length) {
             this.pasivos = pasivos;
 
             //meses
             this.barChartLabels.forEach((mes) => {
+
+              //acumuladores
+              let totalMes = 0;
+              let totalMesFijo = 0;
+
               this.pasivos.forEach((p) => {
-                //gastos variables
-                let totalMes = 0;
+                //gastos variables                
                 if (p.egresos && p.mes == mes) {
                   p.egresos.forEach((e) => {
                     totalMes += e.total!;
                   });
-                }
-                this.gastosVariableMensual.push(totalMes);
+                }                
 
-                //gasto fijo
-                let totalMesFijo = 0;
+                //gasto fijo                
                 if (p.egresosFijos && p.mes == mes) {
                   p.egresosFijos.forEach((e) => {
                     totalMesFijo += e.monto!;
                   });
                 }
-                this.gastosFijoMensual.push(totalMesFijo);
+                
               });
-            });
+
+              //agregar gastos de cada mes
+              this.gastosVariableMensual.push(totalMes);
+              this.gastosFijoMensual.push(totalMesFijo);
+            });            
           } else {
             this.pasivoUndefined = true;
           }

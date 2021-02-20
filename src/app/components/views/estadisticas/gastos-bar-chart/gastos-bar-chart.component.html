@@ -2,8 +2,8 @@
   <app-cargando [isLoaded]="pasivos?.length || pasivoUndefined"></app-cargando>
 
   <div class="container mt-2" *ngIf="pasivoUndefined">                
-      <div class="align-self-center mx-auto text-center">
-      <div class="h3 text-muted m-2"> No tienes Gastos este año</div>
+      <div class="align-self-center mx-auto text-center">      
+      <div class="text-muted m-3"><i class="text-warning fas fa-exclamation-circle"></i> No tienes Gastos este año.</div>
       </div>                
   </div>
 
